@@ -31,6 +31,7 @@ module.exports = {
       sensorId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         references: {
           model: 'Sensors',
           key: 'id',

@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
         Sensor.hasMany(models.Entry, {
           foreignKey: 'sensorId',
           as: 'entries',
-        };)
+        });
       }
     }
   });

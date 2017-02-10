@@ -1,0 +1,80 @@
+const Sensor = require('../models').Sensor;
+const Entry = require('../models').Entry;
+
+module.exports = {
+  create(req, res) {
+    return Sensor
+      .create({
+        ipaddress: req.body.ipaddress,
+      })
+      .then(sensor => res.status(201).send(sensor))
+      .catch(error => res.status(400).send(error));
+  },
+  
+  list(req, res) {
+    return Sensor
+      .all({
+        include: [{
+          model: Entry,
+          as: 'entries',
+        }],
+      })
+      .then(sensors => res.status(200).send(sensors))
+      .catch(error => res.status(400).send(error));
+  },
+  
+  getSensor(req, res) {
+    return Sensor
+      .findById(req.params.sid, {
+        include: [{
+          model: Entry,
+          as: 'entries',
+        }],
+      })
+      .then(sensor => {
+        if (!sensor) {
+          return res.status(404).send({
+            message: 'Sensor Not Found',
+          });
+        }
+        return res.status(200).send(sensor);
+      })
+      .catch(error => res.status(400).send(error));
+  },
+  
+  update(req, res) {
+    return Sensor
+      .findById(req.params.sid)
+      .then(sensor => {
+        if (!sensor) {
+          return res.status(404).send({
+            message: 'Sensor Not Found',
+          });
+        }
+        return sensor
+          .update({
+            ipaddress: req.body.ipaddress || sensor.ipaddress,
+          })
+          .then(() => res.status(200).send(sensor))  // Send back the updated sensor.
+          .catch((error) => res.status(400).send(error));
+      })
+      .catch((error) => res.status(400).send(error));
+  },
+  
+  destroy(req, res) {
+    return Sensor
+      .findById(req.params.sid)
+      .then(sensor => {
+        if (!sensor) {
+          return res.status(400).send({
+            message: 'Sensor Not Found',
+          });
+        }
+        return sensor
+          .destroy()
+          .then(() => res.status(204).send())
+          .catch(error => res.status(400).send(error));
+      })
+      .catch(error => res.status(400).send(error));
+  },
+};
