@@ -23,9 +23,35 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
   
-  getSensor(req, res) {
+  getSensorById(req, res) {
     return Sensor
       .findById(req.params.sid, {
+        include: [{
+          model: Entry,
+          as: 'entries',
+        }],
+        order: [
+            [
+              {model: Entry, as:'entries'},
+              'id',
+              'DESC'
+            ]
+        ]
+      })
+      .then(sensor => {
+        if (!sensor) {
+          return res.status(404).send({
+            message: 'Sensor Not Found',
+          });
+        }
+        return res.status(200).send(sensor);
+      })
+      .catch(error => res.status(400).send(error));
+  },
+  
+  getSensorByIP(req, res) {
+    return Sensor
+      .findOne({ where: {ipaddress: req.params.ip},
         include: [{
           model: Entry,
           as: 'entries',
