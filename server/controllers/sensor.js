@@ -30,6 +30,13 @@ module.exports = {
           model: Entry,
           as: 'entries',
         }],
+        order: [
+            [
+              {model: Entry, as:'entries'},
+              'id',
+              'DESC'
+            ]
+        ]
       })
       .then(sensor => {
         if (!sensor) {
