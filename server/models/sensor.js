@@ -11,7 +11,11 @@ module.exports = function(sequelize, DataTypes) {
         Sensor.hasMany(models.Entry, {
           foreignKey: 'sensorId',
           as: 'entries',
-        });
+        });  
+        Sensor.belongsTo(models.User, {
+          foreignKey: 'userId',
+          onDelete: 'CASCADE',
+        });  
       }
     }
   });

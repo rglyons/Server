@@ -1,6 +1,7 @@
 {
   "development": {
     "use_env_variable": "DATABASE_URL",
+    "ssl": true,
     "dialect": "postgres"
   },
   "test": {
