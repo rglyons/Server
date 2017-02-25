@@ -1,8 +1,10 @@
 {
   "development": {
     "use_env_variable": "DATABASE_URL",
-    "ssl": true,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": true
+    }
   },
   "test": {
     "username": "rglyons",
