@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       
       afterCreate: function(sensor, options) {
         console.log(sensor.userId);
-        console.log(User);
+        console.log('User: ' + User);
         return User.findById(sensor.userId)
         .then(user => {
           if (!user) {
@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
               sensor_count: user.sensor_count + 1,
             });
         })
-        .catch(error => res.status(400).send(error));
+        .catch(error => console.log(error));
       },
       
       afterDestroy: function(sensor, options) {
