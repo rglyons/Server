@@ -18,6 +18,13 @@ module.exports = {
           model: Entry,
           as: 'entries',
         }],
+        order: [
+            [
+              {model: Entry, as:'entries'},
+              'id',
+              'DESC'
+            ]
+        ]
       })
       .then(sensors => res.status(200).send(sensors))
       .catch(error => res.status(400).send(error));
