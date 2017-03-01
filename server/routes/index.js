@@ -7,7 +7,7 @@ module.exports = (app) => {
     message: 'Welcome to the Smart Irrigation API!',
   }));
 
-  app.post('/api/sensors', sensorsController.create); //create sensor
+  app.post('/api/sensors/:uid', sensorsController.create); //create sensor under user
   app.get('/api/sensors/all', sensorsController.list); // list all sensors
   app.get('/api/sensors/:sid', sensorsController.getSensorById); // retrieve sensor + entries
   app.get('/api/sensors/ip/:ip', sensorsController.getSensorByIP); // retrieve sensor + entries

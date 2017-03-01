@@ -1,11 +1,13 @@
 const Sensor = require('../models').Sensor;
 const Entry = require('../models').Entry;
+const User = require('../models').User;
 
 module.exports = {
   create(req, res) {
     return Sensor
       .create({
         ipaddress: req.body.ipaddress,
+        userId: req.params.uid
       })
       .then(sensor => res.status(201).send(sensor))
       .catch(error => res.status(400).send(error));
