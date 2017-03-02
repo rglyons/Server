@@ -11,9 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     hooks: {
       
       afterCreate: function(sensor, options) {
-        console.log(sensor.userId);
-        console.log('User: ' + User);
-        return User.findById(sensor.userId)
+        sensor.getUser()
         .then(user => {
           if (!user) {
             return console.log('user is null');
@@ -27,12 +25,17 @@ module.exports = function(sequelize, DataTypes) {
       },
       
       afterDestroy: function(sensor, options) {
-        return User.findById(sensor.userId)
-        .then(user => user.update(
-          {
-            sensor_count: user.sensor_count - 1
+        sensor.getUser()
+        .then(user => {
+          if (!user) {
+            return console.log('user is null');
           }
-        ));      
+          return user
+            .update({
+              sensor_count: user.sensor_count - 1,
+            });
+        })
+        .catch(error => console.log(error));     
       }
     },
     classMethods: {
@@ -44,6 +47,7 @@ module.exports = function(sequelize, DataTypes) {
         Sensor.belongsTo(models.User, {
           foreignKey: 'userId',
           onDelete: 'CASCADE',
+          as: 'user'
         });  
       }
     }
