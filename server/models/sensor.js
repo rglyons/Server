@@ -10,9 +10,11 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     hooks: {
       
+      // this function is called after a sensor is created, using 
+      // the just created sensor as the 'sensor' argument
       afterCreate: function(sensor, options) {
-        sensor.getUser()
-        .then(user => {
+        sensor.getUser()  // getUser() defined by sequelize based on name 
+        .then(user => {   // of relationship between sensor and its user
           if (!user) {
             return console.log('user is null');
           }
@@ -24,6 +26,8 @@ module.exports = function(sequelize, DataTypes) {
         .catch(error => console.log(error));
       },
       
+      // this function is called after a sensor is destroyed, using 
+      // the just created sensor as the 'sensor' argument
       afterDestroy: function(sensor, options) {
         sensor.getUser()
         .then(user => {
@@ -47,8 +51,8 @@ module.exports = function(sequelize, DataTypes) {
         Sensor.belongsTo(models.User, {
           foreignKey: 'userId',
           onDelete: 'CASCADE',
-          as: 'user'
-        });  
+          as: 'user'  // this name is used by Sequelize to create the getUser() function
+        });           // used in the hooks above
       }
     }
   });
