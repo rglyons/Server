@@ -84,6 +84,22 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
   
+  getLatestSensorReadingsForUser(req, res) {
+    Sensor
+      .findAll({ where: {userId: req.params.uid}
+      })
+      .map(sensor => sensor.getEntries(
+        {
+          order: [
+            ['id', 'DESC']
+          ],
+          limit: 1,
+      }))
+      .then(entries => {
+        return res.status(200).send(entries);
+      }) 
+  },
+  
   update(req, res) {
     return Sensor
       .findById(req.params.sid)

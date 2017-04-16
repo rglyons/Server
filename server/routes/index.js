@@ -21,5 +21,6 @@ module.exports = (app) => {
   app.get('/api/users/all', usersController.list); // list all users
   app.get('/api/users/:uid', usersController.getUserById); // retrieve user + sensors
   app.get('/api/users/username/:username', usersController.getUserByUsername); // retrieve user + sensors
+  app.get('/api/users/:uid/sensor_readings', sensorsController.getLatestSensorReadingsForUser); // retrieve latest reading for each of a user's sensors
   app.delete('/api/users/:uid', usersController.destroy); // delete user
 };
