@@ -101,8 +101,7 @@ module.exports = {
           ]
         }))
       .then(entries => {
-        var entriesDict = {"entries": entries}
-        return res.status(200).send(entriesDict);
+        return res.status(200).send(entries);
       }) 
   },
   
