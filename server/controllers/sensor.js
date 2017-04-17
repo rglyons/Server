@@ -96,7 +96,7 @@ module.exports = {
           limit: 1,
       }))
       .then(entries => {
-        return res.status(200).send(entries);
+        return res.status(200).send([].concat.apply([], entries)); //flatten array of arrays into 1D array
       }) 
   },
   
