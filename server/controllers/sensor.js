@@ -86,17 +86,22 @@ module.exports = {
   
   getLatestSensorReadingsForUser(req, res) {
     Sensor
-      .findAll({ where: {userId: req.params.uid}
+      .findAll({ 
+        where: {
+          userId: req.params.uid
+        }
       })
-      .map(sensor => sensor.getEntries(
-        {
+      .map(sensor => 
+        Entry.findOne({
+          where: {
+            sensorId: sensor.id
+          },
           order: [
             ['id', 'DESC']
-          ],
-          limit: 1,
-      }))
+          ]
+        }))
       .then(entries => {
-        return res.status(200).send([].concat.apply([], entries)); //flatten array of arrays into 1D array
+        return res.status(200).send(entries);
       }) 
   },
   
