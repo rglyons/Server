@@ -117,6 +117,7 @@ module.exports = {
         return sensor
           .update({
             ipaddress: req.body.ipaddress || sensor.ipaddress,
+            name: req.body.name || sensor.name,
           })
           .then(() => res.status(200).send(sensor))  // Send back the updated sensor.
           .catch((error) => res.status(400).send(error));

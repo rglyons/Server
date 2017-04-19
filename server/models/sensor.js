@@ -6,6 +6,11 @@ module.exports = function(sequelize, DataTypes) {
     ipaddress: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+      allowNull: true,
     }
   }, {
     hooks: {
