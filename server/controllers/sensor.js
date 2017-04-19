@@ -103,7 +103,7 @@ module.exports = {
       .then(entries => {
         return res.status(200).send(entries
           .sort(function(entry1, entry2) {
-            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing sensorId
+            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing 
           })
         );
       }) 
@@ -121,7 +121,7 @@ module.exports = {
         return sensor
           .update({
             ipaddress: req.body.ipaddress || sensor.ipaddress,
-            name: req.body.name || sensor.name,
+            name: ((req.body.name == "") ? null : req.body.name),
           })
           .then(() => res.status(200).send(sensor))  // Send back the updated sensor.
           .catch((error) => res.status(400).send(error));
