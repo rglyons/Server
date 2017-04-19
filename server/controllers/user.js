@@ -57,6 +57,12 @@ module.exports = {
           model: Sensor,
           as: 'sensors',
         }],
+        order: [
+            [
+              {model: Sensor, as:'sensors'},
+              'id'
+            ]
+        ]
       })
       .then(user => {
         if (!user) {
