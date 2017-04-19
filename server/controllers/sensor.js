@@ -102,7 +102,10 @@ module.exports = {
         }))
       .then(entries => {
         return res.status(200).send(entries
-          .sort(entry => entry["sensorId"]));
+          .sort(function(entry1, entry2) {
+            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing sensorId
+          })
+        );
       }) 
   },
   
