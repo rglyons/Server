@@ -101,7 +101,8 @@ module.exports = {
           ]
         }))
       .then(entries => {
-        return res.status(200).send(entries);
+        return res.status(200).send(entries
+          .sort(entry => entry["sensorId"]));
       }) 
   },
   
