@@ -12,7 +12,7 @@ module.exports = {
       .then(sensor => res.status(201).send(sensor))
       .catch(error => res.status(400).send(error));
   },
-  
+
   list(req, res) {
     return Sensor
       .all({
@@ -31,7 +31,7 @@ module.exports = {
       .then(sensors => res.status(200).send(sensors))
       .catch(error => res.status(400).send(error));
   },
-  
+
   getSensorById(req, res) {
     return Sensor
       .findById(req.params.sid, {
@@ -57,7 +57,7 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
-  
+
   getSensorByIP(req, res) {
     return Sensor
       .findOne({ where: {ipaddress: req.params.ip},
@@ -83,15 +83,15 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
-  
+
   getLatestSensorReadingsForUser(req, res) {
     Sensor
-      .findAll({ 
+      .findAll({
         where: {
           userId: req.params.uid
         }
       })
-      .map(sensor => 
+      .map(sensor =>
         Entry.findOne({
           where: {
             sensorId: sensor.id
@@ -103,12 +103,25 @@ module.exports = {
       .then(entries => {
         return res.status(200).send(entries
           .sort(function(entry1, entry2) {
-            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing 
+            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing
           })
         );
-      }) 
+      })
   },
-  
+
+
+  getSensorDay(req, res){
+    return Sensor
+        .findById(req.params.sid,{
+            limit: 2,
+            order: [['createdAt', 'DESC']]
+        })
+        .then(sensor => {
+            return res.status(200).send(sensor);
+        })
+        .catch(error => res.status(400).send(error));
+  },
+
   update(req, res) {
     return Sensor
       .findById(req.params.sid)
@@ -128,7 +141,7 @@ module.exports = {
       })
       .catch((error) => res.status(400).send(error));
   },
-  
+
   destroy(req, res) {
     return Sensor
       .findById(req.params.sid)

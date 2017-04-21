@@ -1,4 +1,4 @@
-GLOBAL.Models = require("./server/models");
+global.Models = require("./server/models");
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');

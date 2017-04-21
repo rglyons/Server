@@ -10,11 +10,12 @@ module.exports = (app) => {
   app.post('/api/sensors/:uid', sensorsController.create); //create sensor under user
   app.get('/api/sensors/all', sensorsController.list); // list all sensors
   app.get('/api/sensors/:sid', sensorsController.getSensorById); // retrieve sensor + entries
+  app.get('/api/sensors/:sid/day', sensorsController.getSensorDay); // retrieve sensor's averaged entries for past 24 hours
   app.get('/api/sensors/ip/:ip', sensorsController.getSensorByIP); // retrieve sensor + entries
   app.post('/api/sensors/:sid/entries', entriesController.create); // create entry for sensor
   app.put('/api/sensors/:sid', sensorsController.update); // update sensor fields
   app.delete('/api/sensors/:sid', sensorsController.destroy); // delete sensor
-  
+
   // users
   app.post('/api/users', usersController.create); //create user
   app.put('/api/users/:uid', usersController.update); // update user fields
