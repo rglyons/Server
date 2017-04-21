@@ -110,17 +110,57 @@ module.exports = {
   },
 
 
-  getSensorDay(req, res){
-    return Sensor
-        .findById(req.params.sid,{
-            limit: 2,
-            order: [['createdAt', 'DESC']]
-        })
-        .then(sensor => {
-            return res.status(200).send(sensor);
-        })
-        .catch(error => res.status(400).send(error));
-  },
+  getSensorByIdDay(req, res) {
+  return Sensor
+    .findById(req.params.sid, {
+      include: [{
+        model: Entry,
+        as: 'entries',
+
+      } ],
+      order: [
+          [
+            {model: Entry, as:'entries'},
+            'id',
+            'DESC'
+          ]
+      ],
+      limit:  1440,
+      subQuery: false
+    })
+    .then(sensor => {
+      if (!sensor) {
+        return res.status(404).send({
+          message: 'Sensor Not Found',
+        });
+      }
+      //console.log(JSON.stringify(sensor['entries']));
+      var entries = sensor['entries'];
+      var avgEntries = [];
+      var humAvg = 0;
+      var tempAvg = 0;
+      var sunAvg = 0;
+      var moistAvg = 0;
+      for (var i in entries){
+          if((parseInt(i)+1)%60==0){
+              humAvg = (humAvg+entries[i]['humidity'])/60;
+              tempAvg = (tempAvg+entries[i]['temperature'])/60;
+              sunAvg = (sunAvg+entries[i]['sunlight'])/60;
+              moistAvg = (moistAvg+entries[i]['moisture'])/60;
+              avgEntries.push({"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
+          }else{
+              //console.log((int(i)+1)%60);
+              console.log((parseInt(i)+1)%60 );
+              humAvg = humAvg+entries[i]['humidity'];
+              tempAvg = tempAvg+entries[i]['temperature'];
+              sunAvg = sunAvg+entries[i]['sunlight'];
+              moistAvg = moistAvg+entries[i]['moisture'];
+          }
+      }
+      return res.status(200).send(avgEntries);
+    })
+    .catch(error => res.status(400).send(error));
+},
 
   update(req, res) {
     return Sensor
