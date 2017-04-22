@@ -109,6 +109,59 @@ module.exports = {
       })
   },
 
+  getDayAvgForUser(req, res) {
+    Sensor
+      .findAll({
+        where: {
+          userId: req.params.uid
+        }
+      })
+      .map(sensor =>
+        Entry.findAll({
+          where: {
+            sensorId: sensor.id
+          },
+          order: [
+            ['id', 'ASC']
+          ]
+        }))
+      .then(entries => {
+          entries = entries
+            .sort(function(entry1, entry2) {
+              return entry1[0]["sensorId"]-entry2[0]["sensorId"] // sort entries by increasing
+          });
+          var avgEntries = [];
+          var humAvg = 0;
+          var tempAvg = 0;
+          var sunAvg = 0;
+          var moistAvg = 0;
+          for(var node in entries){
+              var nodeAvgs = [];
+              for(var i = 1; i<=6;i++){
+                  if(i%2==0){
+                      humAvg = Math.round((humAvg+entries[node][i]['humidity'])/2);
+                      tempAvg = Math.round((tempAvg+entries[node][i]['temperature'])/2);
+                      sunAvg = Math.round((sunAvg+entries[node][i]['sunlight'])/2);
+                      moistAvg = Math.round((moistAvg+entries[node][i]['moisture'])/2);
+                      nodeAvgs.push({"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
+                      humAvg = 0;
+                      tempAvg = 0;
+                      sunAvg = 0;
+                      moistAvg = 0;
+                  }
+                  else{
+                      humAvg = humAvg+entries[node][i]['humidity'];
+                      tempAvg = tempAvg+entries[node][i]['temperature'];
+                      sunAvg = sunAvg+entries[node][i]['sunlight'];
+                      moistAvg = moistAvg+entries[node][i]['moisture'];
+                  }
+                  console.log(JSON.stringify(entries[node][i]));
+              }
+              avgEntries.push(nodeAvgs);
+          }
+        return res.status(200).send(avgEntries);
+      })
+  },
 
   getSensorByIdDay(req, res) {
   return Sensor
@@ -148,6 +201,10 @@ module.exports = {
               sunAvg = Math.round((sunAvg+entries[i]['sunlight'])/2);
               moistAvg = Math.round((moistAvg+entries[i]['moisture'])/2);
               avgEntries.push({"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
+              humAvg = 0;
+              tempAvg = 0;
+              sunAvg = 0;
+              moistAvg = 0;
           }else{
               //console.log((int(i)+1)%60);
               console.log((parseInt(i)+1)%60 );
