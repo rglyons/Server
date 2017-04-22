@@ -125,7 +125,7 @@ module.exports = {
             'DESC'
           ]
       ],
-      limit:  1440,
+      limit:  24,
       subQuery: false
     })
     .then(sensor => {
@@ -142,11 +142,11 @@ module.exports = {
       var sunAvg = 0;
       var moistAvg = 0;
       for (var i in entries){
-          if((parseInt(i)+1)%60==0){
-              humAvg = (humAvg+entries[i]['humidity'])/60;
-              tempAvg = (tempAvg+entries[i]['temperature'])/60;
-              sunAvg = (sunAvg+entries[i]['sunlight'])/60;
-              moistAvg = (moistAvg+entries[i]['moisture'])/60;
+          if((parseInt(i)+1)%2==0){
+              humAvg = Math.round((humAvg+entries[i]['humidity'])/2);
+              tempAvg = Math.round((tempAvg+entries[i]['temperature'])/2);
+              sunAvg = Math.round((sunAvg+entries[i]['sunlight'])/2);
+              moistAvg = Math.round((moistAvg+entries[i]['moisture'])/2);
               avgEntries.push({"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
           }else{
               //console.log((int(i)+1)%60);
