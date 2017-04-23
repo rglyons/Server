@@ -1,0 +1,388 @@
+/* line 1, ../sass/_main.scss */
+body {
+  font-family: lato, sans-serif;
+}
+
+/* line 5, ../sass/_main.scss */
+a,
+a:hover,
+a:focus {
+  color: white;
+  text-decoration: none;
+}
+
+/* line 13, ../sass/_main.scss */
+.colorful {
+  color: #bb8833;
+}
+
+/* line 17, ../sass/_main.scss */
+.test {
+  border: 1px solid red;
+}
+
+/*
+ line 21, ../sass/_main.scss
+.top-bar {
+  background-color: #E6E6E6;
+  height: 100px;
+}
+*/
+
+/* line 26, ../sass/_main.scss */
+.home_top_bar {
+ /* background-color: #E6E6E6;*/
+  height: 100px;
+}
+
+/* line 30, ../sass/_main.scss */
+.logo-big {
+  position: relative;
+  top: 15px;
+  height: 80px;
+  left: 40px;
+}
+
+/* line 37, ../sass/_main.scss */
+.home_bar {
+  top: 15px;
+  left: 40px;
+}
+
+/* line 41, ../sass/_main.scss */
+.white-bar {
+  width: 100%;
+  height: 100px;
+}
+
+/* line 47, ../sass/_main.scss */
+#intro-1 {
+  position: absolute;
+  font-size: 70px;
+  left: 50px;
+  top: 325px;
+  color: white;
+  letter-spacing: -3px;
+}
+
+/* line 56, ../sass/_main.scss */
+#intro-2 {
+  position: absolute;
+  font-size: 70px;
+  left: 50px;
+  top: 425px;
+  color: white;
+  letter-spacing: -3px;
+}
+
+/* line 65, ../sass/_main.scss */
+.learn-btn {
+  font-family: lato, sans-serif;
+  position: absolute;
+  top: 580px;
+  left: 40%;
+  font-size: 23px;
+  background-color: #66cccc;
+  width: 250px;
+  height: 60px;
+  margin: 0 auto;
+  border-radius: 20em;
+  text-align: center;
+  padding: 18px;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+/* line 82, ../sass/_main.scss */
+.learn-btn:hover {
+  background-color: #339999;
+}
+
+/* line 86, ../sass/_main.scss */
+.em {
+  font-size: 80px;
+  font-weight: bolder;
+}
+
+/* line 91, ../sass/_main.scss */
+.utility-icon {
+  display: inline-block;
+  width: 33%;
+  height: 360px;
+  padding: 20px;
+}
+/* line 97, ../sass/_main.scss */
+.utility-icon img {
+  margin-top: 40px;
+  width: 180px;
+}
+/* line 102, ../sass/_main.scss */
+.utility-icon .intro {
+  padding: 20px;
+  font-size: 24px;
+  height: 180px;
+  font-weight: 300;
+}
+
+/* line 111, ../sass/_main.scss */
+.meet {
+  color: white;
+  letter-spacing: -1px;
+}
+/* line 114, ../sass/_main.scss */
+.meet .meet1 {
+  letter-spacing: -3px;
+  font-size: 80px;
+  position: absolute;
+  top: 1250px;
+  left: 210px;
+}
+/* line 122, ../sass/_main.scss */
+.meet .meet2 {
+  font-size: 35px;
+  position: absolute;
+  top: 1350px;
+  left: 260px;
+}
+/* line 128, ../sass/_main.scss */
+.meet .meet3 {
+  font-size: 35px;
+  position: absolute;
+  top: 1400px;
+  left: 260px;
+}
+/* line 134, ../sass/_main.scss */
+.meet .meet4 {
+  font-size: 35px;
+  position: absolute;
+  top: 1450px;
+  left: 260px;
+}
+/* line 140, ../sass/_main.scss */
+.meet .meet5 {
+  font-size: 60px;
+  position: absolute;
+  top: 1520px;
+  left: 210px;
+  font-weight: bold;
+}
+/* line 147, ../sass/_main.scss */
+.meet .meet6 {
+  font-size: 30px;
+  position: absolute;
+  top: 1650px;
+  left: 210px;
+  font-weight: lighter;
+}
+/* line 154, ../sass/_main.scss */
+.meet .stores1 {
+  position: absolute;
+  top: 1700px;
+  left: 210px;
+  width: 200px;
+  height: 60px;
+}
+/* line 161, ../sass/_main.scss */
+.meet .stores2 {
+  position: absolute;
+  top: 1700px;
+  left: 460px;
+  width: 200px;
+  height: 60px;
+}
+
+/* line 170, ../sass/_main.scss */
+.home-footer1 {
+  height: 60px;
+  width: 100%;
+  background-color: white;
+}
+
+/* line 176, ../sass/_main.scss */
+.home-footer2 {
+  height: 200px;
+  width: 100%;
+  background-color: #2D2D2D;
+}
+
+/* line 183, ../sass/_main.scss */
+#tab-name {
+  position: absolute;
+  font-size: 63px;
+  right: 40px;
+  top: 0px;
+  color: #64C0CC;
+}
+
+/* line 193, ../sass/_main.scss */
+.graph {
+  position: relative;
+  height: 350px;
+  width: 350px;
+  margin-top: 20px;
+/*  margin-left: 145px;*/
+  margin-right: 145px;
+}
+
+/* line 203, ../sass/_main.scss */
+.graph-value {
+  position: absolute;
+  top: 135px;
+  width: 100%;
+  text-align: center;
+  font-size: 60px;
+  font-weight: lighter;
+}
+
+.content-container{
+    text-align: center;
+    margin: 75px auto;
+    width: 100%;
+    margin-left: 40px;
+}
+
+/* line 212, ../sass/_main.scss */
+.left {
+  display: inline-block;
+  width: 50%;
+  text-align: left;
+}
+
+/* line 218, ../sass/_main.scss */
+.left .others-info {
+  width: 100%;
+  margin-left: -10%; 
+  padding-top: 25px;
+  text-align: center;
+}
+/* line 226, ../sass/_main.scss */
+.left .others-info .box {
+  width: 40%;
+  display: inline-block;
+  border-color: #cccccc;
+  border-width: 0.1px;
+  padding: 10px;
+  /*padding-left: 10px;*/
+  font-size: 250%;
+  font-weight: normal;
+}
+/* line 236, ../sass/_main.scss */
+.left .others-info .box .icon {
+  width: 40%;
+  margin-right: 10%;
+}
+/* line 240, ../sass/_main.scss */
+.left .others-info .box .value {
+  position: relative;
+  top: -10px;
+}
+/* line 245, ../sass/_main.scss */
+.left .others-info .top-left {
+  border-right-style: solid;
+  border-bottom-style: solid;
+
+  border-left-style: solid;
+  border-top-style: solid;
+}
+/* line 249, ../sass/_main.scss */
+.left .others-info .top-right {
+  border-bottom-style: solid;
+  border-left-style: solid;
+
+  border-top-style: solid;
+  border-right-style: solid;
+}
+/* line 253, ../sass/_main.scss */
+.left .others-info .bot-left {
+  border-top-style: solid;
+  border-right-style: solid;
+
+  border-bottom-style: solid;
+  border-left-style: solid;
+}
+/* line 257, ../sass/_main.scss */
+.left .others-info .bot-right {
+  border-top-style: solid;
+  border-left-style: solid;
+
+  border-bottom-style: solid;
+  border-right-style: solid;
+}
+
+/* line 265, ../sass/_main.scss */
+#heat img {
+  /*position: absolute;*/
+  top: 340px;
+  left: 500px;
+}
+
+/* line 272, ../sass/_main.scss */
+.right {
+  /*float: left;*/
+  text-align: left;
+  color: #64C0CC;
+  width: 50%;
+}
+
+.crop-container{
+  text-align: center;
+}
+
+/* line 282, ../sass/_main.scss */
+.right .crop-pic {
+  padding: 25px;
+  text-align: center;
+}
+/* line 285, ../sass/_main.scss */
+.right .crop-pic img {
+  width: 200px;
+}
+/* line 289, ../sass/_main.scss */
+.right .crop-name {
+  font-size: 30px;
+/*  font-weight: lighter;*/
+}
+/* line 293, ../sass/_main.scss */
+.right .crop-info {
+  text-align: center;
+  color: #4d4d4d;
+}
+/* line 297, ../sass/_main.scss */
+.right .condition-title {
+  padding-top: 25px;
+  font-size: 28px;
+/*  font-weight: lighter;*/
+}
+/* line 302, ../sass/_main.scss */
+.right .environment-title {
+  padding: 8px;
+  font-size: 24px;
+  /*font-weight: lighter;*/
+}
+/* line 307, ../sass/_main.scss */
+.right .environment-info {
+  padding-left: 10px;
+  color: #4d4d4d;
+}
+
+@media (max-width: 850px) {
+  /* line 314, ../sass/_main.scss */
+  .right, .left {
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-bottom: 25px;
+    width: 99%;
+  }
+}
+@media (max-width: 850px) {
+  .right {
+    margin-bottom: 25px;
+  }
+  /* line 322, ../sass/_main.scss */
+  #tab-name {
+    font-size: 40px;
+    position: relative;
+    margin-left: 40px;
+    right: 0;
+  }
+}

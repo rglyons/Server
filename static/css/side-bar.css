@@ -1,0 +1,303 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+/* IOT HACK UCSC 2017 modified version*/
+/* line 11, ../sass/side-bar.scss */
+body {
+  overflow-x: hidden;
+}
+
+/* Toggle Styles */
+/* line 17, ../sass/side-bar.scss */
+#wrapper {
+  padding-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+/* line 25, ../sass/side-bar.scss */
+#wrapper.toggled {
+  padding-left: 100px;
+}
+
+/* line 29, ../sass/side-bar.scss */
+.sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  left: 100px;
+  width: 0;
+  height: 100%;
+  margin-left: -100px;
+  overflow-y: auto;
+  background: #2D2D2D;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+/* line 44, ../sass/side-bar.scss */
+.home_wrapper {
+  height: 100%;
+}
+
+/* line 48, ../sass/side-bar.scss */
+#wrapper.toggled .sidebar-wrapper {
+  width: 100px;
+}
+
+/* line 52, ../sass/side-bar.scss */
+#page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding: 0px;
+}
+
+/* line 58, ../sass/side-bar.scss */
+#wrapper.toggled #page-content-wrapper {
+  position: absolute;
+  margin-right: -100px;
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+    margin: 35% 70% 0% 30%;
+}
+
+.mnav-el {
+    /*margin-bottom: 25px;*/
+}
+
+.mnav-el a {
+    color: white;
+    font-weight: 800;
+    font-size: 200%;
+    line-height: 300%
+}
+
+.mnav-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+.mnav-open {
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+.spacer {
+    width: 100%;
+    height: 35px;
+}
+
+#mnav-popout {
+    width: 0;
+    height: 100%;
+    box-shadow: 0 2px 2px #e0e0e0;
+    z-index: 9999;
+    position: fixed;
+    background-color: rgba(14, 13, 13, 0.92);
+    overflow: hidden;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#mnav-bar {
+    width: 100%;
+    height: 35px;
+    box-shadow: 0 2px 2px #e0e0e0;
+    position: fixed;
+    background-color: white;
+    z-index: 8000;
+}
+
+
+.nav-icon {
+    height: inherit;
+    position: absolute;
+    top: 0;
+    left: 45%;
+}
+
+.menu-icon {
+    font-size: 30px;
+    color: #2D2D2D;
+}
+
+.close-nav-icon {
+    font-size: 30px;
+    color: white;
+}
+/* Sidebar Styles */
+/* line 65, ../sass/side-bar.scss */
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 100px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* line 74, ../sass/side-bar.scss */
+.sidebar-nav li {
+  line-height: 40px;
+}
+
+/* line 78, ../sass/side-bar.scss */
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: #999999;
+}
+
+/* line 84, ../sass/side-bar.scss */
+.sidebar-nav li a:hover {
+  text-decoration: none;
+  height: 100%;
+  color: #fff;
+  background: #4D4D4D;
+}
+
+/* line 91, ../sass/side-bar.scss */
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+}
+
+/* line 96, ../sass/side-bar.scss */
+.sidebar-nav > .sidebar-brand {
+  height: 65px;
+  font-size: 18px;
+  line-height: 60px;
+}
+
+/* line 102, ../sass/side-bar.scss */
+.sidebar-nav > .sidebar-brand a {
+  color: #64C0CC;
+}
+
+/* line 106, ../sass/side-bar.scss */
+.sidebar-nav > .sidebar-brand a:hover {
+  color: #fff;
+  background: none;
+}
+
+/* line 115, ../sass/side-bar.scss */
+.side-el {
+  /*border: $border-test;*/
+  height: 100px;
+  margin-bottom: 5px;
+}
+/* line 119, ../sass/side-bar.scss */
+.side-el .icon {
+  margin: 25px;
+}
+
+/* line 127, ../sass/side-bar.scss */
+.active {
+  background-color: #64C0CC;
+}
+
+
+/* line 131, ../sass/side-bar.scss
+#menu-toggle {
+  font-size: 20px;
+  position: fixed;
+  left: 5px;
+  top: 60px;
+}*/
+
+@media (orientation: landscape) {
+  /* line 146, ../sass/side-bar.scss */
+  #wrapper {
+    padding-left: 100px;
+  }
+
+  /* line 150, ../sass/side-bar.scss */
+  #wrapper.toggled {
+    padding-left: 0;
+  }
+
+  /* line 154, ../sass/side-bar.scss */
+  .sidebar-wrapper {
+    width: 100px;
+  }
+
+  /* line 158, ../sass/side-bar.scss */
+  #wrapper.toggled .sidebar-wrapper {
+    width: 0;
+  }
+
+  /* line 162, ../sass/side-bar.scss */
+  #page-content-wrapper {
+    padding: 0px;
+    position: relative;
+  }
+
+  /* line 167, ../sass/side-bar.scss */
+  #wrapper.toggled #page-content-wrapper {
+    position: fixed;
+    margin-right: 0;
+  }
+  /*hide spacer and menu bar when not in mobile size*/
+  #mnav-bar {
+      display: none;
+  }
+  .spacer {
+      display: none;
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2.0) {
+    #mnav-bar {
+        height: 70px;
+    }
+    .spacer {
+        height: 70px;
+    }
+    .menu-icon {
+        font-size: 65px;
+    }
+    .close-nav-icon {
+        font-size: 65px;
+    }
+    .mnav-el a {
+        color: white;
+        font-weight: 800;
+        font-size: 400%;
+        line-height: 300%
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio: 3.0) {
+    #mnav-bar {
+        height: 105px;
+    }
+    .spacer {
+        height: 105px;
+    }
+    .menu-icon {
+        font-size: 100px;
+    }
+    .close-nav-icon {
+        font-size: 100px;
+    }
+    .mnav-el a {
+        color: white;
+        font-weight: 800;
+        font-size: 400%;
+        line-height: 300%
+    }
+}

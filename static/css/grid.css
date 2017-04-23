@@ -1,0 +1,72 @@
+.font-styles {
+  font-family: "Source Code Pro", Consolas, monaco, monospace;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.square-outer {
+  display: inline-block;
+  position: relative;
+  height: 0;
+  width: calc(15%);
+  padding-bottom: calc(15%);
+  margin: 1%;
+  transition: transform .1s ease-in-out;
+  z-index: 0;
+}
+
+.square-outer:hover {
+  transform: scale(1.75);
+  z-index: 100;
+}
+
+.square-inner-good{
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
+  /*background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d9/Edsger_Wybe_Dijkstra.jpg');*/
+  background-size: cover;
+  overflow: hidden;
+  background-color: #2ecc71;
+}
+
+.nodes{
+    width: 70%
+}
+
+.select{
+  border: 3px solid black;
+}
+
+.square-inner-bad{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    border: 2px solid black;
+    /*background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d9/Edsger_Wybe_Dijkstra.jpg');*/
+    background-size: cover;
+    overflow: hidden;
+    background-color: #e74c3c;
+}
+
+/*.square-inner img {
+  position: relative;
+  width: 150%;
+  height: 110%;
+  margin-left: -25%;
+  margin-top: -5%;
+}*/
+
+h4 {
+  font-size: 18px;
+}
+
+
+#grid{
+  height: 400px;
+  width: 400px;
+}

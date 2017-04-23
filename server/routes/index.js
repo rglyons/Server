@@ -4,7 +4,7 @@ const usersController = require('../controllers').user;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Smart Irrigation API!',
+    //message: 'Welcome to the Smart Irrigation API!',
   }));
 
   app.post('/api/sensors/:uid', sensorsController.create); //create sensor under user

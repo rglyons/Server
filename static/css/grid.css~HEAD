@@ -1,0 +1,27 @@
+.font-styles {
+  font-family: "Source Code Pro", Consolas, monaco, monospace;
+  font-size: 18px; 
+  line-height: 1.5; 
+  font-weight: 400; 
+}
+
+body{
+  position: relative;
+  font-family: "Source Code Pro", Consolas, monaco, monospace;
+  font-size: 18px; 
+  line-height: 1.5; 
+  font-weight: 400; 
+
+  background-color:  #eee;
+  padding: 20px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+
+#grid{
+  height: 400px;
+  width: 400px;
+}
