@@ -9,7 +9,7 @@ var app = function() {
     Vue.config.silent = false; // show all warnings
 
     // ============ AJAX =============
-    let userURL = "http://slugsense.herokuapp.com/api/users/username/"+sessionStorage.getItem("username");
+    let userURL = "https://slugsense.herokuapp.com/api/users/username/"+sessionStorage.getItem("username");
     self.get_values = function() {
         $.getJSON(userURL,
             function(info) {
@@ -50,7 +50,7 @@ var app = function() {
                 var sensorInfo = [];
                 for(node in self.vue.sensors){
                     //console.log(JSON.stringify(self.vue.sensors[node]));
-                    let sensorURL = "http://slugsense.herokuapp.com/api/sensors/"+self.vue.sensors[node]['id'];
+                    let sensorURL = "https://slugsense.herokuapp.com/api/sensors/"+self.vue.sensors[node]['id'];
                     $.getJSON(sensorURL,
                     function(node){
                         //console.log(JSON.stringify(node));
