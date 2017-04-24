@@ -22,7 +22,7 @@
 
             <!--password field-->
             <div class="group">
-                <input type="text" id="password" value=""><span class="highlight"></span><span class="bar"></span>
+                <input type="password" id="password" value=""><span class="highlight"></span><span class="bar"></span>
                 <label>Password</label>
             </div>
 
@@ -78,7 +78,7 @@
     <script>
         function createUsernameURL(){
             var username = sessionStorage.getItem("username");
-            var baseURL = "http://slugsense.herokuapp.com/api/users/username/";
+            var baseURL = "https://slugsense.herokuapp.com/api/users/username/";
             var usernameURL = baseURL.concat(username).concat("?callback=asdasdasd&asdfasdf=asdfasdf");
             return usernameURL;
         }
