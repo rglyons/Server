@@ -78,7 +78,7 @@
     <script>
         function createUsernameURL(){
             var username = sessionStorage.getItem("username");
-            var baseURL = "https://slugsense.herokuapp.com/api/users/username/";
+            var baseURL = "http://slugsense.herokuapp.com/api/users/username/";
             var usernameURL = baseURL.concat(username).concat("?callback=asdasdasd&asdfasdf=asdfasdf");
             return usernameURL;
         }
