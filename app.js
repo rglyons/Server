@@ -2,11 +2,11 @@ global.Models = require("./server/models");
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 // Set up the express app
 const app = express();
 const port = process.env.PORT;
-
+app.use(cors());
 // Log requests to the console.
 app.use(logger('dev'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'))
