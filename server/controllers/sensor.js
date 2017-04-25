@@ -122,6 +122,14 @@ module.exports = {
           .update({
             ipaddress: req.body.ipaddress || sensor.ipaddress,
             name: ((req.body.name == "") ? null : req.body.name),
+            tempMin: req.body.tempMin || sensor.tempMin,
+            tempMax: req.body.tempMax || sensor.tempMax,
+            humidityMin: req.body.humidityMin || sensor.humidityMin,
+            humidityMax: req.body.humidityMax || sensor.humidityMax,
+            moistureMin: req.body.moistureMin || sensor.moistureMin,
+            moistureMax: req.body.moistureMax || sensor.moistureMax,
+            sunlightMin: req.body.sunlightMin || sensor.sunlightMin,
+            sunlightMax: req.body.sunlightMax || sensor.sunlightMax,
           })
           .then(() => res.status(200).send(sensor))  // Send back the updated sensor.
           .catch((error) => res.status(400).send(error));
