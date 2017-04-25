@@ -11,6 +11,46 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       defaultValue: null,
       allowNull: true,
+    },
+    tempMin: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+    },
+    tempMax: {
+      type: DataTypes.INTEGER,
+      defaultValue: 100,
+      allowNull: false,
+    },
+    humidityMin: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+    },
+    humidityMax: {
+      type: DataTypes.INTEGER,
+      defaultValue: 100,
+      allowNull: false,
+    },
+    moistureMin: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+    },
+    moistureMax: {
+      type: DataTypes.INTEGER,
+      defaultValue: 100,
+      allowNull: false,
+    },
+    sunlightMin: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+    },
+    sunlightMax: {
+      type: DataTypes.INTEGER,
+      defaultValue: 100,
+      allowNull: false,
     }
   }, {
     hooks: {
