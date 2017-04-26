@@ -12,7 +12,7 @@
             <h1 style="color:#fdf8f3;">SlugSense Login</h1>
         </hgroup>
 
-        <form action="/" method="post">
+        <form action="/" method="post" id="loginForm">
           <div class="group">
                 <input type="text" name="username" id="username" value=""><span class="highlight"></span><span class="bar"></span>
                 <label>Username</label>
@@ -87,6 +87,17 @@
         }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $("#loginForm").submit(function(e){
+        e.preventDefault();
+        var form = this;
+
+        sessionStorage.setItem("username", document.getElementById('username').value);
+        sessionStorage.setItem("password", document.getElementById('password').value);
+        form.submit();
+      });
+    </script>
+
     <script src="static/js/index.js"></script>
 
     </body>
