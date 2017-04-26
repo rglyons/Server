@@ -349,7 +349,7 @@ var app = function() {
             'humidThresholdMax': 40,
             'sunlightThresholdMin': 40,
             'sunlightThresholdMax': 100,
-            'temperatureThreshold': 54,
+            'temperatureThreshold': 12,
             'moistureThresholdMin': 20,
             'moistureThresholdMax': 50,
         },
