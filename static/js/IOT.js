@@ -202,22 +202,7 @@ var app = function() {
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
         }
-        if(self.vue.active_tab == 'heat'){
-            new Chartist.Line('.ct-chart', {
-                  labels: labelArray,
-                  series: [
-                        humInfo,
-                        sunInfo,
-                        tempInfo,
-                        moistureInfo
-                  ]
-                }, {
-                  fullWidth: true,
-                  chartPadding: {
-                    right: 40
-                  }
-            });
-        }else if(self.vue.active_tab == 'humid'){
+        if(self.vue.active_tab == 'humid'){
             new Chartist.Line('.ct-chart-humid', {
                   labels: labelArray,
                   series: [
@@ -285,22 +270,7 @@ var app = function() {
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
         }
-        if(self.vue.active_tab == 'heat'){
-            new Chartist.Line('.ct-chart', {
-                  labels: labelArray,
-                  series: [
-                        humInfo,
-                        sunInfo,
-                        tempInfo,
-                        moistureInfo
-                  ]
-                }, {
-                  fullWidth: true,
-                  chartPadding: {
-                    right: 40
-                  }
-            });
-        }else if(self.vue.active_tab == 'humid'){
+        if(self.vue.active_tab == 'humid'){
             new Chartist.Line('.ct-chart-humid', {
                   labels: labelArray,
                   series: [
