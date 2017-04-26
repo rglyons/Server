@@ -3,28 +3,33 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const User = require('./server/models').User;
+
 //passport and local Strategy
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 //setup passport local Strategy
+
+var findByUsername = function(username, cb) {
+  process.nextTick(function() {
+    User.findOne({ where: {username: username}}).
+    then(function (user) {
+      console.log("found user", user.username);
+      return cb(null, user);
+    })
+    .error(function(err){
+      return cb(null, null);
+    })
+  });
+}
+
 passport.use(new Strategy(
   function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) {
-        console.log("err ", err);
-        return done(err);
-      } if (!user) {
-        console.log("no user, !user");
-        return done(null, false, { message: 'Incorrect username.' });
-      } if (!user.validPassword(password)) {
-        console.log("wrong password");
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      console.log("success, found a user");
-      return done(null, user);
-    });
-  }
-));
+    console.log(username);
+    console.log(password);
+    return findByUsername(username, done);
+      })
+);
 
 //serialize and deserialize users with passport
 passport.serializeUser(function(user, cb) {
@@ -32,14 +37,15 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  db.users.findById(id, function (err, user) {
-    if (err) { return cb(err); }
-    cb(null, user);
+  User.findById(id)
+  .then( function(user){
+    cb(null, user)
+  })
+  .error(function (err) {
+   cb(err)
   });
+
 });
-
-
-
 
 // Set up the express app
 const app = express();
@@ -53,7 +59,12 @@ app.use("/static", express.static(__dirname + '/static'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(require('express-session')({ secret: 'keyboard cat'}));
+app.use(require('express-session')({
+  secret: 'a random string of garbo',
+  resave: false,
+  saveUninitialized: false
+}));
+
 // Initialize Passport and restore authentication state, from the session
 app.use(passport.initialize());
 app.use(passport.session());
@@ -66,10 +77,13 @@ var isAuthenticated = function (req, res, next) {
 
 //login using passport-local
 app.post('/',
-  passport.authenticate('local', { failureRedirect: '/' }),
+  passport.authenticate('local', { failureRedirect: '/'
+}),
   function(req, res) {
-    res.redirect('/');
-  });
+    console.log("form submitted");
+    res.redirect('/index.html');
+  }
+);
 
 //webapp hosting stuff
 app.get('/', (req,res) => {
