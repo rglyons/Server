@@ -12,29 +12,19 @@
             <h1 style="color:#fdf8f3;">SlugSense Login</h1>
         </hgroup>
 
-        <form>
-
-            <!--username field-->
-            <div class="group">
-                <input type="text" id="username" value=""><span class="highlight"></span><span class="bar"></span>
-                <label>Username</label>
-            </div>
-
-            <!--password field-->
-            <div class="group">
-                <input type="password" id="password" value=""><span class="highlight"></span><span class="bar"></span>
-                <label>Password</label>
-            </div>
-
-            <!--login button-->
-            <button type="button" onclick="loginFunction()" class="button buttonBlue">Log in
-                <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-            </button>
-
-            <!--SlugSense logo-->
-            <footer><a href="https://devpost.com/software/slugsense"><img src="static/images/SlugSenseLogo.png"></a>
-
-        </form>
+        <form action="/" method="post">
+    <div>
+        <label>Username:</label>
+        <input type="text" name="username"/>
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" name="password"/>
+    </div>
+    <div>
+        <input type="submit" value="Log In"/>
+    </div>
+</form>
         <div id="result"></div>
 
     <!--function that is called on click of the Login button-->
