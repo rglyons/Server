@@ -29,72 +29,22 @@
         </form>
         <div id="result"></div>
 
-    <!--function that is called on click of the Login button-->
-    <script>
-        function loginFunction(){
-            //check browser support
-            if(typeof(Storage) !== "undefined"){
-                //store dat shit
-                sessionStorage.setItem("username", document.getElementById('username').value);
-                sessionStorage.setItem("password", document.getElementById('password').value);
-                $(document).ready(function(){
-                    $.getJSON(createUsernameURL(), function(data){ console.log("successful get request"); })                         //get request to our DB
-                    .done(function(data){                                                                                                                            //.done is called if the getJSON call succeeded
-                        if(data === undefined || data === null){                                                                                            //double check that the returned data exists. if it doesn't, something went wrong
-                            document.getElementById("result").innerHTML = "Username & Password combination is incorrect.";
-                        }else{
-                            //console.log(data);
-                            var responseUsername = data.username;
-                            var responsePassword = data.password;
-                            if(compareStrings(responsePassword, sessionStorage.getItem("password")) == 1){                              //check that the user-entered password matches the one in the database
-                                sessionStorage.setItem("loggedIn", true);                                                                                     //set login flag to true
-                                document.getElementById("result").innerHTML = "You're logged in!";
-                                window.location.href = "index.html";
-                                             //alert the user that they are logged in
-                            }else{
-                                document.getElementById("result").innerHTML = "Username & Password combination is incorrect.";
-                            }
-                        }
-                    })
-                    .fail(function(){                                                                                                                                   //.fail is called if the getJSON call failed (i.e. no such username)
-                        document.getElementById("result").innerHTML = "Username & Password combination is incorrect.";
-                    });
-                });
-            }else{
-                document.getElementById("result").innerHTML = "your browser is out of date";
-            }
-        }
-    </script>
 
-    <!--takes the stored username and the base URL and creates a URL for the specific username entered-->
-    <script>
-        function createUsernameURL(){
-            var username = sessionStorage.getItem("username");
-            var baseURL = "https://slugsense.herokuapp.com/api/users/username/";
-            var usernameURL = baseURL.concat(username).concat("?callback=asdasdasd&asdfasdf=asdfasdf");
-            return usernameURL;
-        }
-    </script>
-
-    <!--simple string comparison function. Takes in 2 strings and returns 1 if they match and 0 otherwise.-->
-    <script>
-        function compareStrings(str1, str2){
-            if(str1 === str2){
-                return 1;
-            }else{
-                return 0;
-            }
-        }
-    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!--function that is called on click of the Login button-->
     <script type="text/javascript">
       $("#loginForm").submit(function(e){
         e.preventDefault();
-        var form = this;
+        if(typeof(Storage) !== "undefined"){
+          var form = this;
 
-        sessionStorage.setItem("username", document.getElementById('username').value);
-        sessionStorage.setItem("password", document.getElementById('password').value);
-        form.submit();
+          sessionStorage.setItem("username", document.getElementById('username').value);
+          sessionStorage.setItem("password", document.getElementById('password').value);
+          form.submit();
+        } else{
+          document.getElementById("result").innerHTML = "your browser is out of date";
+        }
       });
     </script>
 

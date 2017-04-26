@@ -10,11 +10,13 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 //setup passport local Strategy
 
-var findByUsername = function(username, cb) {
+var findByUsername = function(username, password, cb) {
   process.nextTick(function() {
-    User.findOne({ where: {username: username}}).
-    then(function (user) {
+    User.findOne({ where: {username: username}})
+    .then(function (user) {
       console.log("found user", user.username);
+
+      if(user.password !=password){return cb(null, false)}
       return cb(null, user);
     })
     .error(function(err){
@@ -27,7 +29,7 @@ passport.use(new Strategy(
   function(username, password, done) {
     console.log(username);
     console.log(password);
-    return findByUsername(username, done);
+    return findByUsername(username, password, done);
       })
 );
 
