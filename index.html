@@ -92,7 +92,7 @@
                             <div class="others-info">
                                     <div class="box top-left"><img class="icon" src="static/images/humid-b-100.png"><span id = "gridHumid" class="value">${humid}%</span></div>
                                     <div class="box top-right"><img class="icon" src="static/images/solar-b-100.png"><span class="value">${solar}%</span></div>
-                                    <div class="box bot-left"><img class="icon" src="static/images/temp-b-100.png"><span class="value">${temp}°F</span></div>
+                                    <div class="box bot-left"><img class="icon" src="static/images/temp-b-100.png"><span class="value">${temp}°C</span></div>
                                     <div class="box bot-right"><img class="icon" src="static/images/moist-b-100.png"><span class="value">${moist}%</span></div>
                             </div>
                             <div class="ct-chart ct-minor-sixth"></div>
@@ -204,7 +204,7 @@
                             <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['temperature']<temperatureThreshold)}"> ${node["sensorId"]}</div>
                         </div>
                         <div class="graph">
-                            <div class="graph-value">${temp}°F</div>
+                            <div class="graph-value">${temp}°C</div>
                             <svg height="350" width="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <a transform="translate(175,175)">
                                     <g>
