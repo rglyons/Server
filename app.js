@@ -79,8 +79,10 @@ var isAuthenticated = function (req, res, next) {
 
 //login using passport-local
 app.post('/',
-  passport.authenticate('local', { failureRedirect: '/'
-}),
+  passport.authenticate('local', {
+    failureRedirect: '/',
+    failureFlash: true
+  }),
   function(req, res) {
     console.log("form submitted");
     res.redirect('/index.html');
