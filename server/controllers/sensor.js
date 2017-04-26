@@ -12,7 +12,7 @@ module.exports = {
       .then(sensor => res.status(201).send(sensor))
       .catch(error => res.status(400).send(error));
   },
-  
+
   list(req, res) {
     return Sensor
       .all({
@@ -31,7 +31,7 @@ module.exports = {
       .then(sensors => res.status(200).send(sensors))
       .catch(error => res.status(400).send(error));
   },
-  
+
   getSensorById(req, res) {
     return Sensor
       .findById(req.params.sid, {
@@ -57,7 +57,7 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
-  
+
   getSensorByIP(req, res) {
     return Sensor
       .findOne({ where: {ipaddress: req.params.ip},
@@ -83,15 +83,15 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
-  
+
   getLatestSensorReadingsForUser(req, res) {
     Sensor
-      .findAll({ 
+      .findAll({
         where: {
           userId: req.params.uid
         }
       })
-      .map(sensor => 
+      .map(sensor =>
         Entry.findOne({
           where: {
             sensorId: sensor.id
@@ -103,12 +103,122 @@ module.exports = {
       .then(entries => {
         return res.status(200).send(entries
           .sort(function(entry1, entry2) {
-            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing 
+            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing
           })
         );
-      }) 
+      })
   },
-  
+
+  getDayAvgForUser(req, res) {
+    Sensor
+      .findAll({
+        where: {
+          userId: req.params.uid
+        }
+      })
+      .map(sensor =>
+        Entry.findAll({
+          where: {
+            sensorId: sensor.id
+          },
+          order: [
+            ['id', 'ASC']
+          ]
+        }))
+      .then(entries => {
+          entries = entries
+            .sort(function(entry1, entry2) {
+              return entry1[0]["sensorId"]-entry2[0]["sensorId"] // sort entries by increasing
+          });
+          var avgEntries = [];
+          var humAvg = 0;
+          var tempAvg = 0;
+          var sunAvg = 0;
+          var moistAvg = 0;
+          for(var node in entries){
+              var nodeAvgs = [];
+              for(var i = 1; i<=6;i++){
+                  if(i%2==0){
+                      humAvg = Math.round((humAvg+entries[node][i]['humidity'])/2);
+                      tempAvg = Math.round((tempAvg+entries[node][i]['temperature'])/2);
+                      sunAvg = Math.round((sunAvg+entries[node][i]['sunlight'])/2);
+                      moistAvg = Math.round((moistAvg+entries[node][i]['moisture'])/2);
+                      nodeAvgs.push({"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
+                      humAvg = 0;
+                      tempAvg = 0;
+                      sunAvg = 0;
+                      moistAvg = 0;
+                  }
+                  else{
+                      humAvg = humAvg+entries[node][i]['humidity'];
+                      tempAvg = tempAvg+entries[node][i]['temperature'];
+                      sunAvg = sunAvg+entries[node][i]['sunlight'];
+                      moistAvg = moistAvg+entries[node][i]['moisture'];
+                  }
+                  console.log(JSON.stringify(entries[node][i]));
+              }
+              avgEntries.push(nodeAvgs);
+          }
+        return res.status(200).send(avgEntries);
+      })
+  },
+
+  getSensorByIdDay(req, res) {
+  return Sensor
+    .findById(req.params.sid, {
+      include: [{
+        model: Entry,
+        as: 'entries',
+
+      } ],
+      order: [
+          [
+            {model: Entry, as:'entries'},
+            'id',
+            'DESC'
+          ]
+      ],
+      limit:  24,
+      subQuery: false
+    })
+    .then(sensor => {
+      if (!sensor) {
+        return res.status(404).send({
+          message: 'Sensor Not Found',
+        });
+      }
+      //console.log(JSON.stringify(sensor['entries']));
+      var entries = sensor['entries'];
+      var avgEntries = [];
+      var humAvg = 0;
+      var tempAvg = 0;
+      var sunAvg = 0;
+      var moistAvg = 0;
+      for (var i in entries){
+          if((parseInt(i)+1)%2==0){
+              humAvg = Math.round((humAvg+entries[i]['humidity'])/2);
+              tempAvg = Math.round((tempAvg+entries[i]['temperature'])/2);
+              sunAvg = Math.round((sunAvg+entries[i]['sunlight'])/2);
+              moistAvg = Math.round((moistAvg+entries[i]['moisture'])/2);
+              avgEntries.push({"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
+              humAvg = 0;
+              tempAvg = 0;
+              sunAvg = 0;
+              moistAvg = 0;
+          }else{
+              //console.log((int(i)+1)%60);
+              console.log((parseInt(i)+1)%60 );
+              humAvg = humAvg+entries[i]['humidity'];
+              tempAvg = tempAvg+entries[i]['temperature'];
+              sunAvg = sunAvg+entries[i]['sunlight'];
+              moistAvg = moistAvg+entries[i]['moisture'];
+          }
+      }
+      return res.status(200).send(avgEntries);
+    })
+    .catch(error => res.status(400).send(error));
+},
+
   update(req, res) {
     return Sensor
       .findById(req.params.sid)
@@ -136,7 +246,7 @@ module.exports = {
       })
       .catch((error) => res.status(400).send(error));
   },
-  
+
   destroy(req, res) {
     return Sensor
       .findById(req.params.sid)

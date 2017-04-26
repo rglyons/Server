@@ -1,0 +1,299 @@
+<html>
+<head>
+    <link rel="stylesheet" href="static/css/grid.css">
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/calendar.css">
+    <link rel="stylesheet" type="text/css" href="static/css/web2py-bootstrap3.css">
+    <link rel="stylesheet" type="text/css" href="static/css/web2py.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/myapp.css">
+    <link rel="stylesheet" type="text/css" href="static/css/side-bar.css">
+    <link rel="stylesheet" href="static/css/ionicons.min.css">
+    <link rel="stylesheet" href="static/css/chart-color.css">
+    <link rel="stylesheet" href="bower_components/chartist/dist/chartist.min.css">
+    <script src="//use.edgefonts.net/lato:n1,i1,n3,i3,n4,i4,n7,i7,n9,i9:all.js"></script>
+    <script src="static/js/jquery.js"></script>
+    <script src="bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="bower_components/chartist-plugin-pointlabels/dist/chartist-plugin-pointlabels.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js" charset="utf-8"></script>
+    <script>
+    var img_path = "static/images";
+    var get_values_url = "api', 'get_values"
+    var scrape_url = "api', 'scrape"
+    </script>
+</head>
+<body>
+    <div id="vue-div" v-cloak style="display: hidden;">
+
+          <div id="mnav-popout">
+              <ul class="mobile-nav">
+                  <li class="mnav-el" v-on:click.prevent="change_tab('heat')">
+                      <a href="#">overview</a>
+                  </li>
+                  <li class="mnav-el" v-on:click.prevent="change_tab('humid')">
+                      <a href="#">humid</a>
+                  </li>
+                  <li class="mnav-el" v-on:click.prevent="change_tab('solar')">
+                      <a href="#">solar</a>
+                  </li>
+                  <li class="mnav-el" v-on:click.prevent="change_tab('temp')">
+                      <a href="#">temp</a>
+                  </li>
+                  <li class="mnav-el" v-on:click.prevent="change_tab('moist')">
+                      <a href="#">moist</a>
+                  </li>
+              </ul>
+              <button type="button" class="mnav-close" onclick="closeNav()">
+                  <i class="icon ion-close-round close-nav-icon"></i>
+              </button>
+          </div>
+          <div id="mnav-bar">
+              <button type="button" class="mnav-open" onclick="openNav()">
+                  <i class="icon ion-navicon-round menu-icon"></i>
+              </button>
+              <img class='nav-icon' src="static/images/logo2.png" />
+          </div>
+          <div class="spacer"></div>
+            <div id="wrapper">
+                <!-- Sidebar -->
+                <div class="sidebar-wrapper" v-bind:class="{ home_wrapper: active_tab == 'home' }">
+                    <ul class="sidebar-nav">
+                        <li class='side-el' :class="{active: (active_tab == 'heat')}" v-on:click.prevent="change_tab('heat')">
+                            <a href="#"><img class='icon' src="static/images/heat.png"></a>
+                        </li>
+                        <li class='side-el' :class="{active: (active_tab == 'humid')}" v-on:click.prevent="change_tab('humid')">
+                            <a href="#"><img class='icon' src="static/images/humid.png"></a>
+                        </li>
+                        <li class='side-el' :class="{active: (active_tab == 'solar')}" v-on:click.prevent="change_tab('solar')">
+                            <a href="#"><img class='icon' src="static/images/solar.png"></a>
+                        </li>
+                        <li class='side-el' :class="{active: (active_tab == 'temp')}" v-on:click.prevent="change_tab('temp')">
+                            <a href="#"><img class='icon' src="static/images/temp.png"></a>
+                        </li>
+                        <li class='side-el' :class="{active: (active_tab == 'moist')}" v-on:click.prevent="change_tab('moist')">
+                            <a href="#"><img class='icon' src="static/images/moist.png"></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /#sidebar-wrapper -->
+                <!-- Page Content -->
+                <div id="page-content-wrapper">
+                    <div v-bind:class="{ home_top_bar: active_tab == 'home' }">
+                        <img class="logo-big" v-bind:class="{ home_bar: active_tab == 'home' }" src="static/images/logo2.png">
+                        <div id="tab-name">${tab_name(active_tab)}</div>
+                    </div>
+                    <div id="heat" class="content-container container" v-show="active_tab == 'heat'">
+                        <div class="left ">
+                            <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
+                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{select:selected_node == node['sensorId'],'square-inner-bad': (node['humidity']<humidThresholdMin || node['humidity']>humidThresholdMax || node['sunlight']<sunlightThresholdMin || node['temperature']!==temperatureThreshold || node['moisture']<moistureThresholdMin || node['moisture']>moistureThresholdMax)}"> ${node["sensorId"]}</div>
+                            </div>
+                            <div class="others-info">
+                                    <div class="box top-left"><img class="icon" src="static/images/humid-b-100.png"><span id = "gridHumid" class="value">${humid}%</span></div>
+                                    <div class="box top-right"><img class="icon" src="static/images/solar-b-100.png"><span class="value">${solar}%</span></div>
+                                    <div class="box bot-left"><img class="icon" src="static/images/temp-b-100.png"><span class="value">${temp}°C</span></div>
+                                    <div class="box bot-right"><img class="icon" src="static/images/moist-b-100.png"><span class="value">${moist}%</span></div>
+                            </div>
+                            <div class="ct-chart ct-minor-sixth"></div>
+                        </div>
+                        <div class="right">
+                            <div class="crop-container">
+                                <div class="crop-pic"><img src="static/images/tomato.jpg"></div>
+                                <div class="crop-name">Pantano Romanesco</div>
+                                <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
+                                <div class="condition-title">Ideal Conditions:</div>
+                                <div class="environment-title">Humidity</div>
+                                <div class="environment-info">20% ~ 40%</div>
+                                <div class="environment-title">Light</div>
+                                <div class="environment-info">40% ~ 100%</div>
+                                <div class="environment-title">Temperature</div>
+                                <div class="environment-info">12°C / 54°F</div>
+                                <div class="environment-title">Moisture</div>
+                                <div class="environment-info">20% ~ 50%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="humid" class="content-container" v-show="active_tab == 'humid'">
+                        <div class="left">
+                            <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
+                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['humidity']<humidThresholdMin || node['humidity']>humidThresholdMax)}"> ${node["sensorId"]}</div>
+                            </div>
+                            <div class="graph">
+                                <div class="graph-value">${humid}%</div>
+                                <svg height="350" width="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <a transform="translate(175,175)">
+                                        <g>
+                                            <circle r="175" fill="#b3eff6" stroke-width="3"></circle>
+                                        </g>
+                                        <g>
+                                            <clipPath id="g-clip-moist">
+                                                <rect id="g-clip-moist-rect" y="-175" fill="#66cccc" height="0" x="-175" width="350">
+                                                    <!-- <animate id="moist-animation" attributeName="height" from="0" to="380" dur="3.8s" repeatCount="indefinite" /> -->
+                                                </rect>
+                                            </clipPath>
+                                            <circle clip-path="url(#g-clip-moist)" r="170" fill="#fff" stroke-width="3"></circle>
+                                        </g>
+                                    </a>
+                                </svg>
+                            </div>
+                            <div class="ct-chart-humid ct-minor-sixth"></div>
+                        </div>
+                        <div class="right">
+                            <div class="crop-container">
+                                <div class="crop-pic"><img src="static/images/tomato.jpg"></div>
+                                <div class="crop-name">Pantano Romanesco</div>
+                                <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
+                                <div class="condition-title">Ideal Conditions:</div>
+                                <div class="environment-title">Humidity</div>
+                                <div class="environment-info">20% ~ 40%</div>
+                                <div class="environment-title">Light</div>
+                                <div class="environment-info">40% ~ 100%</div>
+                                <div class="environment-title">Temperature</div>
+                                <div class="environment-info">12°C / 54°F</div>
+                                <div class="environment-title">Moisture</div>
+                                <div class="environment-info">20% ~ 50%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-container" id="solar" v-show="active_tab == 'solar'">
+                        <div class="left">
+                            <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
+                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['sunlight']<sunlightThresholdMin)}"> ${node["sensorId"]}</div>
+                            </div>
+                            <div class="graph">
+                                <div class="graph-value">${solar}%</div>
+                                <svg height="350" width="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <a transform="translate(175,175)">
+                                        <g>
+                                            <circle r="175" fill="#b3eff6" stroke-width="3"></circle>
+                                        </g>
+                                        <g>
+                                            <clipPath id="g-clip-moist">
+                                                <rect id="g-clip-moist-rect" y="-175" fill="#66cccc" height="0" x="-175" width="350">
+                                                    <!-- <animate id="moist-animation" attributeName="height" from="0" to="380" dur="3.8s" repeatCount="indefinite" /> -->
+                                                </rect>
+                                            </clipPath>
+                                            <circle clip-path="url(#g-clip-moist)" r="170" fill="#fff" stroke-width="3"></circle>
+                                        </g>
+                                    </a>
+                                </svg>
+                            </div>
+                            <div class="ct-chart-solar ct-minor-sixth"></div>
+                        </div>
+                        <div class="right">
+                            <div class="crop-container">
+                                <div class="crop-pic"><img src="static/images/tomato.jpg"></div>
+                                <div class="crop-name">Pantano Romanesco</div>
+                                <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
+                                <div class="condition-title">Ideal Conditions:</div>
+                                <div class="environment-title">Humidity</div>
+                                <div class="environment-info">20% ~ 40%</div>
+                                <div class="environment-title">Light</div>
+                                <div class="environment-info">40% ~ 100%</div>
+                                <div class="environment-title">Temperature</div>
+                                <div class="environment-info">12°C / 54°F</div>
+                                <div class="environment-title">Moisture</div>
+                                <div class="environment-info">20% ~ 50%</div>
+                            </div>
+                        </div>
+                    </div>
+                <div id="temp" class="content-container" v-show="active_tab == 'temp'">
+                    <div class="left">
+                        <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
+                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['temperature']<temperatureThreshold)}"> ${node["sensorId"]}</div>
+                        </div>
+                        <div class="graph">
+                            <div class="graph-value">${temp}°C</div>
+                            <svg height="350" width="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <a transform="translate(175,175)">
+                                    <g>
+                                        <circle r="175" fill="#b3eff6" stroke-width="3"></circle>
+                                    </g>
+                                    <g>
+                                        <clipPath id="g-clip-moist">
+                                            <rect id="g-clip-moist-rect" y="-175" fill="#66cccc" height="0" x="-175" width="350">
+                                                <!-- <animate id="moist-animation" attributeName="height" from="0" to="380" dur="3.8s" repeatCount="indefinite" /> -->
+                                            </rect>
+                                        </clipPath>
+                                        <circle clip-path="url(#g-clip-moist)" r="170" fill="#fff" stroke-width="3"></circle>
+                                    </g>
+                                </a>
+                            </svg>
+                        </div>
+                        <div class="ct-chart-temp ct-minor-sixth"></div>
+                    </div>
+                    <div class="right">
+                        <div class="crop-container">
+                            <div class="crop-pic"><img src="static/images/tomato.jpg"></div>
+                            <div class="crop-name">Pantano Romanesco</div>
+                            <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
+                            <div class="condition-title">Ideal Conditions:</div>
+                            <div class="environment-title">Humidity</div>
+                            <div class="environment-info">20% ~ 40%</div>
+                            <div class="environment-title">Light</div>
+                            <div class="environment-info">40% ~ 100%</div>
+                            <div class="environment-title">Temperature</div>
+                            <div class="environment-info">12°C / 54°F</div>
+                            <div class="environment-title">Moisture</div>
+                            <div class="environment-info">20% ~ 50%</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="moist" class="content-container" v-show="active_tab == 'moist'">
+                    <div class="left">
+                        <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
+                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['moisture']<moistureThresholdMin || node['moisture']>moistureThresholdMax )}"> ${node["sensorId"]}</div>
+                        </div>
+                        <div class="graph">
+                            <div class="graph-value">${moist}%</div>
+                            <svg height="350" width="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <a transform="translate(175,175)">
+                                    <g>
+                                        <circle r="175" fill="#b3eff6" stroke-width="3"></circle>
+                                    </g>
+                                    <g>
+                                        <clipPath id="g-clip-moist">
+                                            <rect id="g-clip-moist-rect" y="-175" fill="#66cccc" height="0" x="-175" width="350">
+                                                <!-- <animate id="moist-animation" attributeName="height" from="0" to="380" dur="3.8s" repeatCount="indefinite" /> -->
+                                            </rect>
+                                        </clipPath>
+                                        <circle clip-path="url(#g-clip-moist)" r="170" fill="#fff" stroke-width="3"></circle>
+                                    </g>
+                                </a>
+                            </svg>
+                        </div>
+                        <div class="ct-chart-moist ct-minor-sixth"></div>
+                    </div>
+                    <div class="right">
+                        <div class="crop-container">
+                            <div class="crop-pic"><img src="static/images/tomato.jpg"></div>
+                            <div class="crop-name">Pantano Romanesco</div>
+                            <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
+                            <div class="condition-title">Ideal Conditions:</div>
+                            <div class="environment-title">Humidity</div>
+                            <div class="environment-info">20% ~ 40%</div>
+                            <div class="environment-title">Light</div>
+                            <div class="environment-info">40% ~ 100%</div>
+                            <div class="environment-title">Temperature</div>
+                            <div class="environment-info">12°C / 54°F</div>
+                            <div class="environment-title">Moisture</div>
+                            <div class="environment-info">20% ~ 50%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div> <!-- extra /div needed somewhere in this close after removing the homepage -->
+        </div>
+    <script type="text/javascript" src="static/js/highcharts.js"></script>
+    <script type="text/javascript" src="static/js/highcharts-more.js"></script>
+    <!--Date Range Picker-->
+    <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script> -->
+    <!-- Vue.js -->
+    <script type="text/javascript" src="static/js/ewing-helper.js"></script>
+    <script type="text/javascript" src="static/js/vue.min.js"></script>
+    <script type="text/javascript" src="static/js/IOT.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/js/navhelper.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "webport",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "ttagawa <tylertagawa@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/babsndeep/SlugSense",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chartist-plugin-pointlabels": "^0.0.4"
+  }
+}
