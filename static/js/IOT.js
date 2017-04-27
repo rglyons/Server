@@ -194,6 +194,28 @@ var app = function() {
       }
     })
 
+    var GraphLegend = Chartist.plugins.ctAxisTitle({
+      axisX: {
+        axisTitle: 'Time (hours)',
+        axisClass: 'ct-axis-title',
+        offset: {
+          x: 0,
+          y: 26
+        },
+        textAnchor: 'middle'
+      },
+      axisY: {
+        axisTitle: 'Value (%)',
+        axisClass: 'ct-axis-title',
+        offset: {
+          x: 0,
+          y: 0
+        },
+        textAnchor: 'middle',
+        flipTitle: false
+      }
+    })
+
     var chartist_charts =  function (){
       if(self.vue.active_tab == 'humid'){
           new Chartist.Line('.ct-chart-humid', {
@@ -207,7 +229,8 @@ var app = function() {
                   right: 40
                 },
                 plugins: [
-                  PointLabels
+                  PointLabels,
+                  GraphLegend
                 ]
           });
       }else if(self.vue.active_tab == 'solar'){
@@ -222,7 +245,8 @@ var app = function() {
                   right: 40
                 },
                 plugins: [
-                  PointLabels
+                  PointLabels,
+                  GraphLegend
                 ]
           });
       }else if(self.vue.active_tab == 'temp'){
@@ -237,7 +261,8 @@ var app = function() {
                   right: 40
                 },
                 plugins: [
-                  PointLabels
+                  PointLabels,
+                  GraphLegend
                 ]
           });
       }else if(self.vue.active_tab == 'moist'){
@@ -252,7 +277,8 @@ var app = function() {
                   right: 40
                 },
                 plugins: [
-                  PointLabels
+                  PointLabels,
+                  GraphLegend
                 ]
           });
       }

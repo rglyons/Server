@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "chartist-plugin-pointlabels": "^0.0.4"
+    "chartist-plugin-pointlabels": "^0.0.4",
+    "chartist-plugin-axistitle": "^0.1.0"
   }
 }
