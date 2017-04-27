@@ -48,18 +48,18 @@ var app = function() {
                     return senList;
                 }
                 let sensorInfo = [];
-                for(node in self.vue.sensors){
-                    //console.log(JSON.stringify(self.vue.sensors[node]));
-                    let sensorURL = "https://slugsense.herokuapp.com/api/sensors/"+self.vue.sensors[node]['id'];
-                    $.getJSON(sensorURL,
-                    function(node){
-                        //console.log(JSON.stringify(node));
-                        processSensor(node,sensorInfo);
+                //console.log(JSON.stringify(self.vue.sensors[node]));
+                let sensorURL = "https://localhost:3030/api/users/"+info['id']+'/day_avg';
+                $.getJSON(sensorURL,
+                    function(data){
+                        console.log("Yooooooooo");
+                        console.log(JSON.stringify(data));
+                        self.vue.day_avgs=data;
                     });
-                }
                 let dataURL = "https://slugsense.herokuapp.com/api/users/"+info['id']+"/sensor_readings";
                 $.getJSON(dataURL,
                     function(data){
+                        console.log("hiii");
                         self.vue.humid = data[0]['humidity'];
                         self.vue.temp = data[0]['temperature'];
                         self.vue.solar = data[0]['sunlight'];
@@ -200,13 +200,26 @@ var app = function() {
     self.change_tab = function(tab) {
         self.vue.active_tab = tab;
         document.getElementById("mnav-popout").style.width = "0";
-        curSensor = self.vue.histSenList.filter(function(value){return value['id']==self.vue.selected_node});
+        /*curSensor = self.vue.histSenList.filter(function(value){return value['id']==self.vue.selected_node});
         console.log(curSensor[0]['entries']);
         humInfo = curSensor[0]['entries'].map(function(a){return a['humidity']}).reverse();
         sunInfo = curSensor[0]['entries'].map(function(a){return a['sunlight']}).reverse();
         tempInfo = curSensor[0]['entries'].map(function(a){return a['temperature']}).reverse();
-        moistureInfo = curSensor[0]['entries'].map(function(a){return a['moisture']}).reverse();
+        moistureInfo = curSensor[0]['entries'].map(function(a){return a['moisture']}).reverse();*/
+        var huminfo;
+        var sunInfo;
+        var tempInfo;
+        var moistureInfo;
+        for(var i=0; i < self.vue.day_avgs.length;i++){
+            if(day_avgs[i][0]['id']==self.vue.selected_node){
+                huminfo = self.vue.day_avgs[i].map(function(a){return a['humidity']});
+                suninfo = self.vue.day_avgs[i].map(function(a){return a['sunlight']});
+                tempinfo = self.vue.day_avgs[i].map(function(a){return a['temperature']});
+                moistureInfoinfo = self.vue.day_avgs[i].map(function(a){return a['moisture']});
+            }
+        }
         labelArray = [];
+        console.log(JSON.stringify(self.vue.day_avgs));
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
         }
@@ -263,7 +276,7 @@ var app = function() {
 
     self.change_sensor = function(node) {
 
-        self.vue.humid=node['humidity'];
+        /*self.vue.humid=node['humidity'];
         self.vue.solar=node['sunlight'];
         self.vue.temp=node['temperature'];
         self.vue.moist=node['moisture'];
@@ -273,8 +286,21 @@ var app = function() {
         humInfo = curSensor[0]['entries'].map(function(a){return a['humidity']}).reverse();
         sunInfo = curSensor[0]['entries'].map(function(a){return a['sunlight']}).reverse();
         tempInfo = curSensor[0]['entries'].map(function(a){return a['temperature']}).reverse();
-        moistureInfo = curSensor[0]['entries'].map(function(a){return a['moisture']}).reverse();
+        moistureInfo = curSensor[0]['entries'].map(function(a){return a['moisture']}).reverse();*/
         labelArray = [];
+        var huminfo;
+        var sunInfo;
+        var tempInfo;
+        var moistureInfo;
+        for(var i=0; i < self.vue.day_avgs.length;i++){
+            if(day_avgs[i][0]['id']==self.vue.selected_node){
+                huminfo = self.vue.day_avgs[i].map(function(a){return a['humidity']});
+                suninfo = self.vue.day_avgs[i].map(function(a){return a['sunlight']});
+                tempinfo = self.vue.day_avgs[i].map(function(a){return a['temperature']});
+                moistureInfoinfo = self.vue.day_avgs[i].map(function(a){return a['moisture']});
+            }
+        }
+        console.log(humInfo);
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
         }
