@@ -40,25 +40,33 @@ var app = function() {
                     //console.log(senList);
                     self.vue.histSenList.push(sensor);
                     senList.push(sensor['entries'][0]);
-                    self.vue.selected_node = senList[0]['sensorId'];
-                    self.vue.humid = senList[0]["humidity"];
-                    self.vue.solar = senList[0]["sunlight"];
-                    self.vue.temp = senList[0]["temperature"];
-                    self.vue.moist = senList[0]["moisture"];
+                    //self.vue.selected_node = senList[0]['sensorId'];
+                    //self.vue.humid = senList[0]["humidity"];
+                    //self.vue.solar = senList[0]["sunlight"];
+                    //self.vue.temp = senList[0]["temperature"];
+                    //self.vue.moist = senList[0]["moisture"];
                     return senList;
                 }
-                var sensorInfo = [];
+                let sensorInfo = [];
                 for(node in self.vue.sensors){
                     //console.log(JSON.stringify(self.vue.sensors[node]));
                     let sensorURL = "https://slugsense.herokuapp.com/api/sensors/"+self.vue.sensors[node]['id'];
                     $.getJSON(sensorURL,
                     function(node){
                         //console.log(JSON.stringify(node));
-                        sensorInfo= processSensor(node,sensorInfo);
+                        processSensor(node,sensorInfo);
                     });
                 }
-                self.vue.sensorInfo = sensorInfo;
-                console.log(self.vue.histSenList)
+                let dataURL = "https://slugsense.herokuapp.com/api/users/"+info['id']+"/sensor_readings";
+                $.getJSON(dataURL,
+                    function(data){
+                        self.vue.humid = data[0]['humidity'];
+                        self.vue.temp = data[0]['temperature'];
+                        self.vue.solar = data[0]['sunlight'];
+                        self.vue.moist = data[0]['moisture'];
+                        self.vue.selected_node = data[0]['sensorId'];
+                        self.vue.sensorInfo = data;
+                    });
                 //console.log(JSON.stringify(self.vue.sensorInfo));
                 /*self.vue.humid = sensorInfo[0]["humidity"];
                 self.vue.solar = sensorInfo[0]["sunlight"];
@@ -187,102 +195,6 @@ var app = function() {
         }
     }
 
-    var PointLabels = Chartist.plugins.ctPointLabels({
-      textAnchor: 'middle',
-      labelInterpolationFnc: function (value) {
-        return value.toFixed(2)
-      }
-    })
-
-    var GraphLegend = Chartist.plugins.ctAxisTitle({
-      axisX: {
-        axisTitle: 'Time (hours)',
-        axisClass: 'ct-axis-title',
-        offset: {
-          x: 0,
-          y: 26
-        },
-        textAnchor: 'middle'
-      },
-      axisY: {
-        axisTitle: 'Value (%)',
-        axisClass: 'ct-axis-title',
-        offset: {
-          x: 0,
-          y: 0
-        },
-        textAnchor: 'middle',
-        flipTitle: false
-      }
-    })
-
-    var chartist_charts =  function (){
-      if(self.vue.active_tab == 'humid'){
-          new Chartist.Line('.ct-chart-humid', {
-                labels: labelArray,
-                series: [
-                      humInfo
-                ]
-              }, {
-                fullWidth: true,
-                chartPadding: {
-                  right: 40
-                },
-                plugins: [
-                  PointLabels,
-                  GraphLegend
-                ]
-          });
-      }else if(self.vue.active_tab == 'solar'){
-          new Chartist.Line('.ct-chart-solar', {
-                labels: labelArray,
-                series: [
-                      sunInfo
-                ]
-              }, {
-                fullWidth: true,
-                chartPadding: {
-                  right: 40
-                },
-                plugins: [
-                  PointLabels,
-                  GraphLegend
-                ]
-          });
-      }else if(self.vue.active_tab == 'temp'){
-          new Chartist.Line('.ct-chart-temp', {
-                labels: labelArray,
-                series: [
-                      tempInfo
-                ]
-              }, {
-                fullWidth: true,
-                chartPadding: {
-                  right: 40
-                },
-                plugins: [
-                  PointLabels,
-                  GraphLegend
-                ]
-          });
-      }else if(self.vue.active_tab == 'moist'){
-          new Chartist.Line('.ct-chart-moist', {
-                labels: labelArray,
-                series: [
-                      moistureInfo
-                ]
-              }, {
-                fullWidth: true,
-                chartPadding: {
-                  right: 40
-                },
-                plugins: [
-                  PointLabels,
-                  GraphLegend
-                ]
-          });
-      }
-    }
 
     // =========== Interaction ===========
     self.change_tab = function(tab) {
@@ -298,7 +210,55 @@ var app = function() {
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
         }
-        chartist_charts();
+        if(self.vue.active_tab == 'humid'){
+            new Chartist.Line('.ct-chart-humid', {
+                  labels: labelArray,
+                  series: [
+                        humInfo
+                  ]
+                }, {
+                  fullWidth: true,
+                  chartPadding: {
+                    right: 40
+                  }
+            });
+        }else if(self.vue.active_tab == 'solar'){
+            new Chartist.Line('.ct-chart-solar', {
+                  labels: labelArray,
+                  series: [
+                        sunInfo
+                  ]
+                }, {
+                  fullWidth: true,
+                  chartPadding: {
+                    right: 40
+                  }
+            });
+        }else if(self.vue.active_tab == 'temp'){
+            new Chartist.Line('.ct-chart-temp', {
+                  labels: labelArray,
+                  series: [
+                        tempInfo
+                  ]
+                }, {
+                  fullWidth: true,
+                  chartPadding: {
+                    right: 40
+                  }
+            });
+        }else if(self.vue.active_tab == 'moist'){
+            new Chartist.Line('.ct-chart-moist', {
+                  labels: labelArray,
+                  series: [
+                        moistureInfo
+                  ]
+                }, {
+                  fullWidth: true,
+                  chartPadding: {
+                    right: 40
+                  }
+            });
+        }
     };
 
     self.change_sensor = function(node) {
@@ -318,7 +278,55 @@ var app = function() {
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
         }
-        chartist_charts();
+        if(self.vue.active_tab == 'humid'){
+            new Chartist.Line('.ct-chart-humid', {
+                  labels: labelArray,
+                  series: [
+                        humInfo
+                  ]
+                }, {
+                  fullWidth: true,
+                  chartPadding: {
+                    right: 40
+                  }
+            });
+        }else if(self.vue.active_tab == 'solar'){
+            new Chartist.Line('.ct-chart-solar', {
+                  labels: labelArray,
+                  series: [
+                        sunInfo
+                  ]
+                }, {
+                  fullWidth: true,
+                  chartPadding: {
+                    right: 40
+                  }
+            });
+        }else if(self.vue.active_tab == 'temp'){
+            new Chartist.Line('.ct-chart-temp', {
+                  labels: labelArray,
+                  series: [
+                        tempInfo
+                  ]
+                }, {
+                  fullWidth: true,
+                  chartPadding: {
+                    right: 40
+                  }
+            });
+        }else if(self.vue.active_tab == 'moist'){
+            new Chartist.Line('.ct-chart-moist', {
+                  labels: labelArray,
+                  series: [
+                        moistureInfo
+                  ]
+                }, {
+                  fullWidth: true,
+                  chartPadding: {
+                    right: 40
+                  }
+            });
+        }
     };
 
 
@@ -327,6 +335,7 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
+            'day_avgs': [],
             'histSenList': [],
             'sensors': [],
             'sensorInfo': [],
@@ -349,7 +358,7 @@ var app = function() {
             'humidThresholdMax': 40,
             'sunlightThresholdMin': 40,
             'sunlightThresholdMax': 100,
-            'temperatureThreshold': 54,
+            'temperatureThreshold': 12,
             'moistureThresholdMin': 20,
             'moistureThresholdMax': 50,
         },
