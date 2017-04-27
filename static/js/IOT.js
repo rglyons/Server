@@ -49,7 +49,7 @@ var app = function() {
                 }
                 let sensorInfo = [];
                 //console.log(JSON.stringify(self.vue.sensors[node]));
-                let sensorURL = "https://localhost:3030/api/users/"+info['id']+'/day_avg';
+                let sensorURL = "https://slugsense.herokuapp.com/api/users/"+info['id']+'/day_avg';
                 $.getJSON(sensorURL,
                     function(data){
                         console.log("Yooooooooo");
