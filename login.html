@@ -14,7 +14,7 @@
 
         <form action="/" method="post" id="loginForm">
           <div class="group">
-                <input type="text" name="username" id="username" value=""><span class="highlight"></span><span class="bar"></span>
+                <input type="text" name="username" id="username" value="" autofocus><span class="highlight"></span><span class="bar"></span>
                 <label>Username</label>
             </div>
 
@@ -24,7 +24,10 @@
                 <label>Password</label>
             </div>
           <div>
-              <input type="submit" value="Log In"/>
+              <!-- <input type="submit" value="Log In"/> -->
+              <button class="button buttonBlue">Log in
+                <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+              </button>
           </div>
         </form>
         <div id="result"></div>
@@ -36,11 +39,17 @@
     <script type="text/javascript">
       $("#loginForm").submit(function(e){
         e.preventDefault();
+        var myUsername = document.getElementById('username').value;
+        var myPassword =  document.getElementById('password').value;
+        if(!myUsername || !myPassword) {
+          console.log("error, fields are empty");
+          document.getElementById("result").innerHTML = "Fill out all fields";
+          return;
+        }
         if(typeof(Storage) !== "undefined"){
           var form = this;
-
-          sessionStorage.setItem("username", document.getElementById('username').value);
-          sessionStorage.setItem("password", document.getElementById('password').value);
+          sessionStorage.setItem("username", myUsername);
+          sessionStorage.setItem("password", myPassword);
           form.submit();
         } else{
           document.getElementById("result").innerHTML = "your browser is out of date";
