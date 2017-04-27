@@ -383,6 +383,10 @@ var app = function() {
             'temperatureThreshold': 12,
             'moistureThresholdMin': 20,
             'moistureThresholdMax': 50,
+            'edit_hum': false,
+            'edit_solar': false,
+            'edit_temp': false,
+            'edit_moist': false,
         },
         methods: {
             change_tab: self.change_tab,
