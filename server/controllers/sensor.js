@@ -137,25 +137,25 @@ module.exports = {
           var moistAvg = 0;
           for(var node in entries){
               var nodeAvgs = [];
-              for(var i = 1; i<=6;i++){
+              for(var i = 1; i<=entries[node].length&&i<=24;i++){
                   if(i%2==0){
-                      humAvg = Math.round((humAvg+entries[node][i]['humidity'])/2);
-                      tempAvg = Math.round((tempAvg+entries[node][i]['temperature'])/2);
-                      sunAvg = Math.round((sunAvg+entries[node][i]['sunlight'])/2);
-                      moistAvg = Math.round((moistAvg+entries[node][i]['moisture'])/2);
-                      nodeAvgs.push({"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
+                      humAvg = Math.round((humAvg+entries[node][i-1]['humidity'])/2);
+                      tempAvg = Math.round((tempAvg+entries[node][i-1]['temperature'])/2);
+                      sunAvg = Math.round((sunAvg+entries[node][i-1]['sunlight'])/2);
+                      moistAvg = Math.round((moistAvg+entries[node][i-1]['moisture'])/2);
+                      nodeAvgs.push({"id":entries[node][i-1]['sensorId'],"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
                       humAvg = 0;
                       tempAvg = 0;
                       sunAvg = 0;
                       moistAvg = 0;
                   }
                   else{
-                      humAvg = humAvg+entries[node][i]['humidity'];
-                      tempAvg = tempAvg+entries[node][i]['temperature'];
-                      sunAvg = sunAvg+entries[node][i]['sunlight'];
-                      moistAvg = moistAvg+entries[node][i]['moisture'];
+                      humAvg = humAvg+entries[node][i-1]['humidity'];
+                      tempAvg = tempAvg+entries[node][i-1]['temperature'];
+                      sunAvg = sunAvg+entries[node][i-1]['sunlight'];
+                      moistAvg = moistAvg+entries[node][i-1]['moisture'];
                   }
-                  console.log(JSON.stringify(entries[node][i]));
+                  console.log(JSON.stringify(entries[node][i-1]));
               }
               avgEntries.push(nodeAvgs);
           }
