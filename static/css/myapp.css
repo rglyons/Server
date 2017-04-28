@@ -207,7 +207,7 @@ a:focus {
 
 /* line 183, ../sass/_main.scss */
 #tab-name {
-  position: absolute;
+  /*position: absolute;*/
   font-size: 63px;
   right: 40px;
   top: 0px;
@@ -251,7 +251,7 @@ a:focus {
 /* line 218, ../sass/_main.scss */
 .left .others-info {
   width: 100%;
-  margin-left: -10%; 
+  margin-left: -10%;
   padding-top: 25px;
   text-align: center;
 }
