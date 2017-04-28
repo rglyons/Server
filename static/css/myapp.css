@@ -251,7 +251,7 @@ a:focus {
 /* line 218, ../sass/_main.scss */
 .left .others-info {
   width: 100%;
-  margin-left: -10%; 
+  margin-left: -10%;
   padding-top: 25px;
   text-align: center;
 }
@@ -363,6 +363,13 @@ a:focus {
 .right .environment-info {
   padding-left: 10px;
   color: #4d4d4d;
+  display: inline-block;
+}
+
+
+.right button{
+    margin-left: 10px;
+    display: inline-block;
 }
 
 @media (max-width: 850px) {

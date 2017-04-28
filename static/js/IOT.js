@@ -351,6 +351,17 @@ var app = function() {
         chartist_charts(humInfo,sunInfo,tempInfo,moistureInfo,labelArray);
     };
 
+    self.edit_ranges = function(field){
+        if(field=='humid'){
+            self.vue.edit_hum = !self.vue.edit_hum;
+        }else if(field=='solar'){
+            self.vue.edit_solar = !self.vue.edit_solar;
+        }else if(field=='temp'){
+            self.vue.edit_temp = !self.vue.edit_temp;
+        }else if(field=='moist'){
+            self.vue.edit_moist = !self.vue.edit_moist;
+        }
+    }
 
     self.vue = new Vue({
         el: "#vue-div",
@@ -392,6 +403,7 @@ var app = function() {
             change_tab: self.change_tab,
             tab_name: self.tab_name,
             change_sensor: self.change_sensor,
+            edit_ranges: self.edit_ranges,
         },
     });
 

@@ -105,13 +105,54 @@
                                 <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                                 <div class="condition-title">Ideal Conditions:</div>
                                 <div class="environment-title">Humidity</div>
-                                <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                    <form v-show="edit_hum==true">
+                                      Humidity Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Humidity Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Light</div>
-                                <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                    <form v-show="edit_solar==true">
+                                      Solar Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Solar Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Temperature</div>
-                                <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                    <form v-show="edit_temp==true">
+                                      Temperature Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Temperature Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Moisture</div>
-                                <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                    <form v-show="edit_moist==true">
+                                      Moist Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Moist Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit"><br>
+                                    </form>
+                                    <br>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -147,13 +188,54 @@
                                 <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                                 <div class="condition-title">Ideal Conditions:</div>
                                 <div class="environment-title">Humidity</div>
-                                <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                    <form v-show="edit_hum==true">
+                                      Humidity Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Humidity Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Light</div>
-                                <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                    <form v-show="edit_solar==true">
+                                      Solar Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Solar Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Temperature</div>
-                                <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                    <form v-show="edit_temp==true">
+                                      Temperature Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Temperature Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Moisture</div>
-                                <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                    <form v-show="edit_moist==true">
+                                      Moist Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Moist Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit"><br>
+                                    </form>
+                                    <br>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,13 +271,54 @@
                                 <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                                 <div class="condition-title">Ideal Conditions:</div>
                                 <div class="environment-title">Humidity</div>
-                                <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                    <form v-show="edit_hum==true">
+                                      Humidity Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Humidity Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Light</div>
-                                <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                    <form v-show="edit_solar==true">
+                                      Solar Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Solar Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Temperature</div>
-                                <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                    <form v-show="edit_temp==true">
+                                      Temperature Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Temperature Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                                 <div class="environment-title">Moisture</div>
-                                <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                    <form v-show="edit_moist==true">
+                                      Moist Min:<br>
+                                      <input type="text" name="min"><br>
+                                      Moist Max:<br>
+                                      <input type="text" name="max"><br>
+                                      <input type="submit" value="Submit"><br>
+                                    </form>
+                                    <br>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -231,13 +354,54 @@
                             <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                             <div class="condition-title">Ideal Conditions:</div>
                             <div class="environment-title">Humidity</div>
-                            <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                                <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                <form v-show="edit_hum==true">
+                                  Humidity Min:<br>
+                                  <input type="text" name="min"><br>
+                                  Humidity Max:<br>
+                                  <input type="text" name="max"><br>
+                                  <input type="submit" value="Submit">
+                                </form>
+                            </div>
                             <div class="environment-title">Light</div>
-                            <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                                <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                <form v-show="edit_solar==true">
+                                  Solar Min:<br>
+                                  <input type="text" name="min"><br>
+                                  Solar Max:<br>
+                                  <input type="text" name="max"><br>
+                                  <input type="submit" value="Submit">
+                                </form>
+                            </div>
                             <div class="environment-title">Temperature</div>
-                            <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                                <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                <form v-show="edit_temp==true">
+                                  Temperature Min:<br>
+                                  <input type="text" name="min"><br>
+                                  Temperature Max:<br>
+                                  <input type="text" name="max"><br>
+                                  <input type="submit" value="Submit">
+                                </form>
+                            </div>
                             <div class="environment-title">Moisture</div>
-                            <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                                <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                <form v-show="edit_moist==true">
+                                  Moist Min:<br>
+                                  <input type="text" name="min"><br>
+                                  Moist Max:<br>
+                                  <input type="text" name="max"><br>
+                                  <input type="submit" value="Submit"><br>
+                                </form>
+                                <br>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -273,14 +437,54 @@
                             <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                             <div class="condition-title">Ideal Conditions:</div>
                             <div class="environment-title">Humidity</div>
-                            <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
-                            <button class="environment-info" v-show="edit_hum==true">"hi"</button>
+                            <div>
+                                <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
+                                <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                <form v-show="edit_hum==true">
+                                  Humidity Min:<br>
+                                  <input type="text" name="min"><br>
+                                  Humidity Max:<br>
+                                  <input type="text" name="max"><br>
+                                  <input type="submit" value="Submit">
+                                </form>
+                            </div>
                             <div class="environment-title">Light</div>
-                            <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
+                                <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                <form v-show="edit_solar==true">
+                                  Solar Min:<br>
+                                  <input type="text" name="min"><br>
+                                  Solar Max:<br>
+                                  <input type="text" name="max"><br>
+                                  <input type="submit" value="Submit">
+                                </form>
+                            </div>
                             <div class="environment-title">Temperature</div>
-                            <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
+                                <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                <form v-show="edit_temp==true">
+                                  Temperature Min:<br>
+                                  <input type="text" name="min"><br>
+                                  Temperature Max:<br>
+                                  <input type="text" name="max"><br>
+                                  <input type="submit" value="Submit">
+                                </form>
+                            </div>
                             <div class="environment-title">Moisture</div>
-                            <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
+                                <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                <form v-show="edit_moist==true">
+                                  Moist Min:<br>
+                                  <input type="text" name="min"><br>
+                                  Moist Max:<br>
+                                  <input type="text" name="max"><br>
+                                  <input type="submit" value="Submit"><br>
+                                </form>
+                                <br>
+                            </div>
                         </div>
                     </div>
                 </div>
