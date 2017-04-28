@@ -1,12 +1,14 @@
 * { box-sizing:border-box; }
 
+
 body {
 	font-family: Helvetica;
 	background: url(../images/irrigation-farm2.jpg) #eee;
-  background-size:cover;
-	background-repeat: no-repeat;
-  -webkit-font-smoothing: antialiased;
+  background-size:cover cover;
+  background-repeat:no-repeat;
+ -webkit-font-smoothing: antialiased;
 }
+
 
 hgroup {
 	text-align:center;
