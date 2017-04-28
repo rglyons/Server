@@ -98,6 +98,12 @@ app.get('/', (req,res) => {
     }
 });
 
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 app.get('/index.html', isAuthenticated, (req,res) =>{
   res.sendFile(__dirname + '/index.html');
 });
