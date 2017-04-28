@@ -319,11 +319,11 @@ var app = function() {
 
     self.change_sensor = function(node) {
 
-        /*self.vue.humid=node['humidity'];
+        self.vue.humid=node['humidity'];
         self.vue.solar=node['sunlight'];
         self.vue.temp=node['temperature'];
         self.vue.moist=node['moisture'];
-        self.vue.selected_node=node['sensorId'];
+        /*self.vue.selected_node=node['sensorId'];
         curSensor = self.vue.histSenList.filter(function(value){return value['id']==self.vue.selected_node});
         console.log(curSensor[0]['entries']);
         humInfo = curSensor[0]['entries'].map(function(a){return a['humidity']}).reverse();
