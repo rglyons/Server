@@ -122,7 +122,7 @@ module.exports = {
             sensorId: sensor.id
           },
           order: [
-            ['id', 'ASC']
+            ['id', 'DESC']
           ]
         }))
       .then(entries => {
