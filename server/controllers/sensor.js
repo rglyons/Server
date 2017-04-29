@@ -157,7 +157,7 @@ module.exports = {
                   }
                   console.log(JSON.stringify(entries[node][i-1]));
               }
-              avgEntries.push(nodeAvgs);
+              avgEntries.push(nodeAvgs.reverse());
           }
         return res.status(200).send(avgEntries);
       })
