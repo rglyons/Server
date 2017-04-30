@@ -1,5 +1,6 @@
 const User = require('../models').User;
 const Sensor = require('../models').Sensor;
+const randomstring = require("randomstring")
 
 module.exports = {
   create(req, res) {
@@ -12,103 +13,57 @@ module.exports = {
       .then(user => res.status(201).send(user))
       .catch(error => res.status(400).send(error));
   },
-  
-  list(req, res) {
-    return User
-      .all({
-        include: [{
-          model: Sensor,
-          as: 'sensors',
-        }],
-        order: [
-            [
-              {model: Sensor, as:'sensors'},
-              'id',
-            ]
-        ]
-      })
-      .then(users => res.status(200).send(users))
-      .catch(error => res.status(400).send(error));
-  },
-  
+    
   getUserById(req, res) {
-    return User
-      .findById(req.params.uid, {
-        include: [{
-          model: Sensor,
-          as: 'sensors',
-        }],
-      })
-      .then(user => {
-        if (!user) {
-          return res.status(404).send({
-            message: 'User Not Found',
-          });
-        }
-        return res.status(200).send(user);
-      })
-      .catch(error => res.status(400).send(error));
+    response = {}
+    response["id"] = req.user.id
+    response["username"] = req.user.username
+    response["sensor_count"] = req.user.sensor_count
+    response["sensors"] = req.user.sensors
+    return res.status(200).send(response);
   },
   
   getUserByUsername(req, res) {
-    return User
-      .findOne({ where: {username: req.params.username},
-        include: [{
-          model: Sensor,
-          as: 'sensors',
-        }],
-        order: [
-            [
-              {model: Sensor, as:'sensors'},
-              'id'
-            ]
-        ]
+    response = {}
+    response["id"] = req.user.id
+    response["username"] = req.user.username
+    response["sensor_count"] = req.user.sensor_count
+    response["sensors"] = req.user.sensors
+    return res.status(200).send(response);
+  },
+  
+  generateApiToken(req, res) {
+    return req.user
+      .update({
+        api_token: randomstring.generate(30)
       })
-      .then(user => {
-        if (!user) {
-          return res.status(404).send({
-            message: 'User Not Found',
-          });
-        }
-        return res.status(200).send(user);
+      .then(() => {
+        user.password = null 
+        res.status(200).send(user)  // Send back the updated sensor.
       })
-      .catch(error => res.status(400).send(error));
+      .catch((error) => res.status(400).send(error));
+    })
+    .catch((error) => res.status(400).send(error));
   },
   
   update(req, res) {
-    return User
-      .findById(req.params.uid)
-      .then(user => {
-        if (!user) {
-          return res.status(404).send({
-            message: 'User Not Found',
-          });
-        }
-        return user
-          .update({
-            password: req.body.password || user.password,
-            username: req.body.username || user.username,
-          })
-          .then(() => res.status(200).send(user))  // Send back the updated sensor.
-          .catch((error) => res.status(400).send(error));
+    return req.user
+      .update({
+        password: req.body.password || user.password,
+        username: req.body.username || user.username,
       })
+      .then(() => res.status(200).send(user))  // Send back the updated sensor.
       .catch((error) => res.status(400).send(error));
+    })
+    .catch((error) => res.status(400).send(error));
   },
   
   destroy(req, res) {
-    return User
-      .findById(req.params.uid)
-      .then(user => {
-        if (!user) {
-          return res.status(400).send({
-            message: 'User Not Found',
-          });
-        }
-        return user
-          .destroy()
-          .then(() => res.status(204).send())
-          .catch(error => res.status(400).send(error));
-      })
+    return req.user
+      .destroy()
+      .then(() => res.status(204).send())
       .catch(error => res.status(400).send(error));
+    })
+    .catch(error => res.status(400).send(error));
   },
 };

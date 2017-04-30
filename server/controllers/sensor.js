@@ -7,7 +7,7 @@ module.exports = {
     return Sensor
       .create({
         ipaddress: req.body.ipaddress,
-        userId: req.params.uid
+        userId: req.user.id
       })
       .then(sensor => res.status(201).send(sensor))
       .catch(error => res.status(400).send(error));
@@ -88,7 +88,7 @@ module.exports = {
     Sensor
       .findAll({ 
         where: {
-          userId: req.params.uid
+          userId: req.user.id
         }
       })
       .map(sensor => 
