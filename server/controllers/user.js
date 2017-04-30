@@ -42,8 +42,6 @@ module.exports = {
         res.status(200).send(user)  // Send back the updated sensor.
       })
       .catch((error) => res.status(400).send(error));
-    })
-    .catch((error) => res.status(400).send(error));
   },
   
   update(req, res) {
@@ -54,8 +52,6 @@ module.exports = {
       })
       .then(() => res.status(200).send(user))  // Send back the updated sensor.
       .catch((error) => res.status(400).send(error));
-    })
-    .catch((error) => res.status(400).send(error));
   },
   
   destroy(req, res) {
@@ -63,7 +59,5 @@ module.exports = {
       .destroy()
       .then(() => res.status(204).send())
       .catch(error => res.status(400).send(error));
-    })
-    .catch(error => res.status(400).send(error));
-  },
+  }  
 };
