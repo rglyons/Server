@@ -20,11 +20,11 @@ module.exports = (app) => {
   // users
   app.post('/api/users/login', auth.login); // login user
   app.post('/api/users', usersController.create); //create user
-  app.put('/api/users/:uid', auth.validate, usersController.update); // update user fields
-  app.put('/api/users/:uid/token', auth.validate, usersController.generateApiToken); // generate new api token for existing user
-  app.post('/api/users/:uid', auth.validate, usersController.getUserById); // retrieve user + sensors
-  app.post('/api/users/username/:username', auth.validate, usersController.getUserByUsername); // retrieve user + sensors
-  app.post('/api/users/:uid/sensor_readings', 
+  app.put('/api/users/update', auth.validate, usersController.update); // update user fields
+  app.put('/api/users/token', auth.validate, usersController.generateApiToken); // generate new api token for existing user
+  app.post('/api/users', auth.validate, usersController.getUserById); // retrieve user + sensors
+  app.post('/api/users/username', auth.validate, usersController.getUserByUsername); // retrieve user + sensors
+  app.post('/api/users/sensor_readings', 
             auth.validate, sensorsController.getLatestSensorReadingsForUser); // retrieve latest reading for each of a user's sensors
-  app.delete('/api/users/:uid', auth.validate, usersController.destroy); // delete user
+  app.delete('/api/users/delete', auth.validate, usersController.destroy); // delete user
 };
