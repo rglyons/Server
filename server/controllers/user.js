@@ -14,16 +14,7 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
     
-  getUserById(req, res) {
-    response = {}
-    response["id"] = req.user.id
-    response["username"] = req.user.username
-    response["sensor_count"] = req.user.sensor_count
-    response["sensors"] = req.user.sensors
-    return res.status(200).send(response);
-  },
-  
-  getUserByUsername(req, res) {
+  getUser(req, res) {
     response = {}
     response["id"] = req.user.id
     response["username"] = req.user.username

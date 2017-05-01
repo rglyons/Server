@@ -22,8 +22,7 @@ module.exports = (app) => {
   app.post('/api/users', usersController.create); //create user
   app.put('/api/users/update', auth.validate, usersController.update); // update user fields
   app.put('/api/users/token', auth.validate, usersController.generateApiToken); // generate new api token for existing user
-  app.post('/api/users', auth.validate, usersController.getUserById); // retrieve user + sensors
-  app.post('/api/users/username', auth.validate, usersController.getUserByUsername); // retrieve user + sensors
+  app.post('/api/users/getuser', auth.validate, usersController.getUser); // retrieve user + sensors
   app.post('/api/users/sensor_readings', 
             auth.validate, sensorsController.getLatestSensorReadingsForUser); // retrieve latest reading for each of a user's sensors
   app.delete('/api/users/delete', auth.validate, usersController.destroy); // delete user
