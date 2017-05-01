@@ -198,7 +198,7 @@ var app = function() {
     var PointLabels = Chartist.plugins.ctPointLabels({
       textAnchor: 'middle',
       labelInterpolationFnc: function (value) {
-        return value.toFixed(2)
+        return value.toFixed(1)
       }
     })
 
