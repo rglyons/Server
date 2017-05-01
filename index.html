@@ -107,49 +107,57 @@
                                 <div class="environment-title">Humidity</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
-                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_hum==true">
                                       Humidity Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
                                       Humidity Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Light</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
-                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_solar==true">
                                       Solar Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
                                       Solar Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Temperature</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
-                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_temp==true">
                                       Temperature Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="tempMinInput" name="tempMin"><br>
                                       Temperature Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Moisture</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
-                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_moist==true">
                                       Moist Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="moistMinInput" name="moistMin"><br>
                                       Moist Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit"><br>
+                                      <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
                                     </form>
                                     <br>
                                 </div>
@@ -190,49 +198,57 @@
                                 <div class="environment-title">Humidity</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
-                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_hum==true">
                                       Humidity Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
                                       Humidity Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Light</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
-                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_solar==true">
                                       Solar Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
                                       Solar Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Temperature</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
-                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_temp==true">
                                       Temperature Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="tempMinInput" name="tempMin"><br>
                                       Temperature Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Moisture</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
-                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_moist==true">
                                       Moist Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="moistMinInput" name="moistMin"><br>
                                       Moist Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit"><br>
+                                      <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
                                     </form>
                                     <br>
                                 </div>
@@ -273,49 +289,57 @@
                                 <div class="environment-title">Humidity</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
-                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_hum==true">
                                       Humidity Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
                                       Humidity Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Light</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
-                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_solar==true">
                                       Solar Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
                                       Solar Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Temperature</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
-                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_temp==true">
                                       Temperature Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="tempMinInput" name="tempMin"><br>
                                       Temperature Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit">
+                                      <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
                                     </form>
                                 </div>
                                 <div class="environment-title">Moisture</div>
                                 <div>
                                     <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
-                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
                                     <form v-show="edit_moist==true">
                                       Moist Min:<br>
-                                      <input type="text" name="min"><br>
+                                      <input type="number" v-model="moistMinInput" name="moistMin"><br>
                                       Moist Max:<br>
-                                      <input type="text" name="max"><br>
-                                      <input type="submit" value="Submit"><br>
+                                      <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
                                     </form>
                                     <br>
                                 </div>
@@ -356,49 +380,57 @@
                             <div class="environment-title">Humidity</div>
                             <div>
                                 <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
-                                <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
                                 <form v-show="edit_hum==true">
                                   Humidity Min:<br>
-                                  <input type="text" name="min"><br>
+                                  <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
                                   Humidity Max:<br>
-                                  <input type="text" name="max"><br>
-                                  <input type="submit" value="Submit">
+                                  <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
                                 </form>
                             </div>
                             <div class="environment-title">Light</div>
                             <div>
                                 <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
-                                <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
                                 <form v-show="edit_solar==true">
                                   Solar Min:<br>
-                                  <input type="text" name="min"><br>
+                                  <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
                                   Solar Max:<br>
-                                  <input type="text" name="max"><br>
-                                  <input type="submit" value="Submit">
+                                  <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
                                 </form>
                             </div>
                             <div class="environment-title">Temperature</div>
                             <div>
                                 <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
-                                <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
                                 <form v-show="edit_temp==true">
                                   Temperature Min:<br>
-                                  <input type="text" name="min"><br>
+                                  <input type="number" v-model="tempMinInput" name="tempMin"><br>
                                   Temperature Max:<br>
-                                  <input type="text" name="max"><br>
-                                  <input type="submit" value="Submit">
+                                  <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
                                 </form>
                             </div>
                             <div class="environment-title">Moisture</div>
                             <div>
                                 <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
-                                <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
                                 <form v-show="edit_moist==true">
                                   Moist Min:<br>
-                                  <input type="text" name="min"><br>
+                                  <input type="number" v-model="moistMinInput" name="moistMin"><br>
                                   Moist Max:<br>
-                                  <input type="text" name="max"><br>
-                                  <input type="submit" value="Submit"><br>
+                                  <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
                                 </form>
                                 <br>
                             </div>
@@ -439,49 +471,57 @@
                             <div class="environment-title">Humidity</div>
                             <div>
                                 <div class="environment-info" v-show="edit_hum==false">20% ~ 40%</div>
-                                <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">edit</button>
+                                <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
                                 <form v-show="edit_hum==true">
                                   Humidity Min:<br>
-                                  <input type="text" name="min"><br>
+                                  <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
                                   Humidity Max:<br>
-                                  <input type="text" name="max"><br>
-                                  <input type="submit" value="Submit">
+                                  <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
                                 </form>
                             </div>
                             <div class="environment-title">Light</div>
                             <div>
                                 <div class="environment-info" v-show="edit_solar==false">40% ~ 100%</div>
-                                <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">edit</button>
+                                <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
                                 <form v-show="edit_solar==true">
                                   Solar Min:<br>
-                                  <input type="text" name="min"><br>
+                                  <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
                                   Solar Max:<br>
-                                  <input type="text" name="max"><br>
-                                  <input type="submit" value="Submit">
+                                  <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
                                 </form>
                             </div>
                             <div class="environment-title">Temperature</div>
                             <div>
                                 <div class="environment-info" v-show="edit_temp==false">12°C / 54°F</div>
-                                <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">edit</button>
+                                <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
                                 <form v-show="edit_temp==true">
                                   Temperature Min:<br>
-                                  <input type="text" name="min"><br>
+                                  <input type="number" v-model="tempMinInput" name="tempMin"><br>
                                   Temperature Max:<br>
-                                  <input type="text" name="max"><br>
-                                  <input type="submit" value="Submit">
+                                  <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
                                 </form>
                             </div>
                             <div class="environment-title">Moisture</div>
                             <div>
                                 <div class="environment-info" v-show="edit_moist==false">20% ~ 50%</div>
-                                <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">edit</button>
+                                <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
                                 <form v-show="edit_moist==true">
                                   Moist Min:<br>
-                                  <input type="text" name="min"><br>
+                                  <input type="number" v-model="moistMinInput" name="moistMin"><br>
                                   Moist Max:<br>
-                                  <input type="text" name="max"><br>
-                                  <input type="submit" value="Submit"><br>
+                                  <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
                                 </form>
                                 <br>
                             </div>

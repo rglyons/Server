@@ -2,6 +2,7 @@ var print = function(text) {
     console.log(text);
 };
 
+
 var app = function() {
 
     var self = {};
@@ -353,13 +354,33 @@ var app = function() {
 
     self.edit_ranges = function(field){
         if(field=='humid'){
-            self.vue.edit_hum = !self.vue.edit_hum;
+            self.vue.edit_hum = true;
         }else if(field=='solar'){
-            self.vue.edit_solar = !self.vue.edit_solar;
+            self.vue.edit_solar = true;
         }else if(field=='temp'){
-            self.vue.edit_temp = !self.vue.edit_temp;
+            self.vue.edit_temp = true;
         }else if(field=='moist'){
-            self.vue.edit_moist = !self.vue.edit_moist;
+            self.vue.edit_moist = true;
+        }
+    }
+
+    self.update_threshold = function(field){
+        var xhr = new XMLHttpRequest();
+        xhr.open('PUT', "https://slugsense.herokuapp.com/api/sensors/"+self.vue.selected_node, true);
+        xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+        if(field=='humid'){
+            xhr.send(JSON.stringify({"humidityMin": self.vue.humidityMinInput, "humidityMax": self.vue.humidityMaxInput}));
+            self.vue.edit_hum = false;
+            //document.getElementById("humform").submit();
+        }else if(field=='solar'){
+            xhr.send(JSON.stringify({"sunlightMin": self.vue.sunlightMinInput, "sunlightMax": self.vue.sunlightMaxInput}));
+            self.vue.edit_solar = false;
+        }else if(field=='temp'){
+            xhr.send(JSON.stringify({"tempMin": self.vue.tempMinInput, "tempMax": self.vue.tempMaxInput}));
+            self.vue.edit_temp = false;
+        }else if(field=='moist'){
+            xhr.send(JSON.stringify({"moistureMin": self.vue.moistMinInput, "moistureMax": self.vue.moistMaxInput}));
+            self.vue.edit_moist = false;
         }
     }
 
@@ -398,12 +419,21 @@ var app = function() {
             'edit_solar': false,
             'edit_temp': false,
             'edit_moist': false,
+            'humidityMinInput': '',
+            'humidityMaxInput': '',
+            'sunlightMaxInput': '',
+            'sunlightMinInput': '',
+            'tempMinInput': '',
+            'tempMaxInput': '',
+            'moistMinInput': '',
+            'moistMaxInput': '',
         },
         methods: {
             change_tab: self.change_tab,
             tab_name: self.tab_name,
             change_sensor: self.change_sensor,
             edit_ranges: self.edit_ranges,
+            update_threshold: self.update_threshold,
         },
     });
 

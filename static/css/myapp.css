@@ -372,6 +372,10 @@ a:focus {
     display: inline-block;
 }
 
+.right form{
+    color: #4d4d4d;
+}
+
 @media (max-width: 850px) {
   /* line 314, ../sass/_main.scss */
   .right, .left {
