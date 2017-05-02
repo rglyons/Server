@@ -373,16 +373,24 @@ var app = function() {
         xhr.open('PUT', "https://slugsense.herokuapp.com/api/sensors/"+self.vue.selected_node, true);
         xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
         if(field=='humid'){
+            self.vue.thresholds[self.vue.selected_node]['humidityMin']=self.vue.humidityMinInput;
+            self.vue.thresholds[self.vue.selected_node]['humidityMax']=self.vue.humidityMaxInput;
             xhr.send(JSON.stringify({"humidityMin": self.vue.humidityMinInput, "humidityMax": self.vue.humidityMaxInput}));
             self.vue.edit_hum = false;
             //document.getElementById("humform").submit();
         }else if(field=='solar'){
+            self.vue.thresholds[self.vue.selected_node]['sunlightMin']=self.vue.sunlightMinInput;
+            self.vue.thresholds[self.vue.selected_node]['sunlightMax']=self.vue.sunlightMaxInput;
             xhr.send(JSON.stringify({"sunlightMin": self.vue.sunlightMinInput, "sunlightMax": self.vue.sunlightMaxInput}));
             self.vue.edit_solar = false;
         }else if(field=='temp'){
+            self.vue.thresholds[self.vue.selected_node]['tempMin']=self.vue.tempMinInput;
+            self.vue.thresholds[self.vue.selected_node]['tempMax']=self.vue.tempMaxInput;
             xhr.send(JSON.stringify({"tempMin": self.vue.tempMinInput, "tempMax": self.vue.tempMaxInput}));
             self.vue.edit_temp = false;
         }else if(field=='moist'){
+            self.vue.thresholds[self.vue.selected_node]['moistureMin']=self.vue.moistMinInput;
+            self.vue.thresholds[self.vue.selected_node]['moistureMax']=self.vue.moistMaxInput;
             xhr.send(JSON.stringify({"moistureMin": self.vue.moistMinInput, "moistureMax": self.vue.moistMaxInput}));
             self.vue.edit_moist = false;
         }
