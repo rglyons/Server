@@ -88,7 +88,7 @@
                     <div id="heat" class="content-container container" v-show="active_tab == 'heat'">
                         <div class="left ">
                             <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{select:selected_node == node['sensorId'],'square-inner-bad': (node['humidity']<humidThresholdMin || node['humidity']>humidThresholdMax || node['sunlight']<sunlightThresholdMin || node['temperature']<temperatureThresholdMin || node['temperature']>temperatureThresholdMax || node['moisture']<moistureThresholdMin || node['moisture']>moistureThresholdMax)}"> ${node["sensorId"]}</div>
+                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{select:selected_node == node['sensorId'],'square-inner-bad': (node['humidity']<thresholds[node['sensorId']]['humidityMin'] || node['humidity']>thresholds[node['sensorId']]['humidityMax'] || node['sunlight']<thresholds[node['sensorId']]['sunlightMin'] || node['sunlight']>thresholds[node['sensorId']]['sunlightMax'] || node['temperature']<thresholds[node['sensorId']]['tempMin'] || node['temperature']>thresholds[node['sensorId']]['tempMax'] || node['moisture']<thresholds[node['sensorId']]['moistureMin'] || node['moisture']>thresholds[node['sensorId']]['moistureMax'])}"> ${node["sensorId"]}</div>
                             </div>
                             <div class="others-info">
                                     <div class="box top-left"><img class="icon" src="static/images/humid-b-100.png"><span id = "gridHumid" class="value">${humid}%</span></div>
@@ -106,7 +106,7 @@
                                 <div class="condition-title">Ideal Conditions:</div>
                                 <div class="environment-title">Humidity</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_hum==false">${humidThresholdMin}% ~ ${humidThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
                                     <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="environment-title">Light</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_solar==false">${sunlightThresholdMin}% ~ ${sunlightThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
                                     <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="environment-title">Temperature</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_temp==false">${temperatureThresholdMin}°C ~ ${temperatureThresholdMax}°C</div>
+                                    <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
                                     <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="environment-title">Moisture</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_moist==false">${moistureThresholdMin}% ~ ${moistureThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
                                     <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -167,7 +167,7 @@
                     <div id="humid" class="content-container" v-show="active_tab == 'humid'">
                         <div class="left">
                             <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['humidity']<humidThresholdMin || node['humidity']>humidThresholdMax)}"> ${node["sensorId"]}</div>
+                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['humidity']<thresholds[node['sensorId']]['humidityMin'] || node['humidity']>thresholds[node['sensorId']]['humidityMax'])}"> ${node["sensorId"]}</div>
                             </div>
                             <div class="graph">
                                 <div class="graph-value">${humid}%</div>
@@ -197,7 +197,7 @@
                                 <div class="condition-title">Ideal Conditions:</div>
                                 <div class="environment-title">Humidity</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_hum==false">${humidThresholdMin}% ~ ${humidThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
                                     <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -211,7 +211,7 @@
                                 </div>
                                 <div class="environment-title">Light</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_solar==false">${sunlightThresholdMin}% ~ ${sunlightThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
                                     <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -225,7 +225,7 @@
                                 </div>
                                 <div class="environment-title">Temperature</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_temp==false">${temperatureThresholdMin}°C ~ ${temperatureThresholdMax}°C</div>
+                                    <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
                                     <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -239,7 +239,7 @@
                                 </div>
                                 <div class="environment-title">Moisture</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_moist==false">${moistureThresholdMin}% ~ ${moistureThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
                                     <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -258,7 +258,7 @@
                     <div class="content-container" id="solar" v-show="active_tab == 'solar'">
                         <div class="left">
                             <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['sunlight']<sunlightThresholdMin)||node['sunlight']>sunlightThresholdMax}"> ${node["sensorId"]}</div>
+                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['sunlight']<thresholds[node['sensorId']]['sunlightMin'])||node['sunlight']>thresholds[node['sensorId']]['sunlightMax']}"> ${node["sensorId"]}</div>
                             </div>
                             <div class="graph">
                                 <div class="graph-value">${solar}%</div>
@@ -288,7 +288,7 @@
                                 <div class="condition-title">Ideal Conditions:</div>
                                 <div class="environment-title">Humidity</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_hum==false">${humidThresholdMin}% ~ ${humidThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
                                     <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -302,7 +302,7 @@
                                 </div>
                                 <div class="environment-title">Light</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_solar==false">${sunlightThresholdMin}% ~ ${sunlightThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
                                     <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -316,7 +316,7 @@
                                 </div>
                                 <div class="environment-title">Temperature</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_temp==false">${temperatureThresholdMin}°C ~ ${temperatureThresholdMax}°C</div>
+                                    <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
                                     <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -330,7 +330,7 @@
                                 </div>
                                 <div class="environment-title">Moisture</div>
                                 <div>
-                                    <div class="environment-info" v-show="edit_moist==false">${moistureThresholdMin}% ~ ${moistureThresholdMax}%</div>
+                                    <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
                                     <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
                                         <i class="icon ion-edit"></i>
                                     </button>
@@ -349,7 +349,7 @@
                 <div id="temp" class="content-container" v-show="active_tab == 'temp'">
                     <div class="left">
                         <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['temperature']<temperatureThresholdMin ||node['temperature']>temperatureThresholdMax)}"> ${node["sensorId"]}</div>
+                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['temperature']<thresholds[node['sensorId']]['tempMin'] ||node['temperature']>thresholds[node['sensorId']]['tempMax'])}"> ${node["sensorId"]}</div>
                         </div>
                         <div class="graph">
                             <div class="graph-value">${temp}°C</div>
@@ -379,7 +379,7 @@
                             <div class="condition-title">Ideal Conditions:</div>
                             <div class="environment-title">Humidity</div>
                             <div>
-                                <div class="environment-info" v-show="edit_hum==false">${humidThresholdMin}% ~ ${humidThresholdMax}%</div>
+                                <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
                                 <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
                                     <i class="icon ion-edit"></i>
                                 </button>
@@ -393,7 +393,7 @@
                             </div>
                             <div class="environment-title">Light</div>
                             <div>
-                                <div class="environment-info" v-show="edit_solar==false">${sunlightThresholdMin}% ~ ${sunlightThresholdMax}%</div>
+                                <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
                                 <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
                                     <i class="icon ion-edit"></i>
                                 </button>
@@ -407,7 +407,7 @@
                             </div>
                             <div class="environment-title">Temperature</div>
                             <div>
-                                <div class="environment-info" v-show="edit_temp==false">${temperatureThresholdMin}°C ~ ${temperatureThresholdMax}°C</div>
+                                <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
                                 <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
                                     <i class="icon ion-edit"></i>
                                 </button>
@@ -421,7 +421,7 @@
                             </div>
                             <div class="environment-title">Moisture</div>
                             <div>
-                                <div class="environment-info" v-show="edit_moist==false">${moistureThresholdMin}% ~ ${moistureThresholdMax}%</div>
+                                <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
                                 <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
                                     <i class="icon ion-edit"></i>
                                 </button>
@@ -440,7 +440,7 @@
                 <div id="moist" class="content-container" v-show="active_tab == 'moist'">
                     <div class="left">
                         <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['moisture']<moistureThresholdMin || node['moisture']>moistureThresholdMax )}"> ${node["sensorId"]}</div>
+                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['moisture']<thresholds[node['sensorId']]['moistureMin'] || node['moisture']>thresholds[node['sensorId']]['moistureMax'] )}"> ${node["sensorId"]}</div>
                         </div>
                         <div class="graph">
                             <div class="graph-value">${moist}%</div>
@@ -470,7 +470,7 @@
                             <div class="condition-title">Ideal Conditions:</div>
                             <div class="environment-title">Humidity</div>
                             <div>
-                                <div class="environment-info" v-show="edit_hum==false">${humidThresholdMin}% ~ ${humidThresholdMax}%</div>
+                                <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
                                 <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
                                     <i class="icon ion-edit"></i>
                                 </button>
@@ -484,7 +484,7 @@
                             </div>
                             <div class="environment-title">Light</div>
                             <div>
-                                <div class="environment-info" v-show="edit_solar==false">${sunlightThresholdMin}% ~ ${sunlightThresholdMax}%</div>
+                                <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
                                 <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
                                     <i class="icon ion-edit"></i>
                                 </button>
@@ -498,7 +498,7 @@
                             </div>
                             <div class="environment-title">Temperature</div>
                             <div>
-                                <div class="environment-info" v-show="edit_temp==false">${temperatureThresholdMin}°C ~ ${temperatureThresholdMax}°C</div>
+                                <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
                                 <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
                                     <i class="icon ion-edit"></i>
                                 </button>
@@ -512,7 +512,7 @@
                             </div>
                             <div class="environment-title">Moisture</div>
                             <div>
-                                <div class="environment-info" v-show="edit_moist==false">${moistureThresholdMin}% ~ ${moistureThresholdMax}%</div>
+                                <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
                                 <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
                                     <i class="icon ion-edit"></i>
                                 </button>
