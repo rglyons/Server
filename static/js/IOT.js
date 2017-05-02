@@ -29,6 +29,14 @@ var app = function() {
                 }
                 sensors.reverse();*/
                 self.vue.sensors = info['sensors'];
+                self.vue.humidThresholdMin=self.vue.sensors[0]['humidityMin'];
+                self.vue.humidThresholdMax=self.vue.sensors[0]['humidityMax'];
+                self.vue.sunlightThresholdMin=self.vue.sensors[0]['sunlightMin'];
+                self.vue.sunlightThresholdMax=self.vue.sensors[0]['sunlightMax'];
+                self.vue.temperatureThresholdMin=self.vue.sensors[0]['tempMin'];
+                self.vue.temperatureThresholdMax=self.vue.sensors[0]['tempMax'];
+                self.vue.moistureThresholdMin=self.vue.sensors[0]['moistureMin'];
+                self.vue.moistureThresholdMax=self.vue.sensors[0]['moistureMax'];
                 //self.vue.selected_node = self.vue.sensors[0]['id'];
                 console.log(JSON.stringify(info['sensors']));
                 //console.log("sensors" + JSON.stringify(histSensorData));
@@ -345,6 +353,18 @@ var app = function() {
                 moistureInfo = self.vue.day_avgs[i].map(function(a){return a['moisture']});
             }
         }
+        for(var i=0;i<self.vue.sensors.length;i++){
+            if(self.vue.sensors[i]['id']==self.vue.selected_node){
+                self.vue.humidThresholdMin=self.vue.sensors[i]['humidityMin'];
+                self.vue.humidThresholdMax=self.vue.sensors[i]['humidityMax'];
+                self.vue.sunlightThresholdMin=self.vue.sensors[i]['sunlightMin'];
+                self.vue.sunlightThresholdMax=self.vue.sensors[i]['sunlightMax'];
+                self.vue.temperatureThresholdMin=self.vue.sensors[i]['tempMin'];
+                self.vue.temperatureThresholdMax=self.vue.sensors[i]['tempMax'];
+                self.vue.moistureThresholdMin=self.vue.sensors[i]['moistureMin'];
+                self.vue.moistureThresholdMax=self.vue.sensors[i]['moistureMax'];
+            }
+        }
         console.log(humInfo);
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
@@ -412,7 +432,8 @@ var app = function() {
             'humidThresholdMax': 40,
             'sunlightThresholdMin': 40,
             'sunlightThresholdMax': 100,
-            'temperatureThreshold': 12,
+            'temperatureThresholdMin': 12,
+            'temperatureThresholdMax': 50,
             'moistureThresholdMin': 20,
             'moistureThresholdMax': 50,
             'edit_hum': false,
