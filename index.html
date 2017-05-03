@@ -11,8 +11,8 @@
     <link rel="stylesheet" type="text/css" href="static/css/myapp.css">
     <link rel="stylesheet" type="text/css" href="static/css/side-bar.css">
     <link rel="stylesheet" href="static/css/ionicons.min.css">
-    <link rel="stylesheet" href="static/css/chart-color.css">
     <link rel="stylesheet" href="bower_components/chartist/dist/chartist.min.css">
+    <link rel="stylesheet" href="static/css/chart-color.css">
     <script src="//use.edgefonts.net/lato:n1,i1,n3,i3,n4,i4,n7,i7,n9,i9:all.js"></script>
     <script src="static/js/jquery.js"></script>
     <script src="bower_components/chartist/dist/chartist.min.js"></script>
@@ -76,19 +76,28 @@
                         <li class='side-el' :class="{active: (active_tab == 'moist')}" v-on:click.prevent="change_tab('moist')">
                             <a href="#"><img class='icon' src="static/images/moist.png"></a>
                         </li>
+                        <li class='side-el' >
+                          <a href="/logout">
+                            <p>Logout</p>
+                            <!-- <button class="btn btn-primary" type="button" name="button">Log Out</button> -->
+                          </a>
+                        </li>
+
                     </ul>
                 </div>
                 <!-- /#sidebar-wrapper -->
                 <!-- Page Content -->
                 <div id="page-content-wrapper">
                     <div v-bind:class="{ home_top_bar: active_tab == 'home' }">
-                        <img class="logo-big" v-bind:class="{ home_bar: active_tab == 'home' }" src="static/images/logo2.png">
-                        <div id="tab-name">${tab_name(active_tab)}</div>
+                        <!-- <img class="logo-big" v-bind:class="{ home_bar: active_tab == 'home' }" src=""> -->
+                        <div class="logo-big"> </div>
                     </div>
                     <div id="heat" class="content-container container" v-show="active_tab == 'heat'">
+                      <div class="row">
                         <div class="left ">
+                          <div class="logo-big" id="tab-name">${tab_name(active_tab)}</div>
                             <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{select:selected_node == node['sensorId'],'square-inner-bad': (node['humidity']<humidThresholdMin || node['humidity']>humidThresholdMax || node['sunlight']<sunlightThresholdMin || node['temperature']!==temperatureThreshold || node['moisture']<moistureThresholdMin || node['moisture']>moistureThresholdMax)}"> ${node["sensorId"]}</div>
+                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{select:selected_node == node['sensorId'],'square-inner-bad': (node['humidity']<thresholds[node['sensorId']]['humidityMin'] || node['humidity']>thresholds[node['sensorId']]['humidityMax'] || node['sunlight']<thresholds[node['sensorId']]['sunlightMin'] || node['sunlight']>thresholds[node['sensorId']]['sunlightMax'] || node['temperature']<thresholds[node['sensorId']]['tempMin'] || node['temperature']>thresholds[node['sensorId']]['tempMax'] || node['moisture']<thresholds[node['sensorId']]['moistureMin'] || node['moisture']>thresholds[node['sensorId']]['moistureMax'])}"> ${node["sensorId"]}</div>
                             </div>
                             <div class="others-info">
                                     <div class="box top-left"><img class="icon" src="static/images/humid-b-100.png"><span id = "gridHumid" class="value">${humid}%</span></div>
@@ -96,7 +105,7 @@
                                     <div class="box bot-left"><img class="icon" src="static/images/temp-b-100.png"><span class="value">${temp}°C</span></div>
                                     <div class="box bot-right"><img class="icon" src="static/images/moist-b-100.png"><span class="value">${moist}%</span></div>
                             </div>
-                            <div class="ct-chart ct-minor-sixth"></div>
+                            <!-- <div class="ct-chart ct-minor-sixth"></div> -->
                         </div>
                         <div class="right">
                             <div class="crop-container">
@@ -105,62 +114,170 @@
                                 <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                                 <div class="condition-title">Ideal Conditions:</div>
                                 <div class="environment-title">Humidity</div>
-                                <div class="environment-info">20% ~ 40%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
+                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
+                                    <form v-show="edit_hum==true">
+                                      Humidity Min:<br>
+                                      <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
+                                      Humidity Max:<br>
+                                      <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
+                                    </form>
+                                </div>
                                 <div class="environment-title">Light</div>
-                                <div class="environment-info">40% ~ 100%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
+                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
+                                    <form v-show="edit_solar==true">
+                                      Solar Min:<br>
+                                      <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
+                                      Solar Max:<br>
+                                      <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
+                                    </form>
+                                </div>
                                 <div class="environment-title">Temperature</div>
-                                <div class="environment-info">12°C / 54°F</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
+                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
+                                    <form v-show="edit_temp==true">
+                                      Temperature Min:<br>
+                                      <input type="number" v-model="tempMinInput" name="tempMin"><br>
+                                      Temperature Max:<br>
+                                      <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
+                                    </form>
+                                </div>
                                 <div class="environment-title">Moisture</div>
-                                <div class="environment-info">20% ~ 50%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
+                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
+                                    <form v-show="edit_moist==true">
+                                      Moist Min:<br>
+                                      <input type="number" v-model="moistMinInput" name="moistMin"><br>
+                                      Moist Max:<br>
+                                      <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
+                                    </form>
+                                    <br>
+                                </div>
                             </div>
                         </div>
+                      </div>
                     </div>
-                    <div id="humid" class="content-container" v-show="active_tab == 'humid'">
-                        <div class="left">
-                            <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['humidity']<humidThresholdMin || node['humidity']>humidThresholdMax)}"> ${node["sensorId"]}</div>
+                    <div id="humid" class="content-container container" v-show="active_tab == 'humid'">
+                        <div class="row top-content">
+                            <div class="left">
+                                <div class="logo-big" id="tab-name">
+                                    ${tab_name(active_tab)}
+                                </div>
+                                <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
+                                    <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['humidity']<thresholds[node['sensorId']]['humidityMin'] || node['humidity']>thresholds[node['sensorId']]['humidityMax'])}"> ${node["sensorId"]}</div>
+                                </div>
+                                <div class="graph">
+                                    <div class="graph-value">${humid}%</div>
+                                    <svg height="350" width="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <a transform="translate(175,175)">
+                                            <g>
+                                                <circle r="175" fill="#b3eff6" stroke-width="3"></circle>
+                                            </g>
+                                            <g>
+                                                <clipPath id="g-clip-moist">
+                                                    <rect id="g-clip-moist-rect" y="-175" fill="#66cccc" height="0" x="-175" width="350">
+                                                        <!-- <animate id="moist-animation" attributeName="height" from="0" to="380" dur="3.8s" repeatCount="indefinite" /> -->
+                                                    </rect>
+                                                </clipPath>
+                                                <circle clip-path="url(#g-clip-moist)" r="170" fill="#fff" stroke-width="3"></circle>
+                                            </g>
+                                        </a>
+                                    </svg>
+                                </div>
                             </div>
-                            <div class="graph">
-                                <div class="graph-value">${humid}%</div>
-                                <svg height="350" width="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <a transform="translate(175,175)">
-                                        <g>
-                                            <circle r="175" fill="#b3eff6" stroke-width="3"></circle>
-                                        </g>
-                                        <g>
-                                            <clipPath id="g-clip-moist">
-                                                <rect id="g-clip-moist-rect" y="-175" fill="#66cccc" height="0" x="-175" width="350">
-                                                    <!-- <animate id="moist-animation" attributeName="height" from="0" to="380" dur="3.8s" repeatCount="indefinite" /> -->
-                                                </rect>
-                                            </clipPath>
-                                            <circle clip-path="url(#g-clip-moist)" r="170" fill="#fff" stroke-width="3"></circle>
-                                        </g>
-                                    </a>
-                                </svg>
-                            </div>
-                            <div class="ct-chart-humid ct-minor-sixth"></div>
-                        </div>
-                        <div class="right">
-                            <div class="crop-container">
-                                <div class="crop-pic"><img src="static/images/tomato.jpg"></div>
-                                <div class="crop-name">Pantano Romanesco</div>
-                                <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
-                                <div class="condition-title">Ideal Conditions:</div>
-                                <div class="environment-title">Humidity</div>
-                                <div class="environment-info">20% ~ 40%</div>
-                                <div class="environment-title">Light</div>
-                                <div class="environment-info">40% ~ 100%</div>
-                                <div class="environment-title">Temperature</div>
-                                <div class="environment-info">12°C / 54°F</div>
-                                <div class="environment-title">Moisture</div>
-                                <div class="environment-info">20% ~ 50%</div>
-                            </div>
-                        </div>
+                            <div class="right">
+                                <div class="crop-container">
+                                    <div class="crop-pic"><img src="static/images/tomato.jpg"></div>
+                                    <div class="crop-name">Pantano Romanesco</div>
+                                    <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
+                                    <div class="condition-title">Ideal Conditions:</div>
+                                    <div class="environment-title">Humidity</div>
+                                    <div>
+                                        <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
+                                        <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                            <i class="icon ion-edit"></i>
+                                        </button>
+                                        <form v-show="edit_hum==true">
+                                          Humidity Min:<br>
+                                          <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
+                                          Humidity Max:<br>
+                                          <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                          <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="environment-title">Light</div>
+                                    <div>
+                                        <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
+                                        <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                            <i class="icon ion-edit"></i>
+                                        </button>
+                                        <form v-show="edit_solar==true">
+                                          Solar Min:<br>
+                                          <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
+                                          Solar Max:<br>
+                                          <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                          <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="environment-title">Temperature</div>
+                                    <div>
+                                        <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
+                                        <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                            <i class="icon ion-edit"></i>
+                                        </button>
+                                        <form v-show="edit_temp==true">
+                                          Temperature Min:<br>
+                                          <input type="number" v-model="tempMinInput" name="tempMin"><br>
+                                          Temperature Max:<br>
+                                          <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                          <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="environment-title">Moisture</div>
+                                    <div>
+                                        <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
+                                        <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                            <i class="icon ion-edit"></i>
+                                        </button>
+                                        <form v-show="edit_moist==true">
+                                          Moist Min:<br>
+                                          <input type="number" v-model="moistMinInput" name="moistMin"><br>
+                                          Moist Max:<br>
+                                          <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                          <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
+                                        </form>
+                                        <br>
+                                    </div>
+                                </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="ct-chart-humid ct-minor-sixth"></div>
+                      </div>
                     </div>
-                    <div class="content-container" id="solar" v-show="active_tab == 'solar'">
+                    <div class="content-container container" id="solar" v-show="active_tab == 'solar'">
+                      <div class="row top-content">
                         <div class="left">
+                          <div class="logo-big" id="tab-name">${tab_name(active_tab)}</div>
                             <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['sunlight']<sunlightThresholdMin)}"> ${node["sensorId"]}</div>
+                                <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['sunlight']<thresholds[node['sensorId']]['sunlightMin'])||node['sunlight']>thresholds[node['sensorId']]['sunlightMax']}"> ${node["sensorId"]}</div>
                             </div>
                             <div class="graph">
                                 <div class="graph-value">${solar}%</div>
@@ -180,7 +297,6 @@
                                     </a>
                                 </svg>
                             </div>
-                            <div class="ct-chart-solar ct-minor-sixth"></div>
                         </div>
                         <div class="right">
                             <div class="crop-container">
@@ -189,20 +305,75 @@
                                 <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                                 <div class="condition-title">Ideal Conditions:</div>
                                 <div class="environment-title">Humidity</div>
-                                <div class="environment-info">20% ~ 40%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
+                                    <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
+                                    <form v-show="edit_hum==true">
+                                      Humidity Min:<br>
+                                      <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
+                                      Humidity Max:<br>
+                                      <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
+                                    </form>
+                                </div>
                                 <div class="environment-title">Light</div>
-                                <div class="environment-info">40% ~ 100%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
+                                    <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
+                                    <form v-show="edit_solar==true">
+                                      Solar Min:<br>
+                                      <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
+                                      Solar Max:<br>
+                                      <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
+                                    </form>
+                                </div>
                                 <div class="environment-title">Temperature</div>
-                                <div class="environment-info">12°C / 54°F</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
+                                    <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
+                                    <form v-show="edit_temp==true">
+                                      Temperature Min:<br>
+                                      <input type="number" v-model="tempMinInput" name="tempMin"><br>
+                                      Temperature Max:<br>
+                                      <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
+                                    </form>
+                                </div>
                                 <div class="environment-title">Moisture</div>
-                                <div class="environment-info">20% ~ 50%</div>
+                                <div>
+                                    <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
+                                    <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                        <i class="icon ion-edit"></i>
+                                    </button>
+                                    <form v-show="edit_moist==true">
+                                      Moist Min:<br>
+                                      <input type="number" v-model="moistMinInput" name="moistMin"><br>
+                                      Moist Max:<br>
+                                      <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                      <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
+                                    </form>
+                                    <br>
+                                </div>
                             </div>
                         </div>
+                      </div>
+                      <div class="row">
+                        <div class="ct-chart-solar ct-minor-sixth"></div>
+                      </div>
                     </div>
-                <div id="temp" class="content-container" v-show="active_tab == 'temp'">
+                <div id="temp" class="content-container container" v-show="active_tab == 'temp'">
+                  <div class="row top-content">
                     <div class="left">
+                      <div class="logo-big" id="tab-name">${tab_name(active_tab)}</div>
                         <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['temperature']<temperatureThreshold)}"> ${node["sensorId"]}</div>
+                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['temperature']<thresholds[node['sensorId']]['tempMin'] ||node['temperature']>thresholds[node['sensorId']]['tempMax'])}"> ${node["sensorId"]}</div>
                         </div>
                         <div class="graph">
                             <div class="graph-value">${temp}°C</div>
@@ -222,7 +393,7 @@
                                 </a>
                             </svg>
                         </div>
-                        <div class="ct-chart-temp ct-minor-sixth"></div>
+
                     </div>
                     <div class="right">
                         <div class="crop-container">
@@ -231,20 +402,75 @@
                             <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                             <div class="condition-title">Ideal Conditions:</div>
                             <div class="environment-title">Humidity</div>
-                            <div class="environment-info">20% ~ 40%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
+                                <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
+                                <form v-show="edit_hum==true">
+                                  Humidity Min:<br>
+                                  <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
+                                  Humidity Max:<br>
+                                  <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
+                                </form>
+                            </div>
                             <div class="environment-title">Light</div>
-                            <div class="environment-info">40% ~ 100%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
+                                <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
+                                <form v-show="edit_solar==true">
+                                  Solar Min:<br>
+                                  <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
+                                  Solar Max:<br>
+                                  <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
+                                </form>
+                            </div>
                             <div class="environment-title">Temperature</div>
-                            <div class="environment-info">12°C / 54°F</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
+                                <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
+                                <form v-show="edit_temp==true">
+                                  Temperature Min:<br>
+                                  <input type="number" v-model="tempMinInput" name="tempMin"><br>
+                                  Temperature Max:<br>
+                                  <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
+                                </form>
+                            </div>
                             <div class="environment-title">Moisture</div>
-                            <div class="environment-info">20% ~ 50%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
+                                <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
+                                <form v-show="edit_moist==true">
+                                  Moist Min:<br>
+                                  <input type="number" v-model="moistMinInput" name="moistMin"><br>
+                                  Moist Max:<br>
+                                  <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
+                                </form>
+                                <br>
+                            </div>
                         </div>
                     </div>
+                    </div>
+                    <div class="row">
+                      <div class="ct-chart-temp ct-minor-sixth"></div>
+                    </div>
                 </div>
-                <div id="moist" class="content-container" v-show="active_tab == 'moist'">
+                <div id="moist" class="content-container container" v-show="active_tab == 'moist'">
+                  <div class="row top-content">
                     <div class="left">
+                      <div class="logo-big" id="tab-name">${tab_name(active_tab)}</div>
                         <div v-for="node in sensorInfo" v-bind:class="{select:selected_node == node['sensorId']}" class='square-outer' v-on:click.prevent="change_sensor(node)">
-                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['moisture']<moistureThresholdMin || node['moisture']>moistureThresholdMax )}"> ${node["sensorId"]}</div>
+                            <div v-for="n in sensors" class='square-inner-good' v-bind:class="{'square-inner-bad': (node['moisture']<thresholds[node['sensorId']]['moistureMin'] || node['moisture']>thresholds[node['sensorId']]['moistureMax'] )}"> ${node["sensorId"]}</div>
                         </div>
                         <div class="graph">
                             <div class="graph-value">${moist}%</div>
@@ -264,7 +490,7 @@
                                 </a>
                             </svg>
                         </div>
-                        <div class="ct-chart-moist ct-minor-sixth"></div>
+
                     </div>
                     <div class="right">
                         <div class="crop-container">
@@ -273,15 +499,68 @@
                             <div class="crop-info"> Rich, complex flavor. Heavy yield. Excellent all round tomato. </div>
                             <div class="condition-title">Ideal Conditions:</div>
                             <div class="environment-title">Humidity</div>
-                            <div class="environment-info">20% ~ 40%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_hum==false">${thresholds[selected_node]['humidityMin']}% ~ ${thresholds[selected_node]['humidityMax']}%</div>
+                                <button class="environment-info" v-show="edit_hum==false" v-on:click.prevent="edit_ranges('humid')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
+                                <form v-show="edit_hum==true">
+                                  Humidity Min:<br>
+                                  <input type="number" v-model="humidityMinInput" name="humidityMin"><br>
+                                  Humidity Max:<br>
+                                  <input type="number" v-model="humidityMaxInput" name="humidityMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('humid')">Submit</button>
+                                </form>
+                            </div>
                             <div class="environment-title">Light</div>
-                            <div class="environment-info">40% ~ 100%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_solar==false">${thresholds[selected_node]['sunlightMin']}% ~ ${thresholds[selected_node]['sunlightMax']}%</div>
+                                <button class="environment-info" v-show="edit_solar==false" v-on:click.prevent="edit_ranges('solar')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
+                                <form v-show="edit_solar==true">
+                                  Solar Min:<br>
+                                  <input type="number" v-model="sunlightMinInput" name="sunlightMin"><br>
+                                  Solar Max:<br>
+                                  <input type="number" v-model="sunlightMaxInput" name="sunlightMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('solar')">Submit</button>
+                                </form>
+                            </div>
                             <div class="environment-title">Temperature</div>
-                            <div class="environment-info">12°C / 54°F</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_temp==false">${thresholds[selected_node]['tempMin']}°C ~ ${thresholds[selected_node]['tempMax']}°C</div>
+                                <button class="environment-info" v-show="edit_temp==false" v-on:click.prevent="edit_ranges('temp')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
+                                <form v-show="edit_temp==true">
+                                  Temperature Min:<br>
+                                  <input type="number" v-model="tempMinInput" name="tempMin"><br>
+                                  Temperature Max:<br>
+                                  <input type="number" v-model="tempMaxInput" name="tempMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('temp')">Submit</button>
+                                </form>
+                            </div>
                             <div class="environment-title">Moisture</div>
-                            <div class="environment-info">20% ~ 50%</div>
+                            <div>
+                                <div class="environment-info" v-show="edit_moist==false">${thresholds[selected_node]['moistureMin']}% ~ ${thresholds[selected_node]['moistureMax']}%</div>
+                                <button class="environment-info" v-show="edit_moist==false" v-on:click.prevent="edit_ranges('moist')">
+                                    <i class="icon ion-edit"></i>
+                                </button>
+                                <form v-show="edit_moist==true">
+                                  Moist Min:<br>
+                                  <input type="number" v-model="moistMinInput" name="moistMin"><br>
+                                  Moist Max:<br>
+                                  <input type="number" v-model="moistMaxInput" name="moistMax"><br>
+                                  <button type="submit" v-on:click.prevent="update_threshold('moist')">Submit</button>
+                                </form>
+                                <br>
+                            </div>
                         </div>
                     </div>
+                  </div>
+                  <div class="row">
+                    <div class="ct-chart-moist ct-minor-sixth"></div>
+                  </div>
                 </div>
             </div>
             </div> <!-- extra /div needed somewhere in this close after removing the homepage -->

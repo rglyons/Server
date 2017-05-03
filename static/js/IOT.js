@@ -2,6 +2,7 @@ var print = function(text) {
     console.log(text);
 };
 
+
 var app = function() {
 
     var self = {};
@@ -28,8 +29,11 @@ var app = function() {
                 }
                 sensors.reverse();*/
                 self.vue.sensors = info['sensors'];
+                for(var i=0;i<self.vue.sensors.length;i++){
+                    self.vue.thresholds[self.vue.sensors[i]['id']]=self.vue.sensors[i];
+                }
                 //self.vue.selected_node = self.vue.sensors[0]['id'];
-                console.log(JSON.stringify(info['sensors']));
+                console.log(JSON.stringify(self.vue.thresholds));
                 //console.log("sensors" + JSON.stringify(histSensorData));
                 /*for(var key in sensors){
                     console.log(JSON.stringify(sensors[key]));
@@ -198,7 +202,7 @@ var app = function() {
     var PointLabels = Chartist.plugins.ctPointLabels({
       textAnchor: 'middle',
       labelInterpolationFnc: function (value) {
-        return value.toFixed(2)
+        return value.toFixed(1)
       }
     })
 
@@ -344,6 +348,7 @@ var app = function() {
                 moistureInfo = self.vue.day_avgs[i].map(function(a){return a['moisture']});
             }
         }
+
         console.log(humInfo);
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
@@ -351,6 +356,45 @@ var app = function() {
         chartist_charts(humInfo,sunInfo,tempInfo,moistureInfo,labelArray);
     };
 
+    self.edit_ranges = function(field){
+        if(field=='humid'){
+            self.vue.edit_hum = true;
+        }else if(field=='solar'){
+            self.vue.edit_solar = true;
+        }else if(field=='temp'){
+            self.vue.edit_temp = true;
+        }else if(field=='moist'){
+            self.vue.edit_moist = true;
+        }
+    }
+
+    self.update_threshold = function(field){
+        var xhr = new XMLHttpRequest();
+        xhr.open('PUT', "https://slugsense.herokuapp.com/api/sensors/"+self.vue.selected_node, true);
+        xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+        if(field=='humid'){
+            self.vue.thresholds[self.vue.selected_node]['humidityMin']=self.vue.humidityMinInput;
+            self.vue.thresholds[self.vue.selected_node]['humidityMax']=self.vue.humidityMaxInput;
+            xhr.send(JSON.stringify({"humidityMin": self.vue.humidityMinInput, "humidityMax": self.vue.humidityMaxInput}));
+            self.vue.edit_hum = false;
+            //document.getElementById("humform").submit();
+        }else if(field=='solar'){
+            self.vue.thresholds[self.vue.selected_node]['sunlightMin']=self.vue.sunlightMinInput;
+            self.vue.thresholds[self.vue.selected_node]['sunlightMax']=self.vue.sunlightMaxInput;
+            xhr.send(JSON.stringify({"sunlightMin": self.vue.sunlightMinInput, "sunlightMax": self.vue.sunlightMaxInput}));
+            self.vue.edit_solar = false;
+        }else if(field=='temp'){
+            self.vue.thresholds[self.vue.selected_node]['tempMin']=self.vue.tempMinInput;
+            self.vue.thresholds[self.vue.selected_node]['tempMax']=self.vue.tempMaxInput;
+            xhr.send(JSON.stringify({"tempMin": self.vue.tempMinInput, "tempMax": self.vue.tempMaxInput}));
+            self.vue.edit_temp = false;
+        }else if(field=='moist'){
+            self.vue.thresholds[self.vue.selected_node]['moistureMin']=self.vue.moistMinInput;
+            self.vue.thresholds[self.vue.selected_node]['moistureMax']=self.vue.moistMaxInput;
+            xhr.send(JSON.stringify({"moistureMin": self.vue.moistMinInput, "moistureMax": self.vue.moistMaxInput}));
+            self.vue.edit_moist = false;
+        }
+    }
 
     self.vue = new Vue({
         el: "#vue-div",
@@ -376,18 +420,26 @@ var app = function() {
             'heat': 0,
             'active_tab': 'heat',
             'selected_node': 0,
-            'humidThresholdMin': 20,
-            'humidThresholdMax': 40,
-            'sunlightThresholdMin': 40,
-            'sunlightThresholdMax': 100,
-            'temperatureThreshold': 12,
-            'moistureThresholdMin': 20,
-            'moistureThresholdMax': 50,
+            'edit_hum': false,
+            'edit_solar': false,
+            'edit_temp': false,
+            'edit_moist': false,
+            'humidityMinInput': '',
+            'humidityMaxInput': '',
+            'sunlightMaxInput': '',
+            'sunlightMinInput': '',
+            'tempMinInput': '',
+            'tempMaxInput': '',
+            'moistMinInput': '',
+            'moistMaxInput': '',
+            'thresholds': {},
         },
         methods: {
             change_tab: self.change_tab,
             tab_name: self.tab_name,
             change_sensor: self.change_sensor,
+            edit_ranges: self.edit_ranges,
+            update_threshold: self.update_threshold,
         },
     });
 

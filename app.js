@@ -91,8 +91,19 @@ app.post('/',
 
 //webapp hosting stuff
 app.get('/', (req,res) => {
-    res.sendFile(__dirname + '/login.html');
+    if(req.user){
+      res.redirect('/index.html');
+    } else{
+      res.sendFile(__dirname + '/login.html');
+    }
 });
+
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 app.get('/index.html', isAuthenticated, (req,res) =>{
   res.sendFile(__dirname + '/index.html');
 });

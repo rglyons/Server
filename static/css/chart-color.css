@@ -14,3 +14,18 @@
     stroke: #e74c3c; }
 .ct-chart-moist .ct-series-a .ct-point, .ct-chart-moist .ct-series-a .ct-line {
     stroke: #3498db; }
+
+.ct-label{
+  font-size: 80%;
+  /*margin-left: 10%;*/
+  color: black;
+}
+
+.ct-minor-sixth{
+  padding: 20px;
+  /*border: 2px solid red;*/
+}
+
+.top-content{
+  margin-bottom: 10px;
+}
