@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Smart Irrigation Login</title>
+        <link rel="stylesheet" href="static/css/style.css">
+        </head>
+
+    <body>
+        <hgroup>
+            <h1 style="color:#fdf8f3;">SlugSense Login</h1>
+        </hgroup>
+
+        <form action="/" method="post" id="loginForm">
+          <div class="group">
+                <input type="text" name="username" id="username" value="" autofocus><span class="highlight"></span><span class="bar"></span>
+                <label>Username</label>
+            </div>
+
+            <!--password field-->
+            <div class="group">
+                <input type="password" name="password" id="password" value=""><span class="highlight"></span><span class="bar"></span>
+                <label>Password</label>
+            </div>
+          <div>
+              <!-- <input type="submit" value="Log In"/> -->
+              <button class="button buttonBlue">Log in
+                <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+              </button>
+          </div>
+        </form>
+        <div id="result"></div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="bower_components/crypto-js/crypto-js.js"></script>
+
+    <!--function that is called on click of the Login button-->
+    <script type="text/javascript">
+      $("#loginForm").submit(function(e){
+        e.preventDefault();
+        var myUsername = document.getElementById('username').value;
+        var myPassword = document.getElementById('password').value;
+        var hashedPass = CryptoJS.MD5(myPassword);
+
+        if(!myUsername || !myPassword) {
+          console.log("error, fields are empty");
+          document.getElementById("result").innerHTML = "Fill out all fields";
+          return;
+        }
+        if(typeof(Storage) !== "undefined"){
+          var form = this;
+          sessionStorage.setItem("username", myUsername);
+          // remove bottom comment to enable hashing password
+          // $("#password").val(hashedPass);
+          console.log("password is "+ $("#password").val());
+          form.submit();
+        } else{
+          document.getElementById("result").innerHTML = "your browser is out of date";
+        }
+      });
+    </script>
+
+    <script src="static/js/index.js"></script>
+
+    </body>
+</html>

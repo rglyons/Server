@@ -1,0 +1,172 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+ /* IOT HACK UCSC 2017 modified version*/
+
+ $border-test: 1px red dashed;
+
+ body {
+    overflow-x: hidden;
+ }
+
+/* Toggle Styles */
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 100px;
+}
+
+.sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 100px;
+    width: 0;
+    height: 95%;
+    margin-left: -100px;
+    overflow-y: auto;
+    background: #2D2D2D;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.home_wrapper {
+    height: 100%;   
+}
+
+#wrapper.toggled .sidebar-wrapper {
+    width: 100px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 0px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -100px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 100px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    height: 100%;
+    color: #fff;
+    background: #4D4D4D;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #64C0CC;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+
+
+
+
+.side-el {
+    /*border: $border-test;*/
+    height: 100px;
+    margin-bottom: 5px;
+    .icon {
+        margin: 25px;
+    }
+    // .icon-home {
+    //     margin: 5px;
+    // }
+}
+
+.active {
+    background-color: #64C0CC;
+}
+
+#menu-toggle {
+    font-size: 20px;
+    position: relative;
+    left: 5px;
+    top: -60px;
+}
+
+
+
+
+
+
+
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 100px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    .sidebar-wrapper {
+        width: 100px;
+    }
+
+    #wrapper.toggled .sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 0px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+
+}

@@ -16,14 +16,18 @@ module.exports = (app) => {
   app.post('/api/sensors/:sid/entries', entriesController.create); // create entry for sensor
   app.put('/api/sensors/:sid', auth.validate, sensorsController.update); // update sensor fields
   app.delete('/api/sensors/:sid', auth.validate, sensorsController.destroy); // delete sensor
-  
+
   // users
   app.post('/api/users/login', auth.login); // login user
   app.post('/api/users', usersController.create); //create user
   app.put('/api/users/update', auth.validate, usersController.update); // update user fields
   app.put('/api/users/token', auth.validate, usersController.generateApiToken); // generate new api token for existing user
   app.post('/api/users/getuser', auth.validate, usersController.getUser); // retrieve user + sensors
-  app.post('/api/users/sensor_readings', 
+  app.post('/api/users/sensor_readings',
             auth.validate, sensorsController.getLatestSensorReadingsForUser); // retrieve latest reading for each of a user's sensors
   app.delete('/api/users/delete', auth.validate, usersController.destroy); // delete user
+
+  //other methods
+  app.post('/api/users/day_avg', auth.validate, sensorsController.getDayAvgForUser);
+
 };

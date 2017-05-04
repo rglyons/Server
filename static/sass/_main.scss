@@ -1,0 +1,327 @@
+body {
+    font-family: lato, sans-serif;
+}
+
+a,
+a:hover,
+a:focus {
+    color: white;
+    text-decoration: none;
+}
+
+$border-test: 1px black dashed;
+.colorful {
+    color: $clrHilight;
+}
+
+.test {
+    border: 1px solid red;
+}
+
+.top-bar {
+    background-color: #E6E6E6;
+    height: 100px;
+}
+
+.home_top_bar {
+    height: 50px;
+}
+
+.logo-big {
+    position: relative;
+    top: 12px;
+    height: 80px;
+    // display: inline-block;
+}
+
+.home_bar {
+    top: 65px;
+}
+
+.white-bar {
+    width: 100%;
+    height: 100px;
+    // border: $border-test;
+}
+
+#intro-1 {
+    position: absolute;
+    font-size: 70px;
+    left: 50px;
+    top: 325px;
+    color: white;
+    letter-spacing: -3px;
+}
+
+#intro-2 {
+    position: absolute;
+    font-size: 70px;
+    left: 50px;
+    top: 425px;
+    color: white;
+    letter-spacing: -3px;
+}
+
+.learn-btn {
+    font-family: lato, sans-serif;
+    position: absolute;
+    top: 580px;
+    left: 40%;
+    font-size: 23px;
+    background-color: #66cccc;
+    width: 250px;
+    height: 60px;
+    margin: 0 auto;
+    border-radius: 20em;
+    text-align: center;
+    padding: 18px;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+.learn-btn:hover {
+    background-color: #339999;
+}
+
+.em {
+    font-size: 80px;
+    font-weight: bolder;
+}
+
+.utility-icon {
+    display: inline-block;
+    width: 33%;
+    height: 360px;
+    // border: $border-test;
+    padding: 20px;
+    img {
+        margin-top: 40px;
+        // border: $border-test;
+        width: 180px;
+    }
+    .intro {
+        // border: $border-test;
+        padding: 20px;
+        font-size: 24px;
+        height: 180px;
+        font-weight: 300;
+    }
+}
+
+.meet {
+    color: white;
+    letter-spacing: -1px;
+    .meet1 {
+        letter-spacing: -3px;
+        font-size: 80px;
+        // font-weight: bold;
+        position: absolute;
+        top: 1250px;
+        left: 210px;
+    }
+    .meet2 {
+        font-size: 35px;
+        position: absolute;
+        top: 1350px;
+        left: 260px;
+    }
+    .meet3 {
+        font-size: 35px;
+        position: absolute;
+        top: 1400px;
+        left: 260px;
+    }
+    .meet4 {
+        font-size: 35px;
+        position: absolute;
+        top: 1450px;
+        left: 260px;
+    }
+    .meet5 {
+        font-size: 60px;
+        position: absolute;
+        top: 1520px;
+        left: 210px;
+        font-weight: bold;
+    }
+    .meet6 {
+        font-size: 30px;
+        position: absolute;
+        top: 1650px;
+        left: 210px;
+        font-weight: lighter;
+    }
+    .stores1 {
+        position: absolute;
+        top: 1700px;
+        left: 210px;
+        width: 200px;
+        height: 60px;
+    }
+    .stores2 {
+        position: absolute;
+        top: 1700px;
+        left: 460px;
+        width: 200px;
+        height: 60px;
+    }
+}
+
+.home-footer1 {
+    height: 60px;
+    width: 100%;
+    background-color: white;
+}
+
+.home-footer2 {
+    height: 200px;
+    width: 100%;
+    background-color: #2D2D2D;
+}
+
+// .homo-top
+#tab-name {
+    position: absolute;
+    font-size: 100px;
+    font-weight: lighter;
+    right: 50px;
+    top: -5px;
+    color: #64C0CC;
+    // display: inline-block;
+}
+
+.graph {
+    position: relative;
+    // border: $border-test;
+    height: 350px;
+    width: 350px;
+    margin-top: 20px;
+    margin-left: 145px;
+    margin-right: 145px;
+}
+
+.graph-value {
+    // border: $border-test;
+    position: absolute;
+    top: 135px;
+    left: 125px;
+    font-size: 60px;
+    font-weight: lighter;
+}
+
+.left {
+    // border: $border-test;
+    display: inline-block;
+    margin-left: 70px;
+    width: 650px;
+    height: 620px;
+    .others-info {
+        // border: $border-test;
+        width: 650px;
+        padding-top: 25px;
+        padding-left: 50px;
+        padding-right: 50px;
+        // border-color: black;
+        // border-width: 2px;
+        .box {
+            // border: $border-test;
+            width: 272px;
+            display: inline-block;
+            border-color: #cccccc;
+            border-width: 0.1px;
+            padding: 15px;
+            padding-left: 40px;
+            font-size: 60px;
+            font-weight: lighter;
+            .icon {
+                width: 75px;
+                margin-right: 10px;
+            }
+            .value {
+                position: relative;
+                top: -10px;
+            }
+        }
+        .top-left {
+            border-right-style: solid;
+            border-bottom-style: solid;
+        }
+        .top-right {
+            border-bottom-style: solid;
+            border-left-style: solid;
+        }
+        .bot-left {
+            border-top-style: solid;
+            border-right-style: solid;
+        }
+        .bot-right {
+            border-top-style: solid;
+            border-left-style: solid;
+        }
+    }
+}
+
+#heat {
+    img {
+        position: absolute;
+        top: 340px;
+        left: 500px
+    }
+}
+
+.right {
+    float: left;
+    margin-left: 60px;
+    padding-top: 25px;
+    // display: inline-block;
+    // border: $border-test;
+    width: 400px;
+    height: 620px;
+    text-align: left;
+    color: #66cccc;
+    .crop-pic {
+        padding: 25px;
+        text-align: right;
+        img {
+            width: 200px;
+        }
+    }
+    .crop-name {
+        font-size: 30px;
+        font-weight: lighter;
+    }
+    .crop-info {
+        text-align: left;
+        color: rgb(77, 77, 77);
+    }
+    .condition-title {
+        padding-top: 25px;
+        font-size: 28px;
+        font-weight: lighter;
+    }
+    .environment-title {
+        padding: 8px;
+        font-size: 24px;
+        font-weight: lighter;
+    }
+    .environment-info {
+        padding-left: 10px;
+        color: rgb(77, 77, 77);
+    }
+}
+
+@media(max-width:1250px) {
+    .right {
+        margin-top: 20px;
+        margin-left: 75px;
+        width: 650px;
+    }
+}
+
+@media(max-width:850px) {
+    #tab-name {
+        font-size: 50px;
+        right: 20px;
+        // display: inline-block;
+    }
+}
