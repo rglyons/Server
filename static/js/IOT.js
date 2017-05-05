@@ -405,6 +405,11 @@ var app = function() {
         }
     }
 
+    self.logout_user = function () {
+      localStorage.removeItem("token");
+      window.location.href = '/';
+    }
+
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
@@ -449,6 +454,7 @@ var app = function() {
             change_sensor: self.change_sensor,
             edit_ranges: self.edit_ranges,
             update_threshold: self.update_threshold,
+            logout: self.logout_user,
         },
     });
 

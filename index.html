@@ -27,6 +27,11 @@
     </script>
 </head>
 <body>
+  <script type="text/javascript">
+    if(!localStorage.getItem("token")){
+      window.location.href = '/';
+    }
+  </script>
     <div id="vue-div" v-cloak style="display: hidden;">
 
           <div id="mnav-popout">
@@ -85,9 +90,8 @@
                           <a href="#"><img class='icon' src="static/images/gplus-32.png"></a>
                         </li>
                         <li class='side-el' >
-                          <a href="/logout">
+                          <a v-on:click="logout">
                             <p>Logout</p>
-                            <!-- <button class="btn btn-primary" type="button" name="button">Log Out</button> -->
                           </a>
                         </li>
 
@@ -573,9 +577,9 @@
             </div>
              <div id="about" class="content-container" v-show="active_tab == 'about'">
                         <div class="left">
-                          <p style="font-size:145%;text-align:center;">Hi! We're SlugSense, creators of Smart Irrigation. Our goal is to assist gardeners and 
-                          growers in maintaining ideal growth conditions for whatever they choose to plant using our efficient and afforable 
-                          Green Thumb nodes. We aspire to make a strong, lasting impact on water sustainability in the most user-friendly 
+                          <p style="font-size:145%;text-align:center;">Hi! We're SlugSense, creators of Smart Irrigation. Our goal is to assist gardeners and
+                          growers in maintaining ideal growth conditions for whatever they choose to plant using our efficient and afforable
+                          Green Thumb nodes. We aspire to make a strong, lasting impact on water sustainability in the most user-friendly
                           way possible. We hope you enjoy our product!</p>
 
                           <p style="font-size:125%;text-align:center;">
