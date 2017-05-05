@@ -37,7 +37,7 @@
     <script src="bower_components/crypto-js/crypto-js.js"></script>
 
     <!--function that is called on click of the Login button-->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       $("#loginForm").submit(function(e){
         e.preventDefault();
         var myUsername = document.getElementById('username').value;
@@ -60,9 +60,51 @@
           document.getElementById("result").innerHTML = "your browser is out of date";
         }
       });
+    </script> -->
+
+    <script type="text/javascript">
+      $("#loginForm").submit(function(e){
+        e.preventDefault();
+        var myUsername = document.getElementById('username').value;
+        var myPassword = document.getElementById('password').value;
+        var hashedPass = CryptoJS.MD5(myPassword);
+
+        if(!myUsername || !myPassword) {
+          console.log("error, fields are empty");
+          document.getElementById("result").innerHTML = "Fill out all fields";
+          return;
+        }
+        if(typeof(Storage) !== "undefined"){
+          var form = this;
+          sessionStorage.setItem("username", myUsername);
+          // remove bottom comment to enable hashing password
+          // $("#password").val(hashedPass);
+          var myUsername = $("#username").val();
+          var myPassword = $("#password").val();
+          console.log(myUsername+ myPassword);
+          $.ajax({
+              type: "POST",
+              url: "https://slugsense.herokuapp.com/api/users/login",
+              data: {
+                username: myUsername,
+                password: myPassword
+              },
+              success: function(data){
+                console.log(data);
+                sessionStorage.setItem("token", data.api_token);                
+              },
+              // dataType: dataType
+            });
+          console.log("password is "+ $("#password").val());
+          form.submit();
+        } else{
+          document.getElementById("result").innerHTML = "your browser is out of date";
+        }
+      });
     </script>
 
     <script src="static/js/index.js"></script>
+
 
     </body>
 </html>

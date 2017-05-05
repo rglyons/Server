@@ -14,9 +14,11 @@ var app = function() {
     let deployURL = "https://slugsense.herokuapp.com"
     let usingUrl = deployURL;
     // let userURL = usingUrl + "/api/users/username/"+sessionStorage.getItem("username");
-    let userURL = usingUrl + "/api/users/getUser";
+    console.log(sessionStorage.getItem("token"));
+    let userURL = usingUrl + "/api/users/getuser";
     self.get_values = function() {
-        $.getJSON(userURL,
+        $.post(userURL,
+            {api_token: sessionStorage.getItem("token")},
             function(info) {
             //    var sensors = [];
             //    var histSensorData = [];
