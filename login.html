@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <title>Smart Irrigation Login</title>
         <link rel="stylesheet" href="static/css/style.css">
-        </head>
+    </head>
 
     <body>
         <hgroup>
@@ -29,8 +29,11 @@
                 <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
               </button>
           </div>
+          <div id="result">
+            <p id="errMess"></p>
+          </div>
         </form>
-        <div id="result"></div>
+
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -91,15 +94,16 @@
               },
               success: function(data){
                 console.log(data);
-                sessionStorage.setItem("token", data.api_token);
+                localStorage.setItem("token", data.api_token);
                 form.submit();
               },
               error: function (err) {
                 console.log(err);
                 console.log(JSON.stringify(err));
-                console.log(err.resposeJSON);                
+                console.log(err.resposeJSON);
                 console.log("invalid credentials");
                 console.log()
+                $("#errMess").text("invalid login");
               }
               // dataType: dataType
             });

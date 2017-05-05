@@ -13,11 +13,11 @@ var app = function() {
     let debugUrl ="localhost:3031";
     let deployURL = "https://slugsense.herokuapp.com"
     let usingUrl = deployURL;
-    console.log(sessionStorage.getItem("token"));
+    console.log(localStorage.getItem("token"));
     let userURL = usingUrl + "/api/users/getuser";
     self.get_values = function() {
         $.post(userURL,
-            {api_token: sessionStorage.getItem("token")},
+            {api_token: localStorage.getItem("token")},
             function(info) {
             //    var sensors = [];
             //    var histSensorData = [];
@@ -61,7 +61,7 @@ var app = function() {
                 // let sensorURL = "https://slugsense.herokuapp.com/api/users/"+info['id']+'/day_avg';
                 let sensorURL = usingUrl + "/api/users/day_avg";
                 $.post(sensorURL,
-                  {api_token: sessionStorage.getItem("token")},
+                  {api_token: localStorage.getItem("token")},
                     function(data){
                         console.log("Yooooooooo");
                         console.log(JSON.stringify(data));
@@ -70,7 +70,7 @@ var app = function() {
                 // let dataURL = "https://slugsense.herokuapp.com/api/users/"+info['id']+"/sensor_readings";
                 let dataURL = usingUrl+"/api/users/" /*+info['id']*/+"sensor_readings";
                 $.post(dataURL,
-                    {api_token: sessionStorage.getItem("token")},
+                    {api_token: localStorage.getItem("token")},
                     function(data){
                         console.log("hiii");
                         self.vue.humid = data[0]['humidity'];
