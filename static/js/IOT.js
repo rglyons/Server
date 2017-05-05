@@ -2,6 +2,7 @@ var print = function(text) {
     console.log(text);
 };
 
+
 var app = function() {
 
     var self = {};
@@ -9,11 +10,9 @@ var app = function() {
     Vue.config.silent = false; // show all warnings
 
     // ============ AJAX =============
-
     let debugUrl ="localhost:3031";
     let deployURL = "https://slugsense.herokuapp.com"
     let usingUrl = deployURL;
-    // let userURL = usingUrl + "/api/users/username/"+sessionStorage.getItem("username");
     console.log(sessionStorage.getItem("token"));
     let userURL = usingUrl + "/api/users/getuser";
     self.get_values = function() {
@@ -35,8 +34,11 @@ var app = function() {
                 }
                 sensors.reverse();*/
                 self.vue.sensors = info['sensors'];
+                for(var i=0;i<self.vue.sensors.length;i++){
+                    self.vue.thresholds[self.vue.sensors[i]['id']]=self.vue.sensors[i];
+                }
                 //self.vue.selected_node = self.vue.sensors[0]['id'];
-                console.log(JSON.stringify(info['sensors']));
+                console.log(JSON.stringify(self.vue.thresholds));
                 //console.log("sensors" + JSON.stringify(histSensorData));
                 /*for(var key in sensors){
                     console.log(JSON.stringify(sensors[key]));
@@ -56,23 +58,21 @@ var app = function() {
                 }
                 let sensorInfo = [];
                 //console.log(JSON.stringify(self.vue.sensors[node]));
+                // let sensorURL = "https://slugsense.herokuapp.com/api/users/"+info['id']+'/day_avg';
                 let sensorURL = usingUrl + "/api/users/day_avg";
                 $.post(sensorURL,
-                    {api_token: sessionStorage.getItem("token")},
+                  {api_token: sessionStorage.getItem("token")},
                     function(data){
-                        console.log(data);
                         console.log("Yooooooooo");
                         console.log(JSON.stringify(data));
                         self.vue.day_avgs=data;
                     });
+                // let dataURL = "https://slugsense.herokuapp.com/api/users/"+info['id']+"/sensor_readings";
                 let dataURL = usingUrl+"/api/users/" /*+info['id']*/+"sensor_readings";
                 $.post(dataURL,
                     {api_token: sessionStorage.getItem("token")},
                     function(data){
-                        console.log(data);
-                        console.log(sessionStorage.getItem("token"));
                         console.log("hiii");
-
                         self.vue.humid = data[0]['humidity'];
                         self.vue.temp = data[0]['temperature'];
                         self.vue.solar = data[0]['sunlight'];
@@ -211,7 +211,7 @@ var app = function() {
     var PointLabels = Chartist.plugins.ctPointLabels({
       textAnchor: 'middle',
       labelInterpolationFnc: function (value) {
-        return value.toFixed(2)
+        return value.toFixed(1)
       }
     })
 
@@ -357,6 +357,7 @@ var app = function() {
                 moistureInfo = self.vue.day_avgs[i].map(function(a){return a['moisture']});
             }
         }
+
         console.log(humInfo);
         for(var i=0; i<humInfo.length;i++){
             labelArray[i] = i;
@@ -404,49 +405,50 @@ var app = function() {
         }
     }
 
-
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-          'day_avgs': [],
-          'histSenList': [],
-          'sensors': [],
-          'sensorInfo': [],
-          'humid': 0,
-          'humid_old': 0,
-          'humid_animating': 0,
-          'solar': 0,
-          'solar_old': 0,
-          'solar_animating': 0,
-          'temp': 0,
-          'temp_old': 0,
-          'temp_animating': 0,
-          'moist': 0,
-          'moist_old': 0,
-          'moist_animating': 0,
-          'heat': 0,
-          'active_tab': 'heat',
-          'selected_node': 0,
-          'edit_hum': false,
-          'edit_solar': false,
-          'edit_temp': false,
-          'edit_moist': false,
-          'humidityMinInput': '',
-          'humidityMaxInput': '',
-          'sunlightMaxInput': '',
-          'sunlightMinInput': '',
-          'tempMinInput': '',
-          'tempMaxInput': '',
-          'moistMinInput': '',
-          'moistMaxInput': '',
-          'thresholds': {},
+            'day_avgs': [],
+            'histSenList': [],
+            'sensors': [],
+            'sensorInfo': [],
+            'humid': 0,
+            'humid_old': 0,
+            'humid_animating': 0,
+            'solar': 0,
+            'solar_old': 0,
+            'solar_animating': 0,
+            'temp': 0,
+            'temp_old': 0,
+            'temp_animating': 0,
+            'moist': 0,
+            'moist_old': 0,
+            'moist_animating': 0,
+            'heat': 0,
+            'active_tab': 'heat',
+            'selected_node': 0,
+            'edit_hum': false,
+            'edit_solar': false,
+            'edit_temp': false,
+            'edit_moist': false,
+            'humidityMinInput': '',
+            'humidityMaxInput': '',
+            'sunlightMaxInput': '',
+            'sunlightMinInput': '',
+            'tempMinInput': '',
+            'tempMaxInput': '',
+            'moistMinInput': '',
+            'moistMaxInput': '',
+            'thresholds': {},
         },
         methods: {
             change_tab: self.change_tab,
             tab_name: self.tab_name,
             change_sensor: self.change_sensor,
+            edit_ranges: self.edit_ranges,
+            update_threshold: self.update_threshold,
         },
     });
 
