@@ -46,6 +46,9 @@
                   <li class="mnav-el" v-on:click.prevent="change_tab('moist')">
                       <a href="#">moist</a>
                   </li>
+                  <li class="mnav-el" v-on:clock.prevent="change_tab('about')">
+                      <a href="#">about</a>
+                  </li>
               </ul>
               <button type="button" class="mnav-close" onclick="closeNav()">
                   <i class="icon ion-close-round close-nav-icon"></i>
@@ -76,6 +79,10 @@
                         </li>
                         <li class='side-el' :class="{active: (active_tab == 'moist')}" v-on:click.prevent="change_tab('moist')">
                             <a href="#"><img class='icon' src="static/images/moist.png"></a>
+                        </li>
+                        <li class='side-el' :class="{active: (active_tab == 'about')}" v-on:click.prevent="
+                        change_tab('about')">
+                          <a href="#"><img class='icon' src="static/images/gplus-32.png"></a>
                         </li>
                         <li class='side-el' >
                           <a href="/logout">
@@ -564,6 +571,34 @@
                   </div>
                 </div>
             </div>
+             <div id="about" class="content-container" v-show="active_tab == 'about'">
+                        <div class="left">
+                          <p style="font-size:145%;text-align:center;">Hi! We're SlugSense, creators of Smart Irrigation. Our goal is to assist gardeners and 
+                          growers in maintaining ideal growth conditions for whatever they choose to plant using our efficient and afforable 
+                          Green Thumb nodes. We aspire to make a strong, lasting impact on water sustainability in the most user-friendly 
+                          way possible. We hope you enjoy our product!</p>
+
+                          <p style="font-size:125%;text-align:center;">
+                            <br><br><br><b>Our Team</b>
+                            <br>Babandeep Singh
+                            <br>Tyler Tagawa
+                            <br>Clayton Keleher
+                            <br>Raul Lopez
+                            <br>Matthew Kim
+                            <br>Robert Lyons
+                          </p>
+
+                        </div>
+                        <div class="right">
+                          <div class="crop-container">
+                            <a href="https://devpost.com/software/slugsense" style="color:blue;">Our DevPost Page</a>
+                            <p style="text-align:center;"> we'll have a snazzy picture of our node here eventually </p>
+
+
+                          </div>
+                        </div>
+                    </div>
+                </div>
             </div> <!-- extra /div needed somewhere in this close after removing the homepage -->
         </div>
     <script type="text/javascript" src="static/js/highcharts.js"></script>
