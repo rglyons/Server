@@ -8,6 +8,11 @@
     </head>
 
     <body>
+      <script type="text/javascript">
+        if(localStorage.getItem("token")){
+          window.location.href = '/index.html';
+        }
+      </script>
         <hgroup>
             <h1 style="color:#fdf8f3;">SlugSense Login</h1>
         </hgroup>
@@ -81,7 +86,7 @@
           var form = this;
           sessionStorage.setItem("username", myUsername);
           // remove bottom comment to enable hashing password
-          // $("#password").val(hashedPass);
+          $("#password").val(hashedPass);
           var myUsername = $("#username").val();
           var myPassword = $("#password").val();
           console.log(myUsername+ myPassword);
@@ -115,7 +120,5 @@
     </script>
 
     <script src="static/js/index.js"></script>
-
-
     </body>
 </html>
