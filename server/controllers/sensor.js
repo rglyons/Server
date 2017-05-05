@@ -108,12 +108,12 @@ module.exports = {
         );
       })
   },
-  
+
   getDayAvgForUser(req, res) {
     Sensor
       .findAll({
         where: {
-          userId: req.user.uid
+          userId: req.user.id
         }
       })
       .map(sensor =>
