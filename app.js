@@ -7,16 +7,19 @@ const User = require('./server/models').User;
 
 //passport and local Strategy
 const passport = require('passport');
-const Strategy = require('passport-local').Strategy;
+const Local = require('passport-local').Strategy;
 //setup passport local Strategy
 
 var findByUsername = function(username, password, cb) {
+  console.log("passport local login initialized");
   process.nextTick(function() {
     User.findOne({ where: {username: username}})
     .then(function (user) {
-      console.log(user);
+      console.log(JSON.stringify(user));
       console.log("found user", user.username);
+      //on wrong password
       if(user.password !=password){return cb(null, false)}
+      //on right password
       return cb(null, user);
     })
     .error(function(err){
@@ -25,8 +28,13 @@ var findByUsername = function(username, password, cb) {
   });
 }
 
-passport.use(new Strategy(
+
+/*
+/ passport authentication begins with login here
+*/
+passport.use(new Local(
   function(username, password, done) {
+    console.log("logging in with passport");
     console.log(username);
     console.log(password);
     return findByUsername(username, password, done);
@@ -35,10 +43,14 @@ passport.use(new Strategy(
 
 //serialize and deserialize users with passport
 passport.serializeUser(function(user, cb) {
+  console.log("serialize user");
+  console.log(JSON.stringify(user));
   cb(null, user.id);
 });
 
 passport.deserializeUser(function(id, cb) {
+  console.log("DEserialize user");
+  console.log(id);
   User.findById(id)
   .then( function(user){
     cb(null, user)
@@ -46,7 +58,6 @@ passport.deserializeUser(function(id, cb) {
   .error(function (err) {
    cb(err)
   });
-
 });
 
 // Set up the express app
@@ -67,7 +78,7 @@ app.use(require('express-session')({
   saveUninitialized: false
 }));
 
-// Initialize Passport and restore authentication state, from the session
+// Initialize Passport and restore authentication state if needed, from the session
 app.use(passport.initialize());
 app.use(passport.session());
 
