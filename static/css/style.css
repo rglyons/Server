@@ -3,12 +3,56 @@
 
 body {
 	font-family: Helvetica;
-	background: url(../images/irrigation-farm2.jpg) #eee;
-  background-size:cover cover;
-  background-repeat:no-repeat;
- -webkit-font-smoothing: antialiased;
+	background: url(../images/water-login/water-login-1080.jpg) #eee;
+	background-size:cover cover;
+	background-repeat:no-repeat;
+	/*background-position: center;*/
+	-webkit-font-smoothing: antialiased;
 }
 
+@media screen and (min-aspect-ratio: 1/1) and (max-height:1080px){
+	body{
+		font-family: Helvetica;
+		background: url(../images/water-login/water-login-1080.jpg) #eee;
+		background-size:cover cover;
+		background-repeat:no-repeat;
+		/*background-position: center;*/
+		-webkit-font-smoothing: antialiased;
+	}
+}
+
+@media screen and (min-aspect-ratio: 1/1) and (min-height:1081px){
+	body{
+		font-family: Helvetica;
+		background: url(../images/water-login/water-login.jpg) #eee;
+		background-size:cover cover;
+		background-repeat:no-repeat;
+		/*background-position: center;*/
+		-webkit-font-smoothing: antialiased;
+	}
+}
+
+@media screen and (max-aspect-ratio: 1/1) and (max-height: 1920px){
+	body{
+		font-family: Helvetica;
+		background: url(../images/water-login/water-login-1080-mobile.jpg) #eee;
+		background-size:cover cover;
+		background-repeat:no-repeat;
+		/*background-position: center;*/
+		-webkit-font-smoothing: antialiased;
+	}
+}
+
+@media screen and (max-aspect-ratio: 1/1) and (min-height: 1921px){
+	body{
+		font-family: Helvetica;
+		background: url(../images/water-login/water-login-1440-mobile.jpg) #eee;
+		background-size:cover cover;
+		background-repeat:no-repeat;
+		/*background-position: center;*/
+		-webkit-font-smoothing: antialiased;
+	}
+}
 
 hgroup {
 	text-align:center;
