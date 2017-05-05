@@ -91,12 +91,19 @@
               },
               success: function(data){
                 console.log(data);
-                sessionStorage.setItem("token", data.api_token);                
+                sessionStorage.setItem("token", data.api_token);
+                form.submit();
               },
+              error: function (err) {
+                console.log(err);
+                console.log(JSON.stringify(err));
+                console.log(err.resposeJSON);                
+                console.log("invalid credentials");
+                console.log()
+              }
               // dataType: dataType
             });
           console.log("password is "+ $("#password").val());
-          form.submit();
         } else{
           document.getElementById("result").innerHTML = "your browser is out of date";
         }
