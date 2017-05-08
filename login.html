@@ -4,15 +4,19 @@
     <head>
         <meta charset="UTF-8">
         <title>Smart Irrigation Login</title>
+        <script type="text/javascript">
+          var token = localStorage.getItem("token");
+          if(token){
+            console.log("you have a token");
+            console.log(token);
+            window.location.href = '/index.html';
+          }
+        </script>
         <link rel="stylesheet" href="static/css/style.css">
     </head>
 
     <body>
-      <script type="text/javascript">
-        if(localStorage.getItem("token")){
-          window.location.href = '/index.html';
-        }
-      </script>
+
         <hgroup>
             <h1 style="color:#fdf8f3;">SlugSense Login</h1>
         </hgroup>

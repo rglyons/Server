@@ -28,7 +28,9 @@
 </head>
 <body>
   <script type="text/javascript">
-    if(!localStorage.getItem("token")){
+    var token = localStorage.getItem("token");
+    if(!token){
+      console.log("no token!!!!!!!!!!!!!!!!!!!!!!!!!")
       window.location.href = '/';
     }
   </script>
