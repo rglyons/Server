@@ -90,9 +90,10 @@
           var form = this;
           sessionStorage.setItem("username", myUsername);
           // remove bottom comment to enable hashing password
-          $("#password").val(hashedPass);
           var myUsername = $("#username").val();
-          var myPassword = $("#password").val();
+          var myPassword;
+          //myPassword = $("#password").val();
+          myPassword = hashedPass;
           console.log(myUsername+ myPassword);
           $.ajax({
               type: "POST",
@@ -112,7 +113,7 @@
                 console.log(err.resposeJSON);
                 console.log("invalid credentials");
                 console.log()
-                $("#errMess").text("invalid login");
+                $("#errMess").text("incorrect login");
               }
               // dataType: dataType
             });
