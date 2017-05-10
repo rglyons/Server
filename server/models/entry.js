@@ -16,6 +16,10 @@ module.exports = function(sequelize, DataTypes) {
     moisture:  {
       type: DataTypes.INTEGER,
       allowNull: true,
+    },
+    battery:  {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     }
   }, {
     classMethods: {
