@@ -1,0 +1,36 @@
+{
+  "name": "slugsense",
+  "description": "slugsense webapp",
+  "version": "1.0.0",
+  "author": "Ewing(Yu-An Lin) <chockerlin@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
+  "dependencies": {
+    "reset-css": "^2.2.0",
+    "vue": "^2.2.1",
+    "vue-haru-ripple": "^1.0.2",
+    "vue-router": "^2.5.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.0.0",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-module-resolver": "^2.7.0",
+    "babel-preset-latest": "^6.0.0",
+    "cross-env": "^4.0.0",
+    "css-loader": "^0.28.1",
+    "file-loader": "^0.11.1",
+    "font-awesome": "^4.7.0",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.17.0",
+    "url-loader": "^0.5.8",
+    "vue-loader": "^12.0.3",
+    "vue-template-compiler": "^2.2.1",
+    "vuetify": "^0.11.1",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
+  }
+}
