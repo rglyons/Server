@@ -154,8 +154,10 @@ export default {
   },
   created () {
     // console.log(this._.random(20))
+    console.log("Dashboard component created");
   },
   mounted (){
+    console.log("Dashboard component mounted")
     this.chosenNode = this.nodes[0].id
     this.boxes = this.nodes[0].boxes
   },
