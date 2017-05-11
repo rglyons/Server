@@ -6,6 +6,7 @@ module.exports = {
   create(req, res) {
     return Sensor
       .create({
+        id: req.body.id,
         ipaddress: req.body.ipaddress,
         userId: req.user.id
       })
