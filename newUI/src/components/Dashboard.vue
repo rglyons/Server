@@ -1,9 +1,24 @@
 <template>
   <v-container fluid class="px-4 py-3">
     <div class="myRow border">
-      <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
+    <!-- fake data below -->
+      <!-- <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
         <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="node.id" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
+      </div> -->
+      <!-- real data below -->
+    <div v-if="loaded == true">
+      <p>This is some fake content</p>
+      <div v-for="(sensor, index) in sensors" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
+          <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==sensor.id" :nodeId="sensor.id" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
       </div>
+    </div>
+
+    <div v-if="testBool">
+      <p>
+        Test test test teset testes ts e se te  es teest eset 
+      </p>    
+    </div>
+
     </div>
     <v-row class="border">
       <v-col xs12 class="border">
@@ -14,7 +29,8 @@
     </v-row>
     <v-row>
       <v-col v-for="box in boxes" xs12 sm6 lg3 class="border" :key="box.type">
-        <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)"></bot-box>
+        <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)">
+        </bot-box>
       </v-col>
     </v-row>
   </v-container>
@@ -23,6 +39,14 @@
 <script>
 import TopBox from './TopBox.vue'
 import BotBox from './BotBox.vue'
+
+const apiKey = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
+let deployURL = "https://slugsense.herokuapp.com"
+let userURL = deployURL + "/api/users/getuser";
+let herukuUrl = "http://slugsense.herokuapp.com/api/users/getuser";
+
+let selfself = this;
+
 export default {
   name: 'test',
   components: {
@@ -30,9 +54,8 @@ export default {
     'bot-box': BotBox
   },
   data () {
-    return {
-      msg: 'Dashboard',
-      nodes: [{
+    let liveData = {};
+    let fakeNodes = [{
         id: '49',
         boxes: [{
           type: 'Humidity',
@@ -147,24 +170,51 @@ export default {
           data: '12%',
           ideal: ['23','67']
         }]
-      }],
+      }];
+    console.log("this is fake data");
+    console.log(fakeNodes);
+    return {
+      msg: 'Dashboard',
+      nodes: fakeNodes,
+      loaded : false,
+      sensors : {},
       chosenNode: '',
-      boxes: []
+      boxes: [],
+      testBool : false
     }
   },
   created () {
     // console.log(this._.random(20))
-    console.log("Dashboard component created");
+    this.fetchData()
+    console.log("Dashboard component created and data was fetched");
   },
   mounted (){
     console.log("Dashboard component mounted")
-    this.chosenNode = this.nodes[0].id
-    this.boxes = this.nodes[0].boxes
+    // this.chosenNode = this.nodes[0].id
+    // this.boxes = this.nodes[0].boxes
+    // this.fetchData()
+    // console.log(this.loaded)
+    let temp = this;
+    setTimeout(function(){
+      temp.$set({testBool: true})
+      console.log("vue data updated");
+    }, 3000);
   },
   methods: {
-    test () {
-      console.log('abc')
-    },
+
+    fetchData(){
+      var self = this;
+      $.post(herukuUrl,
+      {api_token: apiKey},
+      function(data){
+        self.sensors = data.sensors;
+        this.chosenNode = data.sensors[0].id
+        console.log("this is real data");
+        console.log(self.sensors);        
+        self.loaded = true;
+        console.log(self.loaded)
+      }
+    )},
     chooseNode (idx) {
       this.chosenNode = this.nodes[idx].id
       this.boxes = this.nodes[idx].boxes
@@ -192,6 +242,8 @@ export default {
       return objLiteral[type]()
     },
     checkAllStatus (idx) {
+
+      return true;
       const boxes = this.nodes[idx].boxes
       for (let box of boxes) {
         if (!this.checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))) return false
