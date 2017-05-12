@@ -12,6 +12,7 @@ module.exports = {
       })
       .then(sensor => {
         res.status(201).send(sensor)
+        // create dummy entry (want to remove this and handle null entries in the front)
         Entry
           .create({
             humidity: 0,
