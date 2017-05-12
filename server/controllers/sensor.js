@@ -10,7 +10,19 @@ module.exports = {
         ipaddress: req.body.ipaddress,
         userId: req.user.id
       })
-      .then(sensor => res.status(201).send(sensor))
+      .then(sensor => {
+        res.status(201).send(sensor)
+        Entry
+          .create({
+            humidity: 0,
+            sunlight: 0,
+            temperature: 0,
+            moisture: 0,
+            battery: null,
+            sensorId: sensor.id,
+          })
+        }
+      )
       .catch(error => res.status(400).send(error));
   },
 
