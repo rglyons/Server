@@ -8,7 +8,7 @@
     <div v-if="loaded" >
     <div class="myRow border">
       <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
-        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="node.id" class="topBox"></top-box>
+        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="node.id" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
       </div>
     </div>
     </div>
@@ -24,7 +24,7 @@
         <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)"></bot-box>
       </v-col> -->
       <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
-        <bot-box :boxType="newboxes[i].type" :data="newboxes[i].data" :ideal="parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)"></bot-box>
+        <bot-box :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)"></bot-box>
       </v-col>
     </v-row>
   </v-container>
@@ -36,7 +36,7 @@ import BotBox from './BotBox.vue'
 
 const nobody = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
 const sustainability = "8KTSdFjzYD9Lx333rDJQv2YWSQzjmB";
-const apiKey = sustainability;
+const apiKey = nobody;
 let deployURL = "https://slugsense.herokuapp.com"
 let getuserURL = deployURL + "/api/users/getuser";
 let getRecentURL = deployURL + "/api/users/sensor_readings";
@@ -57,7 +57,7 @@ export default {
           type: 'Humidity',
           good: true,
           data: 49,
-          ideal: [10,50]
+          ideal: [10,50],
         }, {
           type: 'Light',
           good: false,
@@ -182,17 +182,27 @@ export default {
       }
       return objLiteral[type]()
     },
+    parseDataValue(box){
+      const fahrenheit = '&#8457;'
+      if(box.type != "Temperature") 
+        return (box.data + "%")
+      else
+        return (box.data + fahrenheit)
+    },
     checkAllStatus (idx) {
-      // const boxes = this.fakenodes[idx].boxes
+      const boxes = this.newboxes
       for (let box of boxes) {
-        if (!this.checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))) return false
+        if (!this.checkStatus(box.ideal, box.data)) return false
       }
       return true
     },
     checkStatus (range, value) {
       if (range[0] <= value && range[1] >= value ) return true
       return false
-    }
+    },
+    checkBoxStatus(box){
+      return this.checkStatus(box.ideal, box.data);
+    },
   }
 }
 </script>

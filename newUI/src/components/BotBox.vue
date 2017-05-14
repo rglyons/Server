@@ -47,7 +47,7 @@ export default {
       default: true
     },
     data: {
-      type: Number,
+      type: String,
       default: '(%|&#8451;|&#8457;)'
     },
     ideal: {
