@@ -23,17 +23,8 @@
       <!-- <v-col v-for="box in boxes" xs12 sm6 lg3 class="border" :key="box.type">
         <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)"></bot-box>
       </v-col> -->
-      <v-col xs12 sm6 lg3 class="border" :key="newboxes[0].type">
-        <bot-box :boxType="newboxes[0].type" :data="newboxes[0].data" :ideal="parseIdealRangeHtml(newboxes[0].ideal, newboxes[0].type)"></bot-box>
-      </v-col>
-      <v-col xs12 sm6 lg3 class="border" :key="newboxes[1].type">
-        <bot-box :boxType="newboxes[1].type" :data="newboxes[1].data" :ideal="parseIdealRangeHtml(newboxes[1].ideal, newboxes[1].type)"></bot-box>
-      </v-col>
-      <v-col xs12 sm6 lg3 class="border" :key="newboxes[2].type">
-        <bot-box :boxType="newboxes[2].type" :data="newboxes[2].data" :ideal="parseIdealRangeHtml(newboxes[2].ideal, newboxes[2].type)"></bot-box>
-      </v-col>
-      <v-col xs12 sm6 lg3 class="border" :key="newboxes[3].type">
-        <bot-box :boxType="newboxes[3].type" :data="newboxes[3].data" :ideal="parseIdealRangeHtml(newboxes[3].ideal, newboxes[3].type)"></bot-box>
+      <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
+        <bot-box :boxType="newboxes[i].type" :data="newboxes[i].data" :ideal="parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)"></bot-box>
       </v-col>
     </v-row>
   </v-container>
@@ -49,7 +40,7 @@ const apiKey = sustainability;
 let deployURL = "https://slugsense.herokuapp.com"
 let getuserURL = deployURL + "/api/users/getuser";
 let getRecentURL = deployURL + "/api/users/sensor_readings";
-
+let getHistoricalUrl = deployURL + "/api/users/day_avg";
 export default {
   name: 'test',
   components: {
@@ -59,124 +50,9 @@ export default {
   data () {
     return {
       msg: 'Dashboard',
-      fakenodes: [{
-        id: '49',
-        boxes: [{
-          type: 'Humidity',
-          good: true,
-          data: '49%',
-          ideal: ['10','50']
-        }, {
-          type: 'Light',
-          good: false,
-          data: '33%',
-          ideal: ['30','50']
-        }, {
-          type: 'Temperature',
-          good: false,
-          data: '37&#8451;',
-          ideal: ['50', '70']
-        },{
-          type: 'Moisture',
-          good: true,
-          data: '29%',
-          ideal: ['70','90']
-        }]
-      }, {
-        id: '50',
-        boxes: [{
-          type: 'Humidity',
-          good: true,
-          data: '12%',
-          ideal: ['44','55']
-        }, {
-          type: 'Light',
-          good: false,
-          data: '13%',
-          ideal: ['10','20']
-        }, {
-          type: 'Temperature',
-          good: true,
-          data: '64&#8451;',
-          ideal: ['18','28']
-        },{
-          type: 'Moisture',
-          good: true,
-          data: '12%',
-          ideal: ['25','35']
-        }]
-      }, {
-        id: '51',
-        boxes: [{
-          type: 'Humidity',
-          good: false,
-          data: '40%',
-          ideal: ['10','45']
-        }, {
-          type: 'Light',
-          good: true,
-          data: '33%',
-          ideal: ['10','70']
-        }, {
-          type: 'Temperature',
-          good: true,
-          data: '24&#8451;',
-          ideal: ['18','28']
-        },{
-          type: 'Moisture',
-          good: true,
-          data: '56%',
-          ideal: ['25','65']
-        }]
-      }, {
-        id: '52',
-        boxes: [{
-          type: 'Humidity',
-          good: false,
-          data: '23%',
-          ideal: ['44','55']
-        }, {
-          type: 'Light',
-          good: true,
-          data: '33%',
-          ideal: ['10','80']
-        }, {
-          type: 'Temperature',
-          good: false,
-          data: '77&#8451;',
-          ideal: ['20','38']
-        },{
-          type: 'Moisture',
-          good: false,
-          data: '55%',
-          ideal: ['45','55']
-        }]
-      }, {
-        id: '53',
-        boxes: [{
-          type: 'Humidity',
-          good: true,
-          data: '44%',
-          ideal: ['23','65']
-        }, {
-          type: 'Light',
-          good: true,
-          data: '39%',
-          ideal: ['30','60']
-        }, {
-          type: 'Temperature',
-          good: false,
-          data: '10&#8451;',
-          ideal: ['8','28']
-        },{
-          type: 'Moisture',
-          good: true,
-          data: '12%',
-          ideal: ['23','67']
-        }]
-      }],
-      chosenNode: '',
+      chosenNode: '0',
       boxes: [],
+      //placeholder data, gets updated on data fetch
       newboxes:[{
           type: 'Humidity',
           good: true,
@@ -198,18 +74,21 @@ export default {
           data: '29%',
           ideal: ['70','90']
         }],
-      nodes: {},
+      nodes: [],
       loaded: false,
-      sensors :{}
+      sensors :{},
+      items: [0,1,2,3],
+      historicalData: [],
     }
   },
   created () {
     this.fetchNodeData();
     this.fetchRecentData();
+    this.fetchHistoricalData();
   },
   mounted (){
-    // this.chosenNode = this.fakenodes[0].id
-    // this.boxes = this.fakenodes[0].boxes
+    // this.chosenNode = this.nodes
+    // this.boxes = this.newboxes
   },
   methods: {
     fetchNodeData(){
@@ -219,8 +98,7 @@ export default {
       function(data){
         self.nodes = data.sensors;
         self.chosenNode = data.sensors[0].id
-        console.log("this is real data");
-        console.log(self.nodes);        
+        console.log("this is real data");          
         self.loaded = true;
         
         self.newboxes[0].ideal[0] = data.sensors[0].humidityMin
@@ -230,8 +108,7 @@ export default {
         self.newboxes[3].ideal[0] = data.sensors[0].moistureMin
         self.newboxes[3].ideal[1] = data.sensors[0].moistureMax
         self.newboxes[1].ideal[0] = data.sensors[0].sunlightMin
-        self.newboxes[1].ideal[1] = data.sensors[0].sunlightMax
-        
+        self.newboxes[1].ideal[1] = data.sensors[0].sunlightMax        
       }
     )},
     fetchRecentData(){
@@ -239,32 +116,37 @@ export default {
       $.post(getRecentURL,
         {api_token: apiKey},
         function(data){
-          console.log("recent values")
-          console.log(data[0])
-          console.log(data[1])
-          // for(let i = 0; i < 4; i++){
+          console.log("recent values")                    
             self.sensors = data;
             self.newboxes[0].data = data[0]["humidity"]
             self.newboxes[2].data = data[0]["temperature"]
             self.newboxes[1].data = data[0]["sunlight"]
-            self.newboxes[3].data = data[0]["moisture"]
-          // }
-          
+            self.newboxes[3].data = data[0]["moisture"]                    
+        })
+    },
+    fetchHistoricalData(){
+      let self = this;
+      $.post(getHistoricalUrl, 
+        {api_token: apiKey}, 
+        function(data){
+          self.historicalData = data;
+          console.log("historicalData");
+          console.log(data);
         })
     },
     chooseNode (idx) {
       this.chosenNode = this.nodes[idx].id
       // this.boxes = this.fakenodes[idx].boxes
       console.log("index", idx);
-      console.log("sensors")
+      console.log("node was changed")
       console.log(this.nodes[idx])
       console.log(this.sensors[idx])
 
-      //hum
+      //humidity
       this.newboxes[0].ideal[0] = this.nodes[idx].humidityMin
       this.newboxes[0].ideal[1] = this.nodes[idx].humidityMax
       this.newboxes[0].data = this.sensors[idx].humidity
-      //temp
+      //temperature
       this.newboxes[2].ideal[0] = this.nodes[idx].tempMin
       this.newboxes[2].ideal[1] = this.nodes[idx].tempMax
       this.newboxes[2].data = this.sensors[idx].temperature
@@ -301,7 +183,7 @@ export default {
       return objLiteral[type]()
     },
     checkAllStatus (idx) {
-      const boxes = this.fakenodes[idx].boxes
+      // const boxes = this.fakenodes[idx].boxes
       for (let box of boxes) {
         if (!this.checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))) return false
       }
