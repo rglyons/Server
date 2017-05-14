@@ -10,7 +10,11 @@ module.exports = {
         password: req.body.password,
         sensor_count: 0,
       })
-      .then(user => res.status(201).send(user))
+      .then(user => {
+          user.password = null 
+          res.status(201).send(user)
+        }
+      )
       .catch(error => res.status(400).send(error));
   },
     
