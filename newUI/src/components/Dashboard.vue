@@ -56,23 +56,23 @@ export default {
       newboxes:[{
           type: 'Humidity',
           good: true,
-          data: '49%',
-          ideal: ['10','50']
+          data: 49,
+          ideal: [10,50]
         }, {
           type: 'Light',
           good: false,
-          data: '33%',
-          ideal: ['30','50']
+          data: 33,
+          ideal: [30,50]
         }, {
           type: 'Temperature',
           good: false,
-          data: '37&#8451;',
-          ideal: ['50', '70']
+          data: 37,//&#8451;',
+          ideal: [50, 70]
         },{
           type: 'Moisture',
           good: true,
-          data: '29%',
-          ideal: ['70','90']
+          data: 29,
+          ideal: [70,90]
         }],
       nodes: [],
       loaded: false,
