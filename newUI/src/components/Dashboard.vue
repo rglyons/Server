@@ -1,24 +1,16 @@
 <template>
   <v-container fluid class="px-4 py-3">
-    <div class="myRow border">
-    <!-- fake data below -->
-      <!-- <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
+    <!-- <div class="myRow border">
+      <div v-for="(node, index) in fakenodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
         <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="node.id" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
-      </div> -->
-      <!-- real data below -->
-    <div v-if="loaded == true">
-      <p>This is some fake content</p>
-      <div v-for="(sensor, index) in sensors" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
-          <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==sensor.id" :nodeId="sensor.id" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
+      </div>
+    </div> -->
+    <div v-if="loaded" >
+    <div class="myRow border">
+      <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
+        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="node.id" class="topBox"></top-box>
       </div>
     </div>
-
-    <div v-if="testBool">
-      <p>
-        Test test test teset testes ts e se te  es teest eset 
-      </p>    
-    </div>
-
     </div>
     <v-row class="border">
       <v-col xs12 class="border">
@@ -28,9 +20,20 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col v-for="box in boxes" xs12 sm6 lg3 class="border" :key="box.type">
-        <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)">
-        </bot-box>
+      <!-- <v-col v-for="box in boxes" xs12 sm6 lg3 class="border" :key="box.type">
+        <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)"></bot-box>
+      </v-col> -->
+      <v-col xs12 sm6 lg3 class="border" :key="newboxes[0].type">
+        <bot-box :boxType="newboxes[0].type" :data="newboxes[0].data" :ideal="parseIdealRangeHtml(newboxes[0].ideal, newboxes[0].type)"></bot-box>
+      </v-col>
+      <v-col xs12 sm6 lg3 class="border" :key="newboxes[1].type">
+        <bot-box :boxType="newboxes[1].type" :data="newboxes[1].data" :ideal="parseIdealRangeHtml(newboxes[1].ideal, newboxes[1].type)"></bot-box>
+      </v-col>
+      <v-col xs12 sm6 lg3 class="border" :key="newboxes[2].type">
+        <bot-box :boxType="newboxes[2].type" :data="newboxes[2].data" :ideal="parseIdealRangeHtml(newboxes[2].ideal, newboxes[2].type)"></bot-box>
+      </v-col>
+      <v-col xs12 sm6 lg3 class="border" :key="newboxes[3].type">
+        <bot-box :boxType="newboxes[3].type" :data="newboxes[3].data" :ideal="parseIdealRangeHtml(newboxes[3].ideal, newboxes[3].type)"></bot-box>
       </v-col>
     </v-row>
   </v-container>
@@ -40,12 +43,12 @@
 import TopBox from './TopBox.vue'
 import BotBox from './BotBox.vue'
 
-const apiKey = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
+const nobody = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
+const sustainability = "8KTSdFjzYD9Lx333rDJQv2YWSQzjmB";
+const apiKey = sustainability;
 let deployURL = "https://slugsense.herokuapp.com"
-let userURL = deployURL + "/api/users/getuser";
-let herukuUrl = "http://slugsense.herokuapp.com/api/users/getuser";
-
-let selfself = this;
+let getuserURL = deployURL + "/api/users/getuser";
+let getRecentURL = deployURL + "/api/users/sensor_readings";
 
 export default {
   name: 'test',
@@ -54,8 +57,9 @@ export default {
     'bot-box': BotBox
   },
   data () {
-    let liveData = {};
-    let fakeNodes = [{
+    return {
+      msg: 'Dashboard',
+      fakenodes: [{
         id: '49',
         boxes: [{
           type: 'Humidity',
@@ -170,54 +174,109 @@ export default {
           data: '12%',
           ideal: ['23','67']
         }]
-      }];
-    console.log("this is fake data");
-    console.log(fakeNodes);
-    return {
-      msg: 'Dashboard',
-      nodes: fakeNodes,
-      loaded : false,
-      sensors : {},
+      }],
       chosenNode: '',
       boxes: [],
-      testBool : false
+      newboxes:[{
+          type: 'Humidity',
+          good: true,
+          data: '49%',
+          ideal: ['10','50']
+        }, {
+          type: 'Light',
+          good: false,
+          data: '33%',
+          ideal: ['30','50']
+        }, {
+          type: 'Temperature',
+          good: false,
+          data: '37&#8451;',
+          ideal: ['50', '70']
+        },{
+          type: 'Moisture',
+          good: true,
+          data: '29%',
+          ideal: ['70','90']
+        }],
+      nodes: {},
+      loaded: false,
+      sensors :{}
     }
   },
   created () {
-    // console.log(this._.random(20))
-    this.fetchData()
-    console.log("Dashboard component created and data was fetched");
+    this.fetchNodeData();
+    this.fetchRecentData();
   },
   mounted (){
-    console.log("Dashboard component mounted")
-    // this.chosenNode = this.nodes[0].id
-    // this.boxes = this.nodes[0].boxes
-    // this.fetchData()
-    // console.log(this.loaded)
-    let temp = this;
-    setTimeout(function(){
-      temp.$set({testBool: true})
-      console.log("vue data updated");
-    }, 3000);
+    // this.chosenNode = this.fakenodes[0].id
+    // this.boxes = this.fakenodes[0].boxes
   },
   methods: {
-
-    fetchData(){
+    fetchNodeData(){
       var self = this;
-      $.post(herukuUrl,
+      $.post(getuserURL,
       {api_token: apiKey},
       function(data){
-        self.sensors = data.sensors;
-        this.chosenNode = data.sensors[0].id
+        self.nodes = data.sensors;
+        self.chosenNode = data.sensors[0].id
         console.log("this is real data");
-        console.log(self.sensors);        
+        console.log(self.nodes);        
         self.loaded = true;
-        console.log(self.loaded)
+        
+        self.newboxes[0].ideal[0] = data.sensors[0].humidityMin
+        self.newboxes[0].ideal[1] = data.sensors[0].humidityMax
+        self.newboxes[2].ideal[0] = data.sensors[0].tempMin
+        self.newboxes[2].ideal[1] = data.sensors[0].tempMax
+        self.newboxes[3].ideal[0] = data.sensors[0].moistureMin
+        self.newboxes[3].ideal[1] = data.sensors[0].moistureMax
+        self.newboxes[1].ideal[0] = data.sensors[0].sunlightMin
+        self.newboxes[1].ideal[1] = data.sensors[0].sunlightMax
+        
       }
     )},
+    fetchRecentData(){
+      var self = this;
+      $.post(getRecentURL,
+        {api_token: apiKey},
+        function(data){
+          console.log("recent values")
+          console.log(data[0])
+          console.log(data[1])
+          // for(let i = 0; i < 4; i++){
+            self.sensors = data;
+            self.newboxes[0].data = data[0]["humidity"]
+            self.newboxes[2].data = data[0]["temperature"]
+            self.newboxes[1].data = data[0]["sunlight"]
+            self.newboxes[3].data = data[0]["moisture"]
+          // }
+          
+        })
+    },
     chooseNode (idx) {
       this.chosenNode = this.nodes[idx].id
-      this.boxes = this.nodes[idx].boxes
+      // this.boxes = this.fakenodes[idx].boxes
+      console.log("index", idx);
+      console.log("sensors")
+      console.log(this.nodes[idx])
+      console.log(this.sensors[idx])
+
+      //hum
+      this.newboxes[0].ideal[0] = this.nodes[idx].humidityMin
+      this.newboxes[0].ideal[1] = this.nodes[idx].humidityMax
+      this.newboxes[0].data = this.sensors[idx].humidity
+      //temp
+      this.newboxes[2].ideal[0] = this.nodes[idx].tempMin
+      this.newboxes[2].ideal[1] = this.nodes[idx].tempMax
+      this.newboxes[2].data = this.sensors[idx].temperature
+      //moisture
+      this.newboxes[3].ideal[0] = this.nodes[idx].moistureMin
+      this.newboxes[3].ideal[1] = this.nodes[idx].moistureMax
+      this.newboxes[3].data = this.sensors[idx].moisture
+      //sunlight
+      this.newboxes[1].ideal[0] = this.nodes[idx].sunlightMin
+      this.newboxes[1].ideal[1] = this.nodes[idx].sunlightMax
+      this.newboxes[1].data = this.sensors[idx].sunlight
+      console.log(this.newboxes)
     },
     parseIdealRangeHtml (range, type) {
       const celsius = '&#8451;'
@@ -242,9 +301,7 @@ export default {
       return objLiteral[type]()
     },
     checkAllStatus (idx) {
-
-      return true;
-      const boxes = this.nodes[idx].boxes
+      const boxes = this.fakenodes[idx].boxes
       for (let box of boxes) {
         if (!this.checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))) return false
       }
@@ -339,4 +396,4 @@ export default {
   .myCol-lg-9 {width: 90%;}
   .myCol-lg-10 {width: 100%;}
 }
-</style>
+</style>x
