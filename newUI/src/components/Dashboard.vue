@@ -15,7 +15,7 @@
     <v-row class="border">
       <v-col xs12 class="border">
         <div class="border white--text text-xs-center mt-4 mb-4 graph">
-          <img src="../assets/mockGraph.png">
+          <hist-graph :sensor="chosenSensor"></hist-graph>
         </div>
       </v-col>
     </v-row>
@@ -24,7 +24,7 @@
         <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)"></bot-box>
       </v-col> -->
       <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
-        <bot-box :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)"></bot-box>
+        <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)"></bot-box>
       </v-col>
     </v-row>
   </v-container>
@@ -33,6 +33,7 @@
 <script>
 import TopBox from './TopBox.vue'
 import BotBox from './BotBox.vue'
+import Graph from './Graph.vue'
 
 const nobody = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
 const sustainability = "8KTSdFjzYD9Lx333rDJQv2YWSQzjmB";
@@ -45,12 +46,14 @@ export default {
   name: 'test',
   components: {
     'top-box': TopBox,
-    'bot-box': BotBox
+    'bot-box': BotBox,
+    'hist-graph': Graph
   },
   data () {
     return {
       msg: 'Dashboard',
       chosenNode: '0',
+      chosenSensor:'Humidity',
       boxes: [],
       //placeholder data, gets updated on data fetch
       newboxes:[{
@@ -98,9 +101,9 @@ export default {
       function(data){
         self.nodes = data.sensors;
         self.chosenNode = data.sensors[0].id
-        console.log("this is real data");          
+        console.log("this is real data");
         self.loaded = true;
-        
+
         self.newboxes[0].ideal[0] = data.sensors[0].humidityMin
         self.newboxes[0].ideal[1] = data.sensors[0].humidityMax
         self.newboxes[2].ideal[0] = data.sensors[0].tempMin
@@ -108,7 +111,7 @@ export default {
         self.newboxes[3].ideal[0] = data.sensors[0].moistureMin
         self.newboxes[3].ideal[1] = data.sensors[0].moistureMax
         self.newboxes[1].ideal[0] = data.sensors[0].sunlightMin
-        self.newboxes[1].ideal[1] = data.sensors[0].sunlightMax        
+        self.newboxes[1].ideal[1] = data.sensors[0].sunlightMax
       }
     )},
     fetchRecentData(){
@@ -116,18 +119,18 @@ export default {
       $.post(getRecentURL,
         {api_token: apiKey},
         function(data){
-          console.log("recent values")                    
+          console.log("recent values")
             self.sensors = data;
             self.newboxes[0].data = data[0]["humidity"]
             self.newboxes[2].data = data[0]["temperature"]
             self.newboxes[1].data = data[0]["sunlight"]
-            self.newboxes[3].data = data[0]["moisture"]                    
+            self.newboxes[3].data = data[0]["moisture"]
         })
     },
     fetchHistoricalData(){
       let self = this;
-      $.post(getHistoricalUrl, 
-        {api_token: apiKey}, 
+      $.post(getHistoricalUrl,
+        {api_token: apiKey},
         function(data){
           self.historicalData = data;
           console.log("historicalData");
@@ -160,6 +163,9 @@ export default {
       this.newboxes[1].data = this.sensors[idx].sunlight
       console.log(this.newboxes)
     },
+    chooseSensor (type) {
+        this.chosenSensor = type;
+    },
     parseIdealRangeHtml (range, type) {
       const celsius = '&#8451;'
       const fahrenheit = '&#8457;'
@@ -184,7 +190,7 @@ export default {
     },
     parseDataValue(box){
       const fahrenheit = '&#8457;'
-      if(box.type != "Temperature") 
+      if(box.type != "Temperature")
         return (box.data + "%")
       else
         return (box.data + fahrenheit)

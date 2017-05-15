@@ -151,7 +151,7 @@ export default {
   transform: translateX(0px)
   opacity: 1
 
-.slide-fade-leave-active 
+.slide-fade-leave-active
   transition: all 0.2s
 
 .slide-fade-leave-to
@@ -174,7 +174,7 @@ export default {
   height: 100%
   opacity: 0.7
 
-.slide-bar-leave-active 
+.slide-bar-leave-active
   transition: all 0.4s ease-out
 
 .slide-bar-leave-to
@@ -197,7 +197,7 @@ export default {
   transform: translateY(0px)
   opacity: 1
 
-.slide-text-leave-active 
+.slide-text-leave-active
   transition: all 0.4s ease-out
 
 .slide-text-leave-to
