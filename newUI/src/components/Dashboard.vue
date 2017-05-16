@@ -81,7 +81,7 @@ export default {
       loaded: false,
       sensors :{},
       items: [0,1,2,3],
-      historicalData: [],
+      historicalData: {},
     }
   },
   created () {
@@ -132,9 +132,22 @@ export default {
       $.post(getHistoricalUrl,
         {api_token: apiKey},
         function(data){
-          self.historicalData = data;
+          let day_avg= {};
+          let humInfo;
+          let sunInfo;
+          let tempInfo;
+          let moistureInfo;
+          for(var i=0;i<data.length;i++){
+              humInfo = data[i].map(function(a){return a['humidity']});
+              sunInfo = data[i].map(function(a){return a['sunlight']});
+              tempInfo = data[i].map(function(a){return a['temperature']});
+              moistureInfo = data[i].map(function(a){return a['moisture']});
+              day_avg[data[i][0]['id']] = {humidity:humInfo,solar:sunInfo,temperature:tempInfo,moisture:moistureInfo};
+          }
+          self.historicalData["day_avg"] = day_avg;
           console.log("historicalData");
-          console.log(data);
+          console.log(JSON.stringify(data));
+          console.log(JSON.stringify(self.historicalData));
         })
     },
     chooseNode (idx) {
