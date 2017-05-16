@@ -24,7 +24,7 @@
         <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)"></bot-box>
       </v-col> -->
       <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
-        <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)"></bot-box>
+        <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)" class="topBox"></bot-box>
       </v-col>
     </v-row>
   </v-container>
@@ -246,7 +246,7 @@ export default {
 
 .graph
   height: 300px
-  img
+  //img
     width: 100%
     height: 100%
   // background-image: url('../assets/mockGraph.png')
@@ -317,4 +317,4 @@ export default {
   .myCol-lg-9 {width: 90%;}
   .myCol-lg-10 {width: 100%;}
 }
-</style>x
+</style>

@@ -73,3 +73,7 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="sass">
+
+</style>
