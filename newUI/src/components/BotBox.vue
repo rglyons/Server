@@ -1,6 +1,12 @@
 <template>
   <v-card class="grey lighten-5 border mb-3" style="border-radius: 0px; border: none;">
-    <v-card-text class="botBox border" style="padding: 0px">
+    <v-row>
+      <v-col xs12 style="height: 12px">
+        <transition name="slide-bar">
+          <div class="chosenBorder" v-show="chosen"></div>
+        </transition>
+      </v-col>
+    </v-row>
       <v-row class="border" style="padding: 0px">
         <v-col xs12 class="border text-xs-left pl-4 headline">
           <v-row class="border">
@@ -22,7 +28,7 @@
         </v-col>
         <v-col xs12 class="border">
           <div class="infoBox pa-1 grey lighten-3 border">
-            <v-row class="border innerInfoBox" :class="{'red--text': !good, 'white--text': good}">
+            <v-row class="border innerInfoBox" :class="{'red--text': !good, 'grey--text': good}">
               <v-col xs12 class="border" style="height: 35px"></v-col>
               <v-col xs12 class="headline text-xs-left border pl-4" style="font-weight: 600">Idealy</v-col>
               <v-col xs12 class="display-1 text-xs-center border" style="font-weight: 600" v-html="ideal"></v-col>
@@ -30,7 +36,6 @@
           </div>
         </v-col>
       </v-row>
-    </v-card-text>
   </v-card>
 </template>
 
@@ -38,6 +43,10 @@
 export default {
   name: 'botBox',
   props: {
+    chosen: {
+      type: Boolean,
+      default: false
+    },
     boxType: {
       type: String,
       default: 'BoxType'
@@ -74,6 +83,10 @@ export default {
 <style scoped lang="sass">
 .border
   // border: 1px dashed grey
+  .chosenBorder
+    width: 100%
+    height: 100%
+    background-color: #51D1E1
 
 .infoBox
   height: 135px
@@ -103,4 +116,26 @@ export default {
   &:hover
     box-shadow: 2px 2px 3px #888888
 
+//---------------
+.slide-bar-enter
+  width: 0%
+  opacity: 0.2
+
+.slide-bar-enter-active
+  transition: all 0.4s ease-out
+
+.slide-bar-enter-to
+  width: 100%
+  opacity: 1
+
+.slide-bar-leave
+  height: 100%
+  opacity: 0.7
+
+.slide-bar-leave-active
+  transition: all 0.4s ease-out
+
+.slide-bar-leave-to
+  height: 0%
+  opacity: 0
 </style>
