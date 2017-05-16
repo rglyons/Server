@@ -15,7 +15,7 @@
     <v-row class="border">
       <v-col xs12 class="border">
         <div v-if="histDataLoaded" class="border white--text text-xs-center mt-4 mb-4 graph">
-          <hist-graph :sensor="chosenSensor" :dataProp="selectedData"></hist-graph>
+          <hist-graph :sensor="chosenSensor" :dataProp="historicalData[time_range][chosenNode][chosenSensor.toLowerCase()]"></hist-graph>
         </div>
       </v-col>
     </v-row>
@@ -55,14 +55,9 @@ export default {
       chosenNode: '0',
       chosenSensor:'Humidity',
       boxes: [],
+      time_range: 'day_avg',
       fakeArrayData: [1,2,3,4],
       selectedData: [1,2,3],
-      selectedData: {
-        humidity: [],
-        temperature: [],
-        sunlight: [],
-        moisture: []
-      },
       histDataLoaded: false,
       //placeholder data, gets updated on data fetch
       newboxes:[{
@@ -151,10 +146,10 @@ export default {
               sunInfo = data[i].map(function(a){return a['sunlight']});
               tempInfo = data[i].map(function(a){return a['temperature']});
               moistureInfo = data[i].map(function(a){return a['moisture']});
-              day_avg[data[i][0]['id']] = {humidity:humInfo,solar:sunInfo,temperature:tempInfo,moisture:moistureInfo};
+              day_avg[data[i][0]['id']] = {humidity:humInfo,light:sunInfo,temperature:tempInfo,moisture:moistureInfo};
           }
           self.historicalData["day_avg"] = day_avg;
-          self.selectedData = humInfo;
+          self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
           console.log("historicalData");
           console.log(JSON.stringify(data));
           console.log(data);
@@ -165,6 +160,7 @@ export default {
     },
     chooseNode (idx) {
       this.chosenNode = this.nodes[idx].id
+     // self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
       // this.boxes = this.fakenodes[idx].boxes
       console.log("index", idx);
       console.log("node was changed")
@@ -191,6 +187,7 @@ export default {
     },
     chooseSensor (type) {
         this.chosenSensor = type;
+        //self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
     },
     parseIdealRangeHtml (range, type) {
       const celsius = '&#8451;'

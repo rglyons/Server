@@ -2,9 +2,9 @@
     <v-card>
         <v-card-title style="color:#2c3e50; padding:2% 50%">
             {{sensor}}
-        </v-card-title>        
+        </v-card-title>
         <div class="ct-chart ct-minor-sixth"></div>
-    </v-card>    
+    </v-card>
 </template>
 
 <script>
@@ -28,7 +28,7 @@ export default {
   },
   created () {
     // console.log(this._.random(20))
-  }, 
+  },
   mounted(){
     console.log("data props");
     console.log(this.arrayData);
@@ -41,8 +41,8 @@ export default {
     };
 
     var options = {
-      width: 300,
-      height: 200
+      //width: 300,
+      //height: 200
     };
 
     new Chartist.Line('.ct-chart', data, options);
@@ -51,6 +51,22 @@ export default {
     // load_data: function () {
     //   this.arrayData= this.dataProp
     // }
+    dataProp: function(){
+        console.log("we in this");
+        console.log(JSON.stringify(this.dataProp));
+        var data = {
+          // A labels array that can contain any sort of values
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          // Our series array that contains series objects or in this case series data arrays
+          // series: [[5, 2, 4, 2, 0] ]
+          series: [this.dataProp]
+        };
+
+        var options = {
+        };
+
+        new Chartist.Line('.ct-chart', data, options);
+    }
   },
   methods: {
 
