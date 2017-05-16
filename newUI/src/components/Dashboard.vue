@@ -14,8 +14,8 @@
     </div>
     <v-row class="border">
       <v-col xs12 class="border">
-        <div class="border white--text text-xs-center mt-4 mb-4 graph">
-          <hist-graph :sensor="chosenSensor"></hist-graph>
+        <div v-if="histDataLoaded" class="border white--text text-xs-center mt-4 mb-4 graph">
+          <hist-graph :sensor="chosenSensor" :dataProp="selectedData"></hist-graph>
         </div>
       </v-col>
     </v-row>
@@ -55,6 +55,15 @@ export default {
       chosenNode: '0',
       chosenSensor:'Humidity',
       boxes: [],
+      fakeArrayData: [1,2,3,4],
+      selectedData: [1,2,3],
+      selectedData: {
+        humidity: [],
+        temperature: [],
+        sunlight: [],
+        moisture: []
+      },
+      histDataLoaded: false,
       //placeholder data, gets updated on data fetch
       newboxes:[{
           type: 'Humidity',
@@ -145,9 +154,13 @@ export default {
               day_avg[data[i][0]['id']] = {humidity:humInfo,solar:sunInfo,temperature:tempInfo,moisture:moistureInfo};
           }
           self.historicalData["day_avg"] = day_avg;
+          self.selectedData = humInfo;
           console.log("historicalData");
           console.log(JSON.stringify(data));
+          console.log(data);
+          console.log("historicalData")
           console.log(JSON.stringify(self.historicalData));
+          self.histDataLoaded = true;
         })
     },
     chooseNode (idx) {
