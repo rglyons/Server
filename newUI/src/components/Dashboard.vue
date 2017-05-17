@@ -19,7 +19,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row>      
+    <v-row id="bottomBoxes">      
       <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
         <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)" class="topBox"></bot-box>
       </v-col>
@@ -255,6 +255,10 @@ export default {
 </style>
 
 <style scoped>
+
+#bottomBoxes{
+  padding-top: 50px;
+}
 .myRow::after {
     content: "";
     clear: both;
