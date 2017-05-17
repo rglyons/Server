@@ -5,7 +5,7 @@
         </v-card-title>
         <v-row>
             <ul>
-                <li v-for="item in time_range_list" v-on:click="chooseTimeRange(item)"><a>{{item.message}}</a></li>
+                <li v-for="item in time_range_list" v-bind:class="{selected:timeRange==item.message}" v-on:click="chooseTimeRange(item)"><a>{{item.message}}</a></li>
             </ul>
         </v-row>
         <div class="ct-chart ct-minor-sixth"></div>
@@ -136,7 +136,10 @@ ul{
 
 li{
     display: inline-block;
-    text-align: center;
+}
+
+.selected{
+    border-bottom: 2px solid #51D1E1;
 }
 
 li a{
