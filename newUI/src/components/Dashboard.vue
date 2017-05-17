@@ -212,11 +212,12 @@ export default {
       return objLiteral[type]()
     },
     parseDataValue(box){
+      const celsius = '&#8451;'
       const fahrenheit = '&#8457;'
       if(box.type != "Temperature")
         return (box.data + "%")
       else
-        return (box.data + fahrenheit)
+        return (box.data + celsius)
     },
     getNodeName(n){
       if(n.name) return n.name+""
