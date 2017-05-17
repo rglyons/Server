@@ -81,8 +81,8 @@ export default {
 <style scoped>
 .ct-chart{
   margin: auto;
-  height: 60%;
-  width: 60%;
+  height: 65%;
+  width: 65%;
 }
 #myGraph{
   padding-bottom: -30px;

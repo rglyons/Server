@@ -8,7 +8,7 @@
     <!-- <div v-if="loaded" > -->
     <div class="myRow border">
       <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
-        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="getNodeName(node)" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
+        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="getNodeName(node)" :allIdeal="checkNodeStatus(index)" class="topBox"></top-box>
       </div>
     </div>
     <!-- </div> -->
@@ -34,7 +34,7 @@ import Graph from './Graph.vue'
 
 const nobody = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
 const sustainability = "8KTSdFjzYD9Lx333rDJQv2YWSQzjmB";
-const apiKey = nobody;
+const apiKey = sustainability;
 let deployURL = "https://slugsense.herokuapp.com"
 let getuserURL = deployURL + "/api/users/getuser";
 let getRecentURL = deployURL + "/api/users/sensor_readings";
@@ -103,6 +103,7 @@ export default {
         self.nodes = data.sensors;
         self.chosenNode = data.sensors[0].id
         console.log("this is real data");
+        console.log(JSON.stringify(data.sensors));
         self.loaded = true;
 
         self.newboxes[0].ideal[0] = data.sensors[0].humidityMin
@@ -121,6 +122,7 @@ export default {
         {api_token: apiKey},
         function(data){
           console.log("recent values")
+          console.log(JSON.stringify(data));
             self.sensors = data;
             self.newboxes[0].data = data[0]["humidity"]
             self.newboxes[2].data = data[0]["temperature"]
@@ -232,6 +234,17 @@ export default {
     },
     checkBoxStatus(box){
       return this.checkStatus(box.ideal, box.data);
+    },
+    checkNodeStatus(idx){
+        if(this.sensors[idx]["humidity"]<this.nodes[idx].humidityMin || this.sensors[idx]["humidity"]>this.nodes[idx].humidityMax)
+            return false;
+        if(this.sensors[idx]["sunlight"]<this.nodes[idx].sunlightMin || this.sensors[idx]["sunlight"]>this.nodes[idx].sunlightMax)
+            return false;
+        if(this.sensors[idx]["temperature"]<this.nodes[idx].tempMin || this.sensors[idx]["temperature"]>this.nodes[idx].tempMax)
+            return false;
+        if(this.sensors[idx]["moisture"]<this.nodes[idx].moistureMin || this.sensors[idx]["moisture"]>this.nodes[idx].moistureMax)
+            return false;
+        return true;
     },
   }
 }
