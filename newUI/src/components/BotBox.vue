@@ -1,5 +1,5 @@
 <template>
-  <v-card class="grey lighten-5 border mb-3" style="border-radius: 0px; border: none;">
+  <v-card class="grey lighten-5 border mb-3 botBox" style="border-radius: 0px; border: none;">
     <v-row>
       <v-col xs12 style="height: 12px">
         <transition name="slide-bar">
@@ -114,7 +114,7 @@ export default {
   transition: all 0.5s ease-in
   border-top: 15px #FAFAFA solid
   &:hover
-    box-shadow: 2px 2px 3px #888888
+    box-shadow: 4px 4px 8px #888888
 
 //---------------
 .slide-bar-enter
