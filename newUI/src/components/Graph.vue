@@ -1,8 +1,13 @@
 <template>
     <v-card id="myGraph">
-        <v-card-title style="color:#2c3e50; padding:2% 50%">
+        <v-card-title style="color:#2c3e50; padding:2% 46%">
             {{sensor}}
         </v-card-title>
+        <v-row>
+            <ul>
+                <li v-for="item in time_range_list" v-on:click="chooseTimeRange(item)"><a>{{item.message}}</a></li>
+            </ul>
+        </v-row>
         <div class="ct-chart ct-minor-sixth"></div>
     </v-card>
 </template>
@@ -15,15 +20,24 @@ export default {
       type: String,
       default: 'Humidity'
     },
+    node:{
+        type: Number,
+        default: 0
+    },
     dataProp: {
-      type: Array,
-      default: function () { return [] }
-    }
+      type: Object,
+      default: function () { return {} }
+    },
   },
   data () {
     return {
       msg: 'Template or Testing page',
-      arrayData: this.dataProp
+      arrayData: this.dataProp,
+      timeRange: 'Day',
+      time_range_list:[
+          {message: "Day"},
+          {message: "Week"}
+      ],
     }
   },
   created () {
@@ -37,7 +51,7 @@ export default {
       labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
       // Our series array that contains series objects or in this case series data arrays
       // series: [[5, 2, 4, 2, 0] ]
-      series: [this.arrayData]
+      series: [this.arrayData[this.timeRange][this.node][this.sensor.toLowerCase()]]
     };
 
     var options = {
@@ -51,15 +65,47 @@ export default {
     // load_data: function () {
     //   this.arrayData= this.dataProp
     // }
-    dataProp: function(){
+    sensor: function(){
         console.log("we in this");
-        console.log(JSON.stringify(this.dataProp));
+        console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
         var data = {
           // A labels array that can contain any sort of values
           labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
           // Our series array that contains series objects or in this case series data arrays
           // series: [[5, 2, 4, 2, 0] ]
-          series: [this.dataProp]
+          series: [this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]]
+        };
+
+        var options = {
+        };
+
+        new Chartist.Line('.ct-chart', data, options);
+    },
+    node: function(){
+        console.log("we in this");
+        console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
+        var data = {
+          // A labels array that can contain any sort of values
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          // Our series array that contains series objects or in this case series data arrays
+          // series: [[5, 2, 4, 2, 0] ]
+          series: [this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]]
+        };
+
+        var options = {
+        };
+
+        new Chartist.Line('.ct-chart', data, options);
+    },
+    timeRange: function(){
+        console.log("we in this");
+        console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
+        var data = {
+          // A labels array that can contain any sort of values
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          // Our series array that contains series objects or in this case series data arrays
+          // series: [[5, 2, 4, 2, 0] ]
+          series: [this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]]
         };
 
         var options = {
@@ -69,7 +115,10 @@ export default {
     }
   },
   methods: {
-
+      chooseTimeRange (item){
+          this.timeRange = item.message;
+          console.log(this.timeRange);
+      },
   }
 }
 </script>
@@ -79,6 +128,22 @@ export default {
 </style>
 
 <style scoped>
+ul{
+    margin-left: 45%;
+    margin-bottom: 1%;
+    display: inline-block;
+}
+
+li{
+    display: inline-block;
+    text-align: center;
+}
+
+li a{
+    padding-right: 15%;
+    color: black;
+}
+
 .ct-chart{
   margin: auto;
   height: 65%;
