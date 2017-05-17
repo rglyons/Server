@@ -46,9 +46,14 @@ export default {
   mounted(){
     console.log("data props");
     console.log(this.arrayData);
+    var labels = [];
+    for(var i=1;i<=this.arrayData[this.timeRange][this.node][this.sensor.toLowerCase()].length;i++){
+        labels.push(i);
+    }
     var data = {
       // A labels array that can contain any sort of values
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+
+      labels: labels,
       // Our series array that contains series objects or in this case series data arrays
       // series: [[5, 2, 4, 2, 0] ]
       series: [this.arrayData[this.timeRange][this.node][this.sensor.toLowerCase()]]
@@ -66,11 +71,15 @@ export default {
     //   this.arrayData= this.dataProp
     // }
     sensor: function(){
-        console.log("we in this");
-        console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
+        //console.log("we in this");
+        //console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
+        var labels = [];
+        for(var i=1;i<=this.arrayData[this.timeRange][this.node][this.sensor.toLowerCase()].length;i++){
+            labels.push(i);
+        }
         var data = {
           // A labels array that can contain any sort of values
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          labels: labels,
           // Our series array that contains series objects or in this case series data arrays
           // series: [[5, 2, 4, 2, 0] ]
           series: [this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]]
@@ -82,11 +91,15 @@ export default {
         new Chartist.Line('.ct-chart', data, options);
     },
     node: function(){
-        console.log("we in this");
-        console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
+        //console.log("we in this");
+        //console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
+        var labels = [];
+        for(var i=1;i<=this.arrayData[this.timeRange][this.node][this.sensor.toLowerCase()].length;i++){
+            labels.push(i);
+        }
         var data = {
           // A labels array that can contain any sort of values
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          labels: labels,
           // Our series array that contains series objects or in this case series data arrays
           // series: [[5, 2, 4, 2, 0] ]
           series: [this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]]
@@ -98,11 +111,15 @@ export default {
         new Chartist.Line('.ct-chart', data, options);
     },
     timeRange: function(){
-        console.log("we in this");
-        console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
+        //console.log("we in this");
+        //console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
+        var labels = [];
+        for(var i=1;i<=this.arrayData[this.timeRange][this.node][this.sensor.toLowerCase()].length;i++){
+            labels.push(i);
+        }
         var data = {
           // A labels array that can contain any sort of values
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          labels: labels,
           // Our series array that contains series objects or in this case series data arrays
           // series: [[5, 2, 4, 2, 0] ]
           series: [this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]]
