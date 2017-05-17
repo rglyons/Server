@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card id="myGraph">
         <v-card-title style="color:#2c3e50; padding:2% 50%">
             {{sensor}}
         </v-card-title>
@@ -76,4 +76,15 @@ export default {
 
 <style scoped lang="sass">
 
+</style>
+
+<style scoped>
+.ct-chart{
+  margin: auto;
+  height: 75%;
+  width: 75%;
+}
+#myGraph{
+  padding-bottom: 30px;
+}
 </style>

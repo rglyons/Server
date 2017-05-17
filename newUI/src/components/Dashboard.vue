@@ -5,13 +5,13 @@
         <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="node.id" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
       </div>
     </div> -->
-    <div v-if="loaded" >
+    <!-- <div v-if="loaded" > -->
     <div class="myRow border">
       <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
-        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="node.id" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
+        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="getNodeName(node)" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
       </div>
     </div>
-    </div>
+    <!-- </div> -->
     <v-row class="border">
       <v-col xs12 class="border">
         <div v-if="histDataLoaded" class="border white--text text-xs-center mt-4 mb-4 graph">
@@ -19,10 +19,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row>
-      <!-- <v-col v-for="box in boxes" xs12 sm6 lg3 class="border" :key="box.type">
-        <bot-box :boxType="box.type" :good="checkStatus(box.ideal, parseInt(box.data.substring(0, 2)))" :data="box.data" :ideal="parseIdealRangeHtml(box.ideal, box.type)"></bot-box>
-      </v-col> -->
+    <v-row>      
       <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
         <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)" class="topBox"></bot-box>
       </v-col>
@@ -218,6 +215,10 @@ export default {
       else
         return (box.data + fahrenheit)
     },
+    getNodeName(n){
+      if(n.name) return n.name+""
+        return n.id+""
+    },
     checkAllStatus (idx) {
       const boxes = this.newboxes
       for (let box of boxes) {
@@ -249,6 +250,7 @@ export default {
   //img
     width: 100%
     height: 100%
+    padding-bottom: 50px;
   // background-image: url('../assets/mockGraph.png')
 </style>
 

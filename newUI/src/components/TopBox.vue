@@ -57,7 +57,7 @@ export default {
       default: false
     },
     nodeId: {
-      type: Number,
+      type: String,
       default: 'Loading'
     },
     allIdeal: {
