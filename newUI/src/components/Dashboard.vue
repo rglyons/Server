@@ -35,7 +35,7 @@ import Graph from './Graph.vue'
 const nobody = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
 const sustainability = "8KTSdFjzYD9Lx333rDJQv2YWSQzjmB";
 const apiKey = sustainability;
-let deployURL = "https://slugsense.herokuapp.com"
+let deployURL = "https://slugsense.herokuapp.com";
 let getuserURL = deployURL + "/api/users/getuser";
 let getRecentURL = deployURL + "/api/users/sensor_readings";
 let getHistoricalUrl = deployURL + "/api/users/day_avg";
