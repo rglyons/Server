@@ -1,14 +1,14 @@
 <template>
     <v-card id="myGraph">
-        <v-card-title style="color:#2c3e50; padding:2% 46%">
+        <!-- <v-card-title style="color:#2c3e50; padding:2% 46%">
             {{sensor}}
-        </v-card-title>
+        </v-card-title> -->
         <v-row>
             <ul>
                 <li v-for="item in time_range_list" v-bind:class="{selected:timeRange==item.message}" v-on:click="chooseTimeRange(item)"><a>{{item.message}}</a></li>
             </ul>
         </v-row>
-        <div class="ct-chart ct-minor-sixth"></div>
+        <div class="ct-chart ct-major-twelfth"></div>
     </v-card>
 </template>
 
@@ -33,7 +33,7 @@ export default {
   data () {
     return {
       msg: 'Template or Testing page',
-      arrayData: this.dataProp,      
+      arrayData: this.dataProp,
       options:{},
       timeRange: 'Day',
       time_range_list:[
@@ -45,7 +45,7 @@ export default {
   created () {
     // console.log(this._.random(20))
   },
-  mounted(){    
+  mounted(){
     this.updateGraph();
   },
   watch: {
@@ -71,7 +71,7 @@ export default {
             })
 
         let unit = "%";
-        if(this.sensor == 'Temperature'){          
+        if(this.sensor == 'Temperature'){
           unit = "\u2103"
         }
 
@@ -86,7 +86,7 @@ export default {
             textAnchor: 'middle'
           },
           axisY: {
-            axisTitle: "value (" + unit +")",
+            axisTitle: this.sensor + " (" + unit +")",
             axisClass: 'ct-axis-title',
             offset: {
               x: 0,
@@ -106,7 +106,7 @@ export default {
         console.log(this.sensor);
         //console.log("we in this");
         //console.log(JSON.stringify(this.dataProp[this.timeRange][this.node][this.sensor.toLowerCase()]));
-             
+
 
         var labels = [];
         for(var i=1;i<=this.arrayData[this.timeRange][this.node][this.sensor.toLowerCase()].length;i++){
@@ -122,9 +122,12 @@ export default {
           plugins: plugins,
           //width: 300,
           //height: 200
+          fullWidth: true,
           chartPadding:{
-            // right: 20,
-            top: 40,
+            top: 20,
+            right: 20,
+            bottom: 40,
+            left: 15,
           }
         };
 
@@ -141,7 +144,8 @@ export default {
 <style scoped>
 ul{
     margin-left: 45%;
-    margin-bottom: 1%;
+    margin-top: 1%;
+    /*margin-bottom: 1%;*/
     display: inline-block;
 }
 
@@ -160,8 +164,12 @@ li a{
 
 .ct-chart{
   margin: auto;
-  height: 65%;
-  width: 65%;
+  height: 90%;
+  width:90%;
+}
+text.ct-axis-title{
+  padding: 10%;
+  margin: 10%;
 }
 #myGraph{
   padding-bottom: -30px;
