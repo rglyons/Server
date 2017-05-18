@@ -30,8 +30,13 @@
           <div class="infoBox pa-1 grey lighten-3 border">
             <v-row class="border innerInfoBox" :class="{'red--text': !good, 'grey--text': good}">
               <v-col xs12 class="border" style="height: 35px"></v-col>
-              <v-col xs12 class="headline text-xs-left border pl-4" style="font-weight: 600">Idealy</v-col>
+              <v-col xs12 class="headline text-xs-left border pl-4" style="font-weight: 600">Ideally</v-col>
               <v-col xs12 class="display-1 text-xs-center border" style="font-weight: 600" v-html="ideal"></v-col>
+              <transition name="slide-fade">
+                <v-col xs4 class="pl-0 icon" @click.stop="editName" v-show="chosen">
+                  <v-icon>edit</v-icon>
+                </v-col>
+              </transition>
             </v-row>
           </div>
         </v-col>

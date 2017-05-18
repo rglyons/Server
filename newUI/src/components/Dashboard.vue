@@ -18,11 +18,11 @@
     <v-row class="border">
       <v-col xs12 class="border">
         <div v-if="histDataLoaded" class="border white--text text-xs-center mt-4 mb-4 graph">
-          <hist-graph :sensor="chosenSensor" :dataProp="historicalData[time_range][chosenNode][chosenSensor.toLowerCase()]"></hist-graph>
+          <hist-graph :sensor="chosenSensor" :node="chosenNode" :dataProp="historicalData"></hist-graph>
         </div>
       </v-col>
     </v-row>
-    <v-row id="bottomBoxes">      
+    <v-row id="bottomBoxes">
       <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
         <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)" class="topBox"></bot-box>
       </v-col>
@@ -37,7 +37,7 @@ import Graph from './Graph.vue'
 
 const nobody = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
 const sustainability = "8KTSdFjzYD9Lx333rDJQv2YWSQzjmB";
-const apiKey = sustainability;
+const apiKey = nobody;
 let deployURL = "https://slugsense.herokuapp.com";
 let getuserURL = deployURL + "/api/users/getuser";
 let getRecentURL = deployURL + "/api/users/sensor_readings";
@@ -154,8 +154,9 @@ export default {
               moistureInfo = data[i].map(function(a){return a['moisture']});
               day_avg[data[i][0]['id']] = {humidity:humInfo,light:sunInfo,temperature:tempInfo,moisture:moistureInfo};
           }
-          self.historicalData["day_avg"] = day_avg;
-          self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
+          self.historicalData["Day"] = day_avg;
+          self.historicalData["Week"] = {49:{humidity:[1,2,3],light:[4,20],temperature:[6,9,69],moisture:[3,2,1]}};
+          //self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
           console.log("historicalData");
           console.log(JSON.stringify(data));
           console.log(data);
@@ -219,11 +220,12 @@ export default {
       return objLiteral[type]()
     },
     parseDataValue(box){
+      const celsius = '&#8451;'
       const fahrenheit = '&#8457;'
       if(box.type != "Temperature")
         return (box.data + "%")
       else
-        return (box.data + fahrenheit)
+        return (box.data + celsius)
     },
     getNodeName(n){
       if(n.name) return n.name+""
