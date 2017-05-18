@@ -8,6 +8,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'histGraph',
   props: {
@@ -23,29 +24,68 @@ export default {
   data () {
     return {
       msg: 'Template or Testing page',
-      arrayData: this.dataProp
+      arrayData: this.dataProp,
+      labelArray: [],
+      options:{}
     }
   },
   created () {
     // console.log(this._.random(20))
   },
   mounted(){
+    var PointLabels = Chartist.plugins.ctPointLabels({
+      textAnchor: 'middle',
+      labelInterpolationFnc: function (value) {
+        return value.toFixed(1)
+      }
+    })
+
+    var AxisTitlePlugin = Chartist.plugins.ctAxisTitle({
+      axisX: {
+        axisTitle: 'Time (hours)',
+        axisClass: 'ct-axis-title',
+        offset: {
+          x: 0,
+          y: 26
+        },
+        textAnchor: 'middle'
+      },
+      axisY: {
+        axisTitle: 'Value (%)',
+        axisClass: 'ct-axis-title',
+        offset: {
+          x: 0,
+          y: 0
+        },
+        textAnchor: 'middle',
+        flipTitle: false
+      }
+    })
+    var plugins = [PointLabels, AxisTitlePlugin]
+
+
     console.log("data props");
     console.log(this.arrayData);
+    // var labelArray = [];
+    for(var i=0; i<this.arrayData.length;i++){
+            this.labelArray[i] = i;
+    }
     var data = {
-      // A labels array that can contain any sort of values
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-      // Our series array that contains series objects or in this case series data arrays
-      // series: [[5, 2, 4, 2, 0] ]
+      labels: this.labelArray,
       series: [this.arrayData]
     };
 
-    var options = {
+    this.options = {
+      plugins: plugins,
       //width: 300,
       //height: 200
+      chartPadding:{
+        // right: 20,
+        top: 40,
+      }
     };
 
-    new Chartist.Line('.ct-chart', data, options);
+    new Chartist.Line('.ct-chart', data, this.options);
   },
   watch: {
     // load_data: function () {
@@ -56,7 +96,8 @@ export default {
         console.log(JSON.stringify(this.dataProp));
         var data = {
           // A labels array that can contain any sort of values
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          // labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          labels: this.labelArray,
           // Our series array that contains series objects or in this case series data arrays
           // series: [[5, 2, 4, 2, 0] ]
           series: [this.dataProp]
@@ -65,7 +106,7 @@ export default {
         var options = {
         };
 
-        new Chartist.Line('.ct-chart', data, options);
+        new Chartist.Line('.ct-chart', data, this.options);
     }
   },
   methods: {

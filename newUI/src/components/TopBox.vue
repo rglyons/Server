@@ -58,7 +58,7 @@ export default {
     },
     nodeId: {
       type: String,
-      default: 'Add a new node'
+      default: '+ Node'
     },
     allIdeal: {
       type: Boolean,

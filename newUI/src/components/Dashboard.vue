@@ -8,7 +8,10 @@
     <!-- <div v-if="loaded" > -->
     <div class="myRow border">
       <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
-        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="getNodeName(node)" :allIdeal="checkNodeStatus(index)" class="topBox"></top-box>
+        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id && !addingNode" :nodeId="getNodeName(node)" :allIdeal="checkNodeStatus(index)" class="topBox"></top-box>
+      </div>
+      <div class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
+        <top-box @click.native.stop="addNode()" :chosen="addingNode" class="topBox"></top-box>
       </div>
     </div>
     <!-- </div> -->
@@ -81,6 +84,7 @@ export default {
       nodes: [],
       loaded: false,
       sensors :{},
+      addingNode: false,
       items: [0,1,2,3],
       historicalData: {},
     }
@@ -95,6 +99,9 @@ export default {
     // this.boxes = this.newboxes
   },
   methods: {
+    addNode(){
+      this.addingNode = true;      
+    },
     fetchNodeData(){
       var self = this;
       $.post(getuserURL,
@@ -158,6 +165,7 @@ export default {
         })
     },
     chooseNode (idx) {
+      this.addingNode = false;
       this.chosenNode = this.nodes[idx].id
      // self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
       // this.boxes = this.fakenodes[idx].boxes
