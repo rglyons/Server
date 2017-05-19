@@ -5,7 +5,7 @@
         <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id" :nodeId="node.id" :allIdeal="checkAllStatus(index)" class="topBox"></top-box>
       </div>
     </div> -->
-    <!-- <div v-if="loaded" > -->
+    <div v-if="loaded" >
     <div class="myRow border">
       <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border" :key="index">
         <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id && !addingNode" :id="node.id" :nodeId="getNodeName(node)" :apiKey="apiKey" :allIdeal="checkNodeStatus(index)" class="topBox"></top-box>
@@ -14,7 +14,7 @@
         <top-box @click.native.stop="addNode()" :chosen="addingNode" class="topBox"></top-box>
       </div>
     </div>
-    <!-- </div> -->
+    </div>
     <v-row class="border">
       <v-col xs12 class="border">
         <div v-if="histDataLoaded" class="border white--text text-xs-center mt-4 mb-4 graph">
