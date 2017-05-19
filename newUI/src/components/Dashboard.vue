@@ -8,7 +8,7 @@
     <!-- <div v-if="loaded" > -->
     <div class="myRow border">
       <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
-        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id && !addingNode" :nodeId="getNodeName(node)" :allIdeal="checkNodeStatus(index)" class="topBox"></top-box>
+        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id && !addingNode" :id="node.id" :nodeId="getNodeName(node)" :apiKey="apiKey":allIdeal="checkNodeStatus(index)" class="topBox"></top-box>
       </div>
       <div class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
         <top-box @click.native.stop="addNode()" :chosen="addingNode" class="topBox"></top-box>
@@ -24,7 +24,7 @@
     </v-row>
     <v-row id="bottomBoxes">
       <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
-        <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)" class="topBox"></bot-box>
+        <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)" :min="newboxes[i].ideal[0]" :max="newboxes[i].ideal[1]" class="topBox"></bot-box>
       </v-col>
     </v-row>
   </v-container>
@@ -59,6 +59,9 @@ export default {
       fakeArrayData: [1,2,3,4],
       selectedData: [1,2,3],
       histDataLoaded: false,
+      nobody: "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos",
+      sustainability: "8KTSdFjzYD9Lx333rDJQv2YWSQzjmB",
+      apiKey: nobody,
       //placeholder data, gets updated on data fetch
       newboxes:[{
           type: 'Humidity',
@@ -100,7 +103,7 @@ export default {
   },
   methods: {
     addNode(){
-      this.addingNode = true;      
+      this.addingNode = true;
     },
     fetchNodeData(){
       var self = this;
