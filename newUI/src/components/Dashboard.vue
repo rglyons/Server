@@ -7,8 +7,8 @@
     </div> -->
     <!-- <div v-if="loaded" > -->
     <div class="myRow border">
-      <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
-        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id && !addingNode" :nodeId="getNodeName(node)" :allIdeal="checkNodeStatus(index)" class="topBox"></top-box>
+      <div v-for="(node, index) in nodes" class="myCol-xs-10 myCol-sm-5 myCol-md-2 border" :key="index">
+        <top-box @click.native.stop="chooseNode(index)" :chosen="chosenNode==node.id && !addingNode" :id="node.id" :nodeId="getNodeName(node)" :apiKey="apiKey" :allIdeal="checkNodeStatus(index)" class="topBox"></top-box>
       </div>
       <div class="myCol-xs-10 myCol-sm-5 myCol-md-2 border">
         <top-box @click.native.stop="addNode()" :chosen="addingNode" class="topBox"></top-box>
@@ -24,7 +24,7 @@
     </v-row>
     <v-row id="bottomBoxes">
       <v-col xs12 v-for="i in items" sm6 lg3 class="border" :key="newboxes[i].type">
-        <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)" class="topBox"></bot-box>
+        <bot-box @click.native.stop="chooseSensor(newboxes[i].type)" :chosen="chosenSensor==newboxes[i].type" :boxType="newboxes[i].type" :data="parseDataValue(newboxes[i])" :good="checkBoxStatus(newboxes[i])" :ideal=" parseIdealRangeHtml(newboxes[i].ideal, newboxes[i].type)" :min="newboxes[i].ideal[0]" :max="newboxes[i].ideal[1]" class="topBox"></bot-box>
       </v-col>
     </v-row>
   </v-container>
@@ -35,13 +35,13 @@ import TopBox from './TopBox.vue'
 import BotBox from './BotBox.vue'
 import Graph from './Graph.vue'
 
-const nobody = "sVT9PgIDO6TlTMb0XOvIpHGpZuzTos";
-const sustainability = "8KTSdFjzYD9Lx333rDJQv2YWSQzjmB";
+const nobody = 'sVT9PgIDO6TlTMb0XOvIpHGpZuzTos';
+const sustainability = '8KTSdFjzYD9Lx333rDJQv2YWSQzjmB';
 const apiKey = sustainability;
-let deployURL = "https://slugsense.herokuapp.com";
-let getuserURL = deployURL + "/api/users/getuser";
-let getRecentURL = deployURL + "/api/users/sensor_readings";
-let getHistoricalUrl = deployURL + "/api/users/day_avg";
+let deployURL = 'https://slugsense.herokuapp.com';
+let getuserURL = deployURL + '/api/users/getuser';
+let getRecentURL = deployURL + '/api/users/sensor_readings';
+let getHistoricalUrl = deployURL + '/api/users/day_avg';
 export default {
   name: 'test',
   components: {
@@ -59,6 +59,9 @@ export default {
       fakeArrayData: [1,2,3,4],
       selectedData: [1,2,3],
       histDataLoaded: false,
+      nobody: 'sVT9PgIDO6TlTMb0XOvIpHGpZuzTos',
+      sustainability: '8KTSdFjzYD9Lx333rDJQv2YWSQzjmB',
+      apiKey: nobody,
       //placeholder data, gets updated on data fetch
       newboxes:[{
           type: 'Humidity',
@@ -81,9 +84,9 @@ export default {
           data: 29,
           ideal: [70,90]
         }],
-      nodes: [],
+      nodes: ['loading'],
       loaded: false,
-      sensors :{},
+      sensors: {},
       addingNode: false,
       items: [0,1,2,3],
       historicalData: {},
@@ -103,95 +106,94 @@ export default {
       this.addingNode = true;
     },
     fetchNodeData(){
-      var self = this;
       $.post(getuserURL,
-      {api_token: apiKey},
-      function(data){
-        self.nodes = data.sensors;
-        self.chosenNode = data.sensors[0].id
-        console.log("this is real data");
-        console.log(JSON.stringify(data.sensors));
-        self.loaded = true;
+        {api_token: apiKey},
+        (data) => {
+          this.nodes = data.sensors;
+          this.chosenNode = data.sensors[0].id
+          console.log('this is real data');
+          // console.log(JSON.stringify(data.sensors));
+          this.loaded = true;
 
-        self.newboxes[0].ideal[0] = data.sensors[0].humidityMin
-        self.newboxes[0].ideal[1] = data.sensors[0].humidityMax
-        self.newboxes[2].ideal[0] = data.sensors[0].tempMin
-        self.newboxes[2].ideal[1] = data.sensors[0].tempMax
-        self.newboxes[3].ideal[0] = data.sensors[0].moistureMin
-        self.newboxes[3].ideal[1] = data.sensors[0].moistureMax
-        self.newboxes[1].ideal[0] = data.sensors[0].sunlightMin
-        self.newboxes[1].ideal[1] = data.sensors[0].sunlightMax
-      }
+          this.newboxes[0].ideal[0] = data.sensors[0].humidityMin
+          this.newboxes[0].ideal[1] = data.sensors[0].humidityMax
+          this.newboxes[2].ideal[0] = data.sensors[0].tempMin
+          this.newboxes[2].ideal[1] = data.sensors[0].tempMax
+          this.newboxes[3].ideal[0] = data.sensors[0].moistureMin
+          this.newboxes[3].ideal[1] = data.sensors[0].moistureMax
+          this.newboxes[1].ideal[0] = data.sensors[0].sunlightMin
+          this.newboxes[1].ideal[1] = data.sensors[0].sunlightMax
+        }
     )},
     fetchRecentData(){
-      var self = this;
       $.post(getRecentURL,
         {api_token: apiKey},
-        function(data){
-          console.log("recent values")
-          console.log(JSON.stringify(data));
-            self.sensors = data;
-            self.newboxes[0].data = data[0]["humidity"]
-            self.newboxes[2].data = data[0]["temperature"]
-            self.newboxes[1].data = data[0]["sunlight"]
-            self.newboxes[3].data = data[0]["moisture"]
+        (data) => {
+          console.log('recent values')
+          // console.log(JSON.stringify(data));
+            this.sensors = data;
+            this.newboxes[0].data = data[0]['humidity']
+            this.newboxes[2].data = data[0]['temperature']
+            this.newboxes[1].data = data[0]['sunlight']
+            this.newboxes[3].data = data[0]['moisture']
         })
     },
     fetchHistoricalData(){
-      let self = this;
       $.post(getHistoricalUrl,
         {api_token: apiKey},
-        function(data){
+        (data) => {
           let day_avg= {};
           let humInfo;
           let sunInfo;
           let tempInfo;
           let moistureInfo;
-          for(var i=0;i<data.length;i++){
-              humInfo = data[i].map(function(a){return a['humidity']});
-              sunInfo = data[i].map(function(a){return a['sunlight']});
-              tempInfo = data[i].map(function(a){return a['temperature']});
-              moistureInfo = data[i].map(function(a){return a['moisture']});
-              day_avg[data[i][0]['id']] = {humidity:humInfo,light:sunInfo,temperature:tempInfo,moisture:moistureInfo};
+          for(let d of data){
+              humInfo = d.map((a) => {return a['humidity']});
+              sunInfo = d.map((a) => {return a['sunlight']});
+              tempInfo = d.map((a) => {return a['temperature']});
+              moistureInfo = d.map((a) => {return a['moisture']});
+              day_avg[d[0]['id']] = {humidity:humInfo,light:sunInfo,temperature:tempInfo,moisture:moistureInfo};
           }
-          self.historicalData["Day"] = day_avg;
-          self.historicalData["Week"] = {49:{humidity:[1,2,3],light:[4,20],temperature:[6,9,69],moisture:[3,2,1]}};
+          this.historicalData['Day'] = day_avg;
+          this.historicalData['Week'] = {49:{humidity:[1,2,3],light:[4,20],temperature:[6,9,69],moisture:[3,2,1]}};
           //self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
-          console.log("historicalData");
-          console.log(JSON.stringify(data));
-          console.log(data);
-          console.log("historicalData")
-          console.log(JSON.stringify(self.historicalData));
-          self.histDataLoaded = true;
+          // console.log('historicalData');
+          // console.log(JSON.stringify(data));
+          // console.log(data);
+          // console.log('historicalData')
+          // console.log(JSON.stringify(this.historicalData));
+          this.histDataLoaded = true;
         })
     },
     chooseNode (idx) {
+      const chosenNode = this.nodes[idx]
+      const newBoxes = this.newboxes
       this.addingNode = false;
-      this.chosenNode = this.nodes[idx].id
+      this.chosenNode = chosenNode.id
      // self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
       // this.boxes = this.fakenodes[idx].boxes
-      console.log("index", idx);
-      console.log("node was changed")
-      console.log(this.nodes[idx])
-      console.log(this.sensors[idx])
+      // console.log('index', idx);
+      // console.log('node was changed')
+      // console.log(this.nodes[idx])
+      // console.log(this.sensors[idx])
 
       //humidity
-      this.newboxes[0].ideal[0] = this.nodes[idx].humidityMin
-      this.newboxes[0].ideal[1] = this.nodes[idx].humidityMax
-      this.newboxes[0].data = this.sensors[idx].humidity
+      newBoxes[0].ideal[0] = chosenNode.humidityMin
+      newBoxes[0].ideal[1] = chosenNode.humidityMax
+      newBoxes[0].data = this.sensors[idx].humidity
       //temperature
-      this.newboxes[2].ideal[0] = this.nodes[idx].tempMin
-      this.newboxes[2].ideal[1] = this.nodes[idx].tempMax
-      this.newboxes[2].data = this.sensors[idx].temperature
+      newBoxes[2].ideal[0] = chosenNode.tempMin
+      newBoxes[2].ideal[1] = chosenNode.tempMax
+      newBoxes[2].data = this.sensors[idx].temperature
       //moisture
-      this.newboxes[3].ideal[0] = this.nodes[idx].moistureMin
-      this.newboxes[3].ideal[1] = this.nodes[idx].moistureMax
-      this.newboxes[3].data = this.sensors[idx].moisture
+      newBoxes[3].ideal[0] = chosenNode.moistureMin
+      newBoxes[3].ideal[1] = chosenNode.moistureMax
+      newBoxes[3].data = this.sensors[idx].moisture
       //sunlight
-      this.newboxes[1].ideal[0] = this.nodes[idx].sunlightMin
-      this.newboxes[1].ideal[1] = this.nodes[idx].sunlightMax
-      this.newboxes[1].data = this.sensors[idx].sunlight
-      console.log(this.newboxes)
+      newBoxes[1].ideal[0] = chosenNode.sunlightMin
+      newBoxes[1].ideal[1] = chosenNode.sunlightMax
+      newBoxes[1].data = this.sensors[idx].sunlight
+      // console.log(this.newboxes)
     },
     chooseSensor (type) {
         this.chosenSensor = type;
@@ -222,22 +224,24 @@ export default {
     parseDataValue(box){
       const celsius = '&#8451;'
       const fahrenheit = '&#8457;'
-      if(box.type != "Temperature")
-        return (box.data + "%")
+      if(box.type != 'Temperature')
+        return (box.data + '%')
       else
         return (box.data + celsius)
     },
     getNodeName(n){
-      if(n.name) return n.name+""
-        return n.id+""
+      // console.log(n)
+      // console.log(n.name)
+      if(n.name) return n.name+''
+        return n.id+''
     },
-    checkAllStatus (idx) {
-      const boxes = this.newboxes
-      for (let box of boxes) {
-        if (!this.checkStatus(box.ideal, box.data)) return false
-      }
-      return true
-    },
+    // checkAllStatus (idx) {
+    //   const boxes = this.newboxes
+    //   for (let box of boxes) {
+    //     if (!this.checkStatus(box.ideal, box.data)) return false
+    //   }
+    //   return true
+    // },
     checkStatus (range, value) {
       if (range[0] <= value && range[1] >= value ) return true
       return false
@@ -246,15 +250,21 @@ export default {
       return this.checkStatus(box.ideal, box.data);
     },
     checkNodeStatus(idx){
-        if(this.sensors[idx]["humidity"]<this.nodes[idx].humidityMin || this.sensors[idx]["humidity"]>this.nodes[idx].humidityMax)
-            return false;
-        if(this.sensors[idx]["sunlight"]<this.nodes[idx].sunlightMin || this.sensors[idx]["sunlight"]>this.nodes[idx].sunlightMax)
-            return false;
-        if(this.sensors[idx]["temperature"]<this.nodes[idx].tempMin || this.sensors[idx]["temperature"]>this.nodes[idx].tempMax)
-            return false;
-        if(this.sensors[idx]["moisture"]<this.nodes[idx].moistureMin || this.sensors[idx]["moisture"]>this.nodes[idx].moistureMax)
-            return false;
-        return true;
+      if (Object.keys(this.sensors).length === 0) return
+      // console.log(idx)
+      // console.log(this.sensors[idx])
+      // console.log(this.nodes[idx])
+      const sensor = this.sensors[idx]
+      const node = this.nodes[idx]
+      if (sensor['humidity']<node.humidityMin || sensor['humidity']>node.humidityMax)
+          return false;
+      if (sensor['sunlight']<node.sunlightMin || sensor['sunlight']>node.sunlightMax)
+          return false;
+      if (sensor['temperature']<node.tempMin || sensor['temperature']>node.tempMax)
+          return false;
+      if (sensor['moisture']<node.moistureMin || sensor['moisture']>node.moistureMax)
+          return false;
+      return true;
     },
   }
 }
@@ -263,7 +273,7 @@ export default {
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped lang="sass">
 .border
-  // border: 1px dashed grey
+  border: 1px dashed grey
 
 .topBox
   cursor: pointer

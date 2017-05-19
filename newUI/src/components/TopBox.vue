@@ -18,7 +18,7 @@
               label="NAME"
               style="postion: relative; top: -10px;"
               v-model="nodeIdLocal"
-              @keyup.enter.native="editName"
+              @keyup.enter.native="submitName"
               ref="textfield"
               v-else
             ></v-text-field>
@@ -37,7 +37,7 @@
             <v-col xs4 v-for="i in 2" class="pl-0 border icon" :key="i">
             </v-col>
             <transition name="slide-fade">
-              <v-col xs4 class="pl-0 icon" @click.stop="editName" v-show="chosen">
+              <v-col xs4 class="pl-0 icon" @click.stop="editName" v-show="chosen&&!editing">
                 <v-icon>edit</v-icon>
               </v-col>
             </transition>
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'topBox',
   props: {
@@ -64,6 +65,14 @@ export default {
     allIdeal: {
       type: Boolean,
       default: true
+    },
+    apiKey: {
+      type: String,
+      default: "secret"
+    },
+    id: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -92,6 +101,15 @@ export default {
           this.$refs['textfield'].focus()
         }, 900)
       }
+    },
+    submitName () {
+      console.log(this.nodeIdLocal);
+      $.ajax({
+        method: "PUT",
+        url: "https://slugsense.herokuapp.com/api/sensors/"+this.id,
+        data: { api_token: this.apiKey, name: this.nodeIdLocal }
+      })
+      this.editing = !this.editing;
     },
     log (text) {
       console.log(text)
