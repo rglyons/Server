@@ -31,33 +31,31 @@
             <v-row class="border innerInfoBox" :class="{'red--text': !good, 'grey--text': good}">
               <v-col xs12 class="border" style="height: 35px"></v-col>
               <v-col xs12 class="headline text-xs-left border pl-4" style="font-weight: 600">Ideally</v-col>
-              <v-col xs12 class="display-1 text-xs-center border" style="font-weight: 600" v-html="ideal" v-if="!editing"></v-col>
-              <div v-else>
-
-
-              <v-text-field
-                v-tooltip:top="{ html: 'Press Enter' }"
-                name="Name"
-                label="Min"
-                style="postion: relative; top: -10px;"
-                v-model="min"
-                @keyup.enter.native="editName"
-                ref="mintextfield"
-
-              ></v-text-field>
-              <v-text-field
-                v-tooltip:top="{ html: 'Press Enter' }"
-                name="Name"
-                label="Max"
-                style="postion: relative; top: -10px;"
-                v-model="max"
-                @keyup.enter.native="editName"
-                ref="maxtextfield"
-
-              ></v-text-field>
-            </div>
+              <v-col xs8 class="display-1 text-xs-center border" style="font-weight: 600" v-html="ideal" v-if="!editing"></v-col>
+              <div class="editContainer" v-else>
+                <v-text-field
+                  v-tooltip:top="{ html: 'Press Enter' }"
+                  name="Name"
+                  label="Min"
+                  style="postion: relative; top: -10px;"
+                  v-model="min"
+                  @keyup.enter.native="editName"
+                  ref="mintextfield"
+                  class="rangeField"
+                ></v-text-field>
+                <v-text-field
+                  v-tooltip:top="{ html: 'Press Enter' }"
+                  name="Name"
+                  label="Max"
+                  style="postion: relative; top: -10px;"
+                  v-model="max"
+                  @keyup.enter.native="editName"
+                  ref="maxtextfield"
+                  class="rangeField"
+                ></v-text-field>
+              </div>
               <transition name="slide-fade">
-                <v-col xs4 class="pl-0 icon" @click.stop="editName" v-show="chosen">
+                <v-col xs4 class="pl-0 editIcon" @click.stop="editName" v-show="chosen">
                   <v-icon>edit</v-icon>
                 </v-col>
               </transition>
@@ -142,11 +140,30 @@ export default {
   .innerInfoBox
     transition: all 0.5s
 
+.rangeField
+  width: 30%
+  float: left
+
+.editContainer
+  padding-left: 20%
+  padding-top: 5%
+
 .icon
   padding-left: 0
   height: 40px
   transition: all 0.5s
   cursor: pointer
+  &:hover
+    color: #bEbEbE
+
+.editIcon
+  padding-left: 0
+  padding-top: 2px
+  height: 20px
+  transition: all 0.8s
+  color: #2c3e50
+  cursor: pointer
+  font-size: 19px
   &:hover
     color: #bEbEbE
 
