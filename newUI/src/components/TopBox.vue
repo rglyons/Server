@@ -60,7 +60,8 @@ export default {
     },
     nodeId: {
       type: String,
-      default: '+ Node'
+      //to add a node
+      default: '+'
     },
     allIdeal: {
       type: Boolean,
