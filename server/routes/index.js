@@ -29,5 +29,5 @@ module.exports = (app) => {
 
   //other methods
   app.post('/api/users/day_avg', auth.validate, sensorsController.getDayAvgForUser);
-
+  app.post('/api/users/week_avg', auth.validate, sensorsController.getWeekAvgForUser);
 };
