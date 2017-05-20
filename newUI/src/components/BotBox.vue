@@ -34,28 +34,30 @@
               <v-col xs8 class="display-1 text-xs-center border" style="font-weight: 600" v-html="ideal" v-if="!editing"></v-col>
               <div class="editContainer" v-else>
                 <v-text-field
-                  v-tooltip:top="{ html: 'Press Enter' }"
+                  v-tooltip:top="{ html: 'Enter: Submit Esc: Cancel' }"
                   name="Name"
                   label="Min"
                   style="postion: relative; top: -10px;"
                   v-model="min"
-                  @keyup.enter.native="editName"
+                  @keyup.enter.native="submitRange"
+                  @keyup.esc.native="editRange"
                   ref="mintextfield"
                   class="rangeField"
                 ></v-text-field>
                 <v-text-field
-                  v-tooltip:top="{ html: 'Press Enter' }"
+                  v-tooltip:top="{ html: 'Enter: Submit Esc: Cancel' }"
                   name="Name"
                   label="Max"
                   style="postion: relative; top: -10px;"
                   v-model="max"
-                  @keyup.enter.native="editName"
+                  @keyup.enter.native="submitRange"
+                  @keyup.esc.native="editRange"
                   ref="maxtextfield"
                   class="rangeField"
                 ></v-text-field>
               </div>
               <transition name="slide-fade">
-                <v-col xs4 class="pl-0 editIcon" @click.stop="editName" v-show="chosen">
+                <v-col xs4 class="pl-0 editIcon" @click.stop="editRange" v-show="chosen">
                   <v-icon>edit</v-icon>
                 </v-col>
               </transition>
@@ -90,6 +92,14 @@ export default {
       type: String,
       default: '(%|&#8451;|&#8457;)25-35'
     },
+    apiKey: {
+      type: String,
+      default: "secret"
+    },
+    node:{
+        type: Number,
+        default: 0
+    },
     min: {
       type: Number,
       default: 0
@@ -102,7 +112,7 @@ export default {
   data () {
     return {
       editing: false,
-      msg: 'Template or Testing page'
+      msg: 'Template or Testing page',
     }
   },
   created () {
@@ -111,7 +121,12 @@ export default {
   watch: {
   },
   methods: {
-    editName () {
+    editRange () {
+      console.log(this.boxType);
+      console.log(this.min);
+      console.log(this.max);
+      //console.log(this.minProp);
+      //console.log(this.maxProp);
       this.editing = !this.editing
       // console.log(this.$refs.textfield49)
       if (this.editing) {
@@ -120,6 +135,42 @@ export default {
         }, 900)
       }
     },
+    submitRange () {
+      console.log(this.nodeIdLocal);
+      if(this.boxType=='Humidity'){
+        console.log("yoooooo");
+        $.ajax({
+          method: "PUT",
+          url: "https://slugsense.herokuapp.com/api/sensors/"+this.node,
+          data: { api_token: this.apiKey, humidityMin: this.min, humidityMax: this.max }
+        })
+      }
+      else if(this.boxType=='Light'){
+        $.ajax({
+          method: "PUT",
+          url: "https://slugsense.herokuapp.com/api/sensors/"+this.node,
+          data: { api_token: this.apiKey, sunlightMin: this.min, sunlightMax: this.max }
+        })
+      }
+      else if(this.boxType=='Temperature'){
+        $.ajax({
+          method: "PUT",
+          url: "https://slugsense.herokuapp.com/api/sensors/"+this.node,
+          data: { api_token: this.apiKey, tempMin: this.min, tempMax: this.max }
+        })
+      }
+      else if(this.boxType=='Moisture'){
+        $.ajax({
+          method: "PUT",
+          url: "https://slugsense.herokuapp.com/api/sensors/"+this.node,
+          data: { api_token: this.apiKey, moistureMin: this.min, moistureMax: this.max }
+        })
+      }
+      else{
+        console.log("error: invalid boxType");
+      }
+      this.editing = !this.editing;
+    }
   }
 }
 </script>

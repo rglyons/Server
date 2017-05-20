@@ -19,6 +19,7 @@
               style="postion: relative; top: -10px;"
               v-model="nodeIdLocal"
               @keyup.enter.native="submitName"
+              @keyup.esc.native="editName"
               ref="textfield"
               v-else
             ></v-text-field>
