@@ -143,28 +143,36 @@ export default {
           method: "PUT",
           url: "https://slugsense.herokuapp.com/api/sensors/"+this.node,
           data: { api_token: this.apiKey, humidityMin: this.min, humidityMax: this.max }
-        })
+        }).done(function( msg ) {
+            window.location.reload(true);
+          });
       }
       else if(this.boxType=='Light'){
         $.ajax({
           method: "PUT",
           url: "https://slugsense.herokuapp.com/api/sensors/"+this.node,
           data: { api_token: this.apiKey, sunlightMin: this.min, sunlightMax: this.max }
-        })
+        }).done(function( msg ) {
+            window.location.reload(true);
+          });
       }
       else if(this.boxType=='Temperature'){
         $.ajax({
           method: "PUT",
           url: "https://slugsense.herokuapp.com/api/sensors/"+this.node,
           data: { api_token: this.apiKey, tempMin: this.min, tempMax: this.max }
-        })
+        }).done(function( msg ) {
+            window.location.reload(true);
+          });
       }
       else if(this.boxType=='Moisture'){
         $.ajax({
           method: "PUT",
           url: "https://slugsense.herokuapp.com/api/sensors/"+this.node,
           data: { api_token: this.apiKey, moistureMin: this.min, moistureMax: this.max }
-        })
+        }).done(function( msg ) {
+            window.location.reload(true);
+          });
       }
       else{
         console.log("error: invalid boxType");
