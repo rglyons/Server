@@ -56,11 +56,11 @@
                   class="rangeField"
                 ></v-text-field>
               </div>
-              <transition name="slide-fade">
+              <!-- <transition name="slide-fade"> -->
                 <v-col xs4 class="pl-0 editIcon" @click.stop="editRange" v-show="chosen">
                   <v-icon>edit</v-icon>
                 </v-col>
-              </transition>
+              <!-- </transition> -->
             </v-row>
           </div>
         </v-col>

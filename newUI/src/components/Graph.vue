@@ -8,7 +8,8 @@
                 <li v-for="item in time_range_list" v-bind:class="{selected:timeRange==item.message}" v-on:click="chooseTimeRange(item)"><a>{{item.message}}</a></li>
             </ul>
         </v-row>
-        <div class="ct-chart ct-major-twelfth"></div>
+        <div class="ct-chart ct-major-twelfth">
+        </div>
     </v-card>
 </template>
 
@@ -167,6 +168,24 @@ li a{
   height: 90%;
   width:90%;
 }
+
+.ct-chart .ct-series-a .ct-point, .ct-chart .ct-series-a .ct-line {
+    stroke: #95a5a6; }
+.ct-chart .ct-series-b .ct-point, .ct-chart .ct-series-b .ct-line {
+    stroke: #f1c40f; }
+.ct-chart .ct-series-c .ct-point, .ct-chart .ct-series-c .ct-line {
+    stroke: #e74c3c; }
+.ct-chart .ct-series-d .ct-point, .ct-chart .ct-series-d .ct-line {
+    stroke: #3498db; }
+.ct-chart-humid .ct-series-a .ct-point, .ct-chart-humid .ct-series-a .ct-line {
+    stroke: #95a5a6; }
+.ct-chart-solar .ct-series-a .ct-point, .ct-chart-solar .ct-series-a .ct-line {
+    stroke: #f1c40f; }
+.ct-chart-temp .ct-series-a .ct-point, .ct-chart-temp .ct-series-a .ct-line {
+    stroke: #e74c3c; }
+.ct-chart-moist .ct-series-a .ct-point, .ct-chart-moist .ct-series-a .ct-line {
+    stroke: #3498db; }
+
 text.ct-axis-title{
   padding: 10%;
   margin: 10%;
