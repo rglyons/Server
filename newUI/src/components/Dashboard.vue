@@ -89,10 +89,13 @@ export default {
       sensors: {},
       addingNode: false,
       items: [0,1,2,3],
+      userKey: 0,
       historicalData: {},
     }
   },
   created () {
+    this.userKey = localStorage.getItem("token");
+    this.apiKey = localStorage.getItem("token");
     this.fetchNodeData();
     this.fetchRecentData();
     this.fetchHistoricalData();
@@ -107,7 +110,7 @@ export default {
     },
     fetchNodeData(){
       $.post(getuserURL,
-        {api_token: apiKey},
+        {api_token: this.userKey},
         (data) => {
           this.nodes = data.sensors;
           this.chosenNode = data.sensors[0].id
@@ -127,7 +130,7 @@ export default {
     )},
     fetchRecentData(){
       $.post(getRecentURL,
-        {api_token: apiKey},
+        {api_token: this.userKey},
         (data) => {
           console.log('recent values')
           // console.log(JSON.stringify(data));
@@ -140,7 +143,7 @@ export default {
     },
     fetchHistoricalData(){
       $.post(getHistoricalUrl,
-        {api_token: apiKey},
+        {api_token: this.userKey},
         (data) => {
           let day_avg= {};
           let humInfo;
