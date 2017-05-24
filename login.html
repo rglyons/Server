@@ -5,6 +5,15 @@
         <meta charset="UTF-8">
         <title>Smart Irrigation Login</title>
         <link rel="stylesheet" href="static/css/style.css">
+        <script type="text/javascript">
+          var token = localStorage.getItem("token");
+          if(token){
+            console.log("you have a token");
+            console.log(token);
+            window.location.href = '/index.html';
+          }
+        </script>
+
     </head>
 
     <body>

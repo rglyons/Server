@@ -65,9 +65,9 @@
       </v-list-item>
     </v-list>
     <v-btn>
-      <a href="/logout">
-      Logout
-      </a>
+      <div  v-on:click="logout">
+        Logout
+      </div>
     </v-btn>
   </v-card>
 </template>
@@ -86,6 +86,11 @@ export default {
   methods: {
     test () {
       console.log('abc')
+    },
+    logout() {
+      console.log("called the logout method");
+      localStorage.removeItem("token");
+      window.location.href = '/';
     }
   }
 }
