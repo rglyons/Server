@@ -57,7 +57,7 @@
                 ></v-text-field>
               </div>
               <!-- <transition name="slide-fade"> -->
-                <v-col xs4 class="pl-0 editIcon" @click.stop="editRange" v-show="chosen">
+                <v-col xs4 class="pl-0 editIcon" @click.stop="editRange" v-show="chosen&&!editing">
                   <v-icon>edit</v-icon>
                 </v-col>
               <!-- </transition> -->
@@ -119,6 +119,11 @@ export default {
     // console.log(this._.random(20))
   },
   watch: {
+    chosen () {
+        if (!this.chosen) {
+          this.editing = false
+        }
+      }
   },
   methods: {
     editRange () {
