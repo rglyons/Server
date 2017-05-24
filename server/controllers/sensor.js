@@ -6,10 +6,24 @@ module.exports = {
   create(req, res) {
     return Sensor
       .create({
+        id: req.body.id,
         ipaddress: req.body.ipaddress,
         userId: req.user.id
       })
-      .then(sensor => res.status(201).send(sensor))
+      .then(sensor => {
+        res.status(201).send(sensor)
+        // create dummy entry (want to remove this and handle null entries in the front)
+        Entry
+          .create({
+            humidity: 0,
+            sunlight: 0,
+            temperature: 0,
+            moisture: 0,
+            battery: null,
+            sensorId: sensor.id,
+          })
+        }
+      )
       .catch(error => res.status(400).send(error));
   },
 
