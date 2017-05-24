@@ -3,7 +3,8 @@
   "description": "",
   "main": "index.js",
   "authors": [
-    "ttagawa <tylertagawa@gmail.com>"
+    "ttagawa <tylertagawa@gmail.com>",
+    "rlopezlu <rlopezlu@ucsc.edu>"
   ],
   "license": "ISC",
   "homepage": "https://github.com/babsndeep/SlugSense",

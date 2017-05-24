@@ -67,6 +67,7 @@ app.use(cors());
 // Log requests to the console.
 app.use(logger('dev'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'))
+app.use('/newUI', express.static(__dirname + '/newUI'))
 app.use("/static", express.static(__dirname + '/static'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
