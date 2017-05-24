@@ -52,7 +52,7 @@ export default {
   data () {
     return {
       msg: 'Dashboard',
-      chosenNode: '0',
+      chosenNode: 0,
       chosenSensor:'Humidity',
       boxes: [],
       time_range: 'day_avg',

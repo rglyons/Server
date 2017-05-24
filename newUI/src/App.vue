@@ -45,9 +45,6 @@ export default {
       }, {
         text: 'Crop Info',
         path: { name: 'setting'}
-      }, {
-        text: 'Log Out',
-        path: { name: 'setting'}
       }],
       chosenTab: 'OverView'
     }
@@ -131,7 +128,7 @@ a
 .slide-fade-leave
   transform: translateX(0px)
 
-.slide-fade-leave-active 
+.slide-fade-leave-active
   transition: all 0.2s
 
 .slide-fade-leave-to

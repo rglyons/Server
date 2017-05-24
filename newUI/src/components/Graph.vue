@@ -8,7 +8,7 @@
                 <li v-for="item in time_range_list" v-bind:class="{selected:timeRange==item.message}" v-on:click="chooseTimeRange(item)"><a>{{item.message}}</a></li>
             </ul>
         </v-row>
-        <div class="ct-chart ct-major-twelfth">
+        <div class="ct-chart ct-major-twelfth" >
         </div>
     </v-card>
 </template>
@@ -36,6 +36,8 @@ export default {
       msg: 'Template or Testing page',
       arrayData: this.dataProp,
       options:{},
+      currentGraphColor: 'ct-chart-humid',
+      graphColor: '#95a5a6',
       timeRange: 'Day',
       time_range_list:[
           {message: "Day"},
@@ -169,7 +171,7 @@ li a{
   width:90%;
 }
 
-.ct-chart .ct-series-a .ct-point, .ct-chart .ct-series-a .ct-line {
+/*.ct-chart .ct-series-a .ct-point, .ct-chart .ct-series-a .ct-line {
     stroke: #95a5a6; }
 .ct-chart .ct-series-b .ct-point, .ct-chart .ct-series-b .ct-line {
     stroke: #f1c40f; }
@@ -184,7 +186,7 @@ li a{
 .ct-chart-temp .ct-series-a .ct-point, .ct-chart-temp .ct-series-a .ct-line {
     stroke: #e74c3c; }
 .ct-chart-moist .ct-series-a .ct-point, .ct-chart-moist .ct-series-a .ct-line {
-    stroke: #3498db; }
+    stroke: #3498db; }*/
 
 text.ct-axis-title{
   padding: 10%;

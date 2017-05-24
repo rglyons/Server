@@ -64,6 +64,11 @@
         </v-list-tile>
       </v-list-item>
     </v-list>
+    <v-btn>
+      <a href="/logout">
+      Logout
+      </a>
+    </v-btn>
   </v-card>
 </template>
 
