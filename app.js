@@ -69,6 +69,7 @@ app.use(logger('dev'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'))
 app.use('/newUI', express.static(__dirname + '/newUI'))
 app.use("/static", express.static(__dirname + '/static'));
+app.use("/AboutUs", express.static(__dirname + '/AboutUs'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
