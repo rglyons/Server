@@ -64,8 +64,8 @@
         </v-list-tile>
       </v-list-item>
     </v-list>
-    <v-btn>
-      <div  v-on:click="logout">
+    <v-btn v-on:click="logout">
+      <div >
         Logout
       </div>
     </v-btn>
