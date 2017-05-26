@@ -26,6 +26,29 @@ body {
 .clear {clear: both;}
 
 /* Buttons */
+
+/* Button to return to login page*/
+
+.buttonLogin {
+	position: fixed;
+	top: 5px;
+	right: 10px;
+	background-color: #fff;
+	color: #4593e3;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+	padding: 12px 12px;
+	margin: .3em 0 1em 0;
+	font-size: 18px;
+	line-height: 20px;
+	-webkit-font-smoothing: antialiased;
+	text-align: center;
+	letter-spacing: 1px;
+	border: 2px;
+	border-bottom: 2px solid #3160B6;
+	cursor: pointer;
+}
+
 .btn {
 	display: inline-block;
 	margin-top: 20px;
