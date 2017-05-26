@@ -117,7 +117,7 @@ module.exports = {
       .then(entries => {
         return res.status(200).send(entries
           .sort(function(entry1, entry2) {
-            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing
+            return entry1["sensorId"]-entry2["sensorId"] // sort entries by increasing sensor id
           })
         );
       })
@@ -142,7 +142,7 @@ module.exports = {
       .then(entries => {
           entries = entries
             .sort(function(entry1, entry2) {
-              return entry1[0]["sensorId"]-entry2[0]["sensorId"] // sort entries by increasing
+              return entry1[0]["sensorId"]-entry2[0]["sensorId"] // sort entries by increasing sensor id
           });
           var avgEntries = [];
           var humAvg = 0;
@@ -176,6 +176,47 @@ module.exports = {
         return res.status(200).send(avgEntries);
       })
   },
+  
+  getDayAvgForUser2(req, res) {
+    req.timestamp = Date.now() // record the timestamp when the request is made
+    return Sensor
+      .findOne({
+        where: {
+          userId: req.user.id,
+          id: req.body.id
+        }
+      })
+      .then(sensor => {
+        entries = sensor.getEntries()
+        return entries
+      })
+      .then(entries => {
+        sorted_entries = entries.sort(function(entry1, entry2) {
+          return entry2["createdAt"]-entry1["createdAt"] // sort entries by decreasing createdAt timestamp
+        })
+        return sorted_entries
+      })
+      .then(sorted_entries => {
+        result = []
+        lastEntryTime = req.timestamp
+        i = 0
+        while (sorted_entries[i]["createdAt"] > req.timestamp - 24*60*60*1000) { // looking at entries in the last 24 hrs
+          console.log(sorted_entries[i]["createdAt"])
+          thisEntryTime = sorted_entries[i]["createdAt"]
+          if (thisEntryTime > lastEntryTime - 1*60*60*1000) { // if this entry was made within an hour of the last one
+            result.unshift(sorted_entries[i])
+            lastEntryTime = thisEntryTime
+            i++
+          } else {
+            result.unshift(null)
+            lastEntryTime -= 1*60*60*1000
+          }
+        }
+        return res.status(200).send(result)
+      })
+      .catch((error) => res.status(400).send(error));
+  },
+  
   update(req, res) {
     return Sensor
       .findById(req.params.sid)
