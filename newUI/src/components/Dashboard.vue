@@ -96,7 +96,7 @@ export default {
   created () {
     this.userKey = localStorage.getItem("token");
     this.apiKey = localStorage.getItem("token");
-    console.log(this.apiKey);
+    //console.log(this.apiKey);
     this.fetchNodeData();
     this.fetchRecentData();
     this.fetchHistoricalData();
@@ -161,8 +161,8 @@ export default {
           this.historicalData['Day'] = day_avg;
           this.historicalData['Week'] = {49:{humidity:[1,2,3],light:[4,20],temperature:[6,9,69],moisture:[3,2,1]}};
           //self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
-           console.log('historicalData');
-           console.log(JSON.stringify(data));
+           //console.log('historicalData');
+           //console.log(JSON.stringify(data));
           // console.log(data);
           // console.log('historicalData')
           // console.log(JSON.stringify(this.historicalData));
