@@ -136,7 +136,7 @@ module.exports = {
             sensorId: sensor.id
           },
           order: [
-            ['id', 'ASC']
+            ['id', 'DESC']
           ]
         }))
       .then(entries => {
@@ -149,6 +149,7 @@ module.exports = {
           var tempAvg = 0;
           var sunAvg = 0;
           var moistAvg = 0;
+          console.log(JSON.stringify(entries));
           for(var node in entries){
               var nodeAvgs = [];
               for(var i = 1; i<=entries[node].length&&i<=24;i++){
@@ -158,21 +159,23 @@ module.exports = {
                       sunAvg = Math.round((sunAvg+entries[node][i-1]['sunlight'])/2);
                       moistAvg = Math.round((moistAvg+entries[node][i-1]['moisture'])/2);
                       nodeAvgs.push({"id":entries[node][i-1]['sensorId'],"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
-                      humAvg = 0;
-                      tempAvg = 0;
-                      sunAvg = 0;
-                      moistAvg = 0;
+                    //  humAvg = 0;
+                      //tempAvg = 0;
+                      //sunAvg = 0;
+                      //moistAvg = 0;
+                      console.log(moistAvg);
                   }
                   else{
-                      humAvg = humAvg+entries[node][i-1]['humidity'];
-                      tempAvg = tempAvg+entries[node][i-1]['temperature'];
-                      sunAvg = sunAvg+entries[node][i-1]['sunlight'];
-                      moistAvg = moistAvg+entries[node][i-1]['moisture'];
+                      humAvg = entries[node][i-1]['humidity'];
+                      tempAvg = entries[node][i-1]['temperature'];
+                      sunAvg = entries[node][i-1]['sunlight'];
+                      moistAvg = entries[node][i-1]['moisture'];
                   }
-                  console.log(JSON.stringify(entries[node][i-1]));
+                  //console.log(JSON.stringify(entries[node][i-1]));
               }
-              avgEntries.push(nodeAvgs);
+              avgEntries.push(nodeAvgs.reverse());
           }
+        //  console.log(JSON.stringify(avgEntries));
         return res.status(200).send(avgEntries);
       })
   },
