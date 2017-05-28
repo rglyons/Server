@@ -65,7 +65,7 @@
       </v-list-item>
     </v-list>
     <v-btn v-on:click="logout">
-      <div >
+      <div v-on:click="logout" >
         Logout
       </div>
     </v-btn>
