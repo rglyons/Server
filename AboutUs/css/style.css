@@ -26,6 +26,29 @@ body {
 .clear {clear: both;}
 
 /* Buttons */
+
+/* Button to return to login page*/
+
+.buttonLogin {
+	position: fixed;
+	top: 5px;
+	right: 10px;
+	background-color: #fff;
+	color: #4593e3;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+	padding: 12px 12px;
+	margin: .3em 0 1em 0;
+	font-size: 18px;
+	line-height: 20px;
+	-webkit-font-smoothing: antialiased;
+	text-align: center;
+	letter-spacing: 1px;
+	border: 2px;
+	border-bottom: 2px solid #3160B6;
+	cursor: pointer;
+}
+
 .btn {
 	display: inline-block;
 	margin-top: 20px;
@@ -61,15 +84,15 @@ body {
     font-weight: normal;
 }
 
-/* 03. SPEAKERS SETTINGS ============================================ */
+/* 03. team SETTINGS ============================================ */
 
-#speakers {
+#team {
 	padding: 60px 0;
 	background: #4593e3;
 	text-align: center;
 }
 
-#speakers p {
+#team p {
 	padding: 0 0 25px;
 	color: rgba(255,255,255, 0.85);
 	font-family: 'Open Sans', sans-serif;
@@ -78,20 +101,20 @@ body {
 	text-align: left;
 }
 
-#speakers h3 {
+#team h3 {
 	padding: 0 0 15px;
 	font-family: 'norwester';
 	font-size: 36px;
 	text-transform: uppercase;
 }
 
-#speakers h4  {
+#team h4  {
 	margin-top: -20px;
 	font-size: 32px;
 	font-weight: 700;
 }
 
-#speakers h4 span {
+#team h4 span {
 	display: block;
 	position: relative;
 	left: -40px;
@@ -101,7 +124,7 @@ body {
 	padding: 0;
 }
 
-#speakers img {
+#team img {
 	width: 100%;
 	max-width: 240px;
 	border-radius: 50%;
@@ -110,14 +133,14 @@ body {
 	transition: all 0.1s ease-in;
 }
 /*
-#speakers img:hover {
+#team img:hover {
 	border: 47px solid #3980C9;
 	position: relative;
 	z-index: 10;
 	transition: all 0.1s ease-in;
 }
 */
-#speakers span {
+#team span {
 	padding: 8px 20px;
 	position: relative;
 	top: -64px;
@@ -144,14 +167,9 @@ body {
 
 
 /* Social Networks Meta */
-#speakers li {display: inline-block; padding: 0 6px; font-size: 18px;}
-#speakers li a {color: rgba(0,0,0, 0.3); transition: all 0.1s ease-in;}
-#speakers li a:hover {color: rgba(0,0,0, 0.7);}
-
-/* Rows Optimization */
-.row2 {
-	display: none;
-}
+#team li {display: inline-block; padding: 0 6px; font-size: 18px;}
+#team li a {color: rgba(0,0,0, 0.3); transition: all 0.1s ease-in;}
+#team li a:hover {color: rgba(0,0,0, 0.7);}
 
 .row1 .col-md-3, .row2 .col-md-3 {
 	padding-bottom: 40px;
@@ -165,6 +183,6 @@ body {
 		max-width: 50%;
 	}
 
-	#speakers img {max-width: 300px;}
+	#team img {max-width: 300px;}
 
 }
