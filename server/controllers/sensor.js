@@ -179,6 +179,64 @@ module.exports = {
         return res.status(200).send(avgEntries);
       })
   },
+
+  getWeekAvgForUser(req, res) {
+    Sensor
+      .findAll({
+        where: {
+          userId: req.user.id
+        }
+      })
+      .map(sensor =>
+        Entry.findAll({
+          where: {
+            sensorId: sensor.id
+          },
+          order: [
+            ['id', 'DESC']
+          ]
+        }))
+      .then(entries => {
+          entries = entries
+            .sort(function(entry1, entry2) {
+              return entry1[0]["sensorId"]-entry2[0]["sensorId"] // sort entries by increasing
+          });
+          var avgEntries = [];
+          var humAvg = 0;
+          var tempAvg = 0;
+          var sunAvg = 0;
+          var moistAvg = 0;
+          console.log(JSON.stringify(entries));
+          for(var node in entries){
+              var nodeAvgs = [];
+              for(var i = 1; i<=entries[node].length&&i<=168;i++){
+                  if(i%12==0){
+                      humAvg = Math.round((humAvg+entries[node][i-1]['humidity'])/12);
+                      tempAvg = Math.round((tempAvg+entries[node][i-1]['temperature'])/12);
+                      sunAvg = Math.round((sunAvg+entries[node][i-1]['sunlight'])/12);
+                      moistAvg = Math.round((moistAvg+entries[node][i-1]['moisture'])/12);
+                      nodeAvgs.push({"id":entries[node][i-1]['sensorId'],"humidity":humAvg,"temperature":tempAvg,"sunlight":sunAvg, "moisture":moistAvg})
+                    //  humAvg = 0;
+                      //tempAvg = 0;
+                      //sunAvg = 0;
+                      //moistAvg = 0;
+                      console.log(moistAvg);
+                  }
+                  else{
+                      humAvg = entries[node][i-1]['humidity'];
+                      tempAvg = entries[node][i-1]['temperature'];
+                      sunAvg = entries[node][i-1]['sunlight'];
+                      moistAvg = entries[node][i-1]['moisture'];
+                  }
+                  //console.log(JSON.stringify(entries[node][i-1]));
+              }
+              avgEntries.push(nodeAvgs.reverse());
+          }
+        //  console.log(JSON.stringify(avgEntries));
+        return res.status(200).send(avgEntries);
+      })
+  },
+
   update(req, res) {
     return Sensor
       .findById(req.params.sid)

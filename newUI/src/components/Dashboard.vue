@@ -159,7 +159,7 @@ export default {
               day_avg[d[0]['id']] = {humidity:humInfo,light:sunInfo,temperature:tempInfo,moisture:moistureInfo};
           }
           this.historicalData['Day'] = day_avg;
-          this.historicalData['Week'] = {49:{humidity:[1,2,3],light:[4,20],temperature:[6,9,69],moisture:[3,2,1]}};
+          //this.historicalData['Week'] = {49:{humidity:[1,2,3],light:[4,20],temperature:[6,9,69],moisture:[3,2,1]}};
           //self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
            //console.log('historicalData');
            //console.log(JSON.stringify(data));
@@ -168,6 +168,31 @@ export default {
           // console.log(JSON.stringify(this.historicalData));
           this.histDataLoaded = true;
         })
+        $.post('https://slugsense.herokuapp.com'+'/api/users/week_avg',
+          {api_token: this.userKey},
+          (data) => {
+            console.log(JSON.stringify(data));
+            let week_avg= {};
+            let humInfo;
+            let sunInfo;
+            let tempInfo;
+            let moistureInfo;
+            for(let d of data){
+                humInfo = d.map((a) => {return a['humidity']});
+                sunInfo = d.map((a) => {return a['sunlight']});
+                tempInfo = d.map((a) => {return a['temperature']});
+                moistureInfo = d.map((a) => {return a['moisture']});
+                week_avg[d[0]['id']] = {humidity:humInfo,light:sunInfo,temperature:tempInfo,moisture:moistureInfo};
+            }
+            this.historicalData['Week'] = week_avg;
+            //self.selectedData = self.historicalData[self.time_range][self.chosenNode][self.chosenSensor.toLowerCase()];
+             //console.log('historicalData');
+             //console.log(JSON.stringify(data));
+            // console.log(data);
+            // console.log('historicalData')
+            // console.log(JSON.stringify(this.historicalData));
+            this.histDataLoaded = true;
+          })
     },
     chooseNode (idx) {
       const chosenNode = this.nodes[idx]
