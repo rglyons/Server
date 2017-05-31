@@ -17,7 +17,7 @@
     </div>
     <v-row class="border">
       <v-col xs12 class="border">
-        <div v-if="histDataLoaded" class="border white--text text-xs-center mt-4 mb-4 graph">
+        <div v-if="dayDataLoaded && weekDataLoaded" class="border white--text text-xs-center mt-4 mb-4 graph">
           <hist-graph :sensor="chosenSensor" :node="chosenNode" :dataProp="historicalData"></hist-graph>
         </div>
       </v-col>
@@ -58,7 +58,8 @@ export default {
       time_range: 'day_avg',
       fakeArrayData: [1,2,3,4],
       selectedData: [1,2,3],
-      histDataLoaded: false,
+      dayDataLoaded: false,
+      weekDataLoaded: false,
       nobody: 'sVT9PgIDO6TlTMb0XOvIpHGpZuzTos',
       sustainability: '8KTSdFjzYD9Lx333rDJQv2YWSQzjmB',
       apiKey: nobody,
@@ -166,7 +167,7 @@ export default {
           // console.log(data);
           // console.log('historicalData')
           // console.log(JSON.stringify(this.historicalData));
-          this.histDataLoaded = true;
+          this.dayDataLoaded = true;
         })
         $.post('https://slugsense.herokuapp.com'+'/api/users/week_avg',
           {api_token: this.userKey},
@@ -191,7 +192,7 @@ export default {
             // console.log(data);
             // console.log('historicalData')
             // console.log(JSON.stringify(this.historicalData));
-            this.histDataLoaded = true;
+            this.weekDataLoaded = true;
           })
     },
     chooseNode (idx) {
