@@ -9,11 +9,18 @@
     <div id="topbar" class="cyan lighten-1 border">
       <v-row style="margin-top: 40px">
         <v-col xs5 lg8 offset-lg1 class="display-1 white--text text-xs-left border">{{chosenTab}}</v-col>
+        <!-- <v-col xs2 lg1 class="mt-3 border">
+          <router-link :to="choice.path" class="choice" @click.native="chosenTab=choice.text">
+            {{choice.text}}
+          </router-link>
+          <p class="white--text">Log out</p>
+        </v-col> -->
         <v-col v-for="choice in topBarChoice" :key="choice.text" xs2 lg1 class="mt-3 border" v-if="chosenTab != choice.text">
           <router-link :to="choice.path" class="choice" @click.native="chosenTab=choice.text">
             {{choice.text}}
           </router-link>
         </v-col>
+        <p class="white--text">Log out</p>
       </v-row>
     </div>
     <v-container fluid id="mainContainer" class="border">
@@ -37,7 +44,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       topBarChoice: [{
-        text: 'OverView',
+        text: 'Overview',
         path: { name: 'dashboard'}
       }, {
         text: 'Setting',
@@ -46,7 +53,7 @@ export default {
         text: 'Crop Info',
         path: { name: 'setting'}
       }],
-      chosenTab: 'OverView'
+      chosenTab: 'Overview'
     }
   }
 }
