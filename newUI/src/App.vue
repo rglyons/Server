@@ -1,11 +1,6 @@
 <template>
   <v-app id="app">
     <!-- <img src="./assets/logo.png"> -->
-    <div id="sidebar" class="blue-grey darken-4 white--text border">
-      <v-row>
-        <!-- <v-col xs12 style="height: 100px" class="border">ICON</v-col> -->
-      </v-row>
-    </div>
     <div id="topbar" class="cyan lighten-1 border">
       <v-row style="margin-top: 40px">
         <v-col xs5 lg8 offset-lg1 class="display-1 white--text text-xs-left border">{{chosenTab}}</v-col>
@@ -105,7 +100,7 @@ html, body
 
 #mainContainer
   margin-top: $topbar-height
-  margin-left: $leftbar-width
+  // margin-left: $leftbar-width
   width: calc(100% - $leftbar-width)
   // padding: 10px
 
