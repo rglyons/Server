@@ -19,10 +19,6 @@
 
         <a href="AboutUs/About.html" class="buttonAbout">About Us </a>
 
-        <hgroup>
-            <h1 style="color:#fdf8f3;">SlugSense Login</h1>
-        </hgroup>
-
         <form action="/" method="post" id="loginForm">
           <div class="group">
                 <input type="text" name="username" id="username" value="" autofocus><span class="highlight"></span><span class="bar"></span>
@@ -40,6 +36,10 @@
                 <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
               </button>
           </div>
+          <!--this <p> is only needed to center the logo image-->
+          <p style="text-align:center;">
+            <img class="logoImage" src="/static/images/logo2.png" alt="Slugsense Logo">
+          </p>
           <div id="result">
             <p id="errMess"></p>
           </div>

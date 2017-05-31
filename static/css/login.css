@@ -189,6 +189,15 @@ body {
 	}
 
 
+	/* Logo Image */
+	.logoImage {
+		height:auto;
+		width:50%;
+		position:relative;
+		top:10px;
+	}
+
+
 	/* Button for About Page */
 
 	.buttonAbout {
@@ -475,6 +484,13 @@ body {
 		to 	{ width: 0; background: transparent; }
 	}
 
+	/* Logo Image */
+	.logoImage {
+		height:auto;
+		width:50%;
+		position:relative;
+		top:10px;
+	}
 
 	/* Button for About Page */
 
