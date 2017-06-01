@@ -10,12 +10,14 @@
           </router-link>
           <p class="white--text">Log out</p>
         </v-col> -->
-        <v-col v-for="choice in topBarChoice" :key="choice.text" xs2 lg1 class="mt-3 border" v-if="chosenTab != choice.text">
+        <!-- <v-col v-for="choice in topBarChoice" :key="choice.text" xs2 lg1 class="mt-3 border" v-if="chosenTab != choice.text">
           <router-link :to="choice.path" class="choice" @click.native="chosenTab=choice.text">
             {{choice.text}}
           </router-link>
+        </v-col> -->
+        <v-col xs2 lg1 class="mt-3 white--text choice" v-on:click="logout">
+          Logout
         </v-col>
-        <p class="white--text">Log out</p>
       </v-row>
     </div>
     <v-container fluid id="mainContainer" class="border">
@@ -50,6 +52,13 @@ export default {
       }],
       chosenTab: 'Overview'
     }
+  },
+  methods:{
+    logout() {
+      console.log("called the logout method");
+      localStorage.removeItem("token");
+      window.location.href = '/';
+    }
   }
 }
 </script>
@@ -71,6 +80,7 @@ html, body
   color: #ffffff
   &:hover
     color: #555555
+
 
 #topbar
   position: fixed
