@@ -179,6 +179,48 @@ module.exports = {
         return res.status(200).send(avgEntries);
       })
   },
+  
+  getDayAvgForUser2(req, res) {
+    req.timestamp = Date.now() // record the timestamp when the request is made
+    return Sensor
+      .findOne({
+        where: {
+          userId: req.user.id,
+          id: req.body.id
+        }
+      })
+      .then(sensor => {
+        entries = sensor.getEntries()
+        return entries
+      })
+      .then(entries => {
+        sorted_entries = entries.sort(function(entry1, entry2) {
+          return entry2["createdAt"]-entry1["createdAt"] // sort entries by decreasing createdAt timestamp
+        })
+        return sorted_entries
+      })
+      .then(sorted_entries => {
+        result = []
+        lastEntryTime = req.timestamp
+        i = 0
+        while (lastEntryTime > req.timestamp - 24*60*60*1000) { // looking at entries in the last 24 hrs
+          //if (i < sorted_entries.length) console.log(sorted_entries[i]["createdAt"])
+          thisEntryTime = (i < sorted_entries.length) ? sorted_entries[i]["createdAt"] : lastEntryTime - 1*60*60*1000
+          if (thisEntryTime > lastEntryTime - 1*60*60*1000) { // if this entry was made within an hour of the last one
+            result.unshift(sorted_entries[i])
+            i++
+          } else {
+            result.unshift(null)
+          }
+          lastEntryTime -= 1*60*60*1000
+        }
+        return res.status(200).send(result)
+      })
+      .catch((error) => {
+        console.log(error)
+        res.status(400).send(error)
+      })
+  },
 
   getWeekAvgForUser(req, res) {
     Sensor
