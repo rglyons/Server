@@ -233,7 +233,7 @@ export default {
       const celsius = '&#8451;'
       const fahrenheit = '&#8457;'
       const percentage = () => {
-        return '%' + range[0] + '-' + range[1]
+        return range[0] + '-' + range[1] + '%';
       }
       const objLiteral = {
         Humidity () {
