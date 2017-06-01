@@ -210,7 +210,7 @@ module.exports = {
             result.unshift(sorted_entries[i])
             i++
           } else {
-            result.unshift(null)
+            result.unshift({"id": null, "createdAt": new Date(lastEntryTime).toJSON()})
           }
           lastEntryTime -= 1*60*60*1000
         }
