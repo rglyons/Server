@@ -16,6 +16,12 @@
           </router-link>
         </v-col> -->
         <v-col xs2 lg1 class="mt-3 white--text choice" v-on:click="logout">
+          Contact
+        </v-col>
+        <v-col xs2 lg1 class="mt-3 white--text choice" v-on:click="aboutRedirect">
+          About
+        </v-col>
+        <v-col xs2 lg1 class="mt-3 white--text choice" v-on:click="logout">
           Logout
         </v-col>
       </v-row>
@@ -50,7 +56,7 @@ export default {
         text: 'Crop Info',
         path: { name: 'setting'}
       }],
-      chosenTab: 'Overview'
+      chosenTab: 'Home'
     }
   },
   methods:{
@@ -58,6 +64,9 @@ export default {
       console.log("called the logout method");
       localStorage.removeItem("token");
       window.location.href = '/';
+    },
+    aboutRedirect() {
+      window.location.href = '/AboutUs/About.html';
     }
   }
 }
