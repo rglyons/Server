@@ -204,8 +204,9 @@ module.exports = {
         i = 0
         while (lastEntryTime > req.timestamp - 24*60*60*1000) { // looking at entries in the last 24 hrs
           console.log(new Date(lastEntryTime).toJSON())
-          thisEntryTime = (i < sorted_entries.length) ? sorted_entries[i]["createdAt"] : lastEntryTime - 1*60*60*1000
-          if (thisEntryTime >= lastEntryTime - 1.1*60*60*1000) { // if this entry was made within an hour of the last one (w error margin)
+          thisEntryTime = (i < sorted_entries.length) ? sorted_entries[i]["createdAt"] : lastEntryTime - 1.01*60*60*1000
+          if (thisEntryTime < req.timestamp - 24*60*60*1000) break
+          if (thisEntryTime >= lastEntryTime - 1*60*60*1000) { // if this entry was made within an hour of the last one (w error margin)
             result.unshift(sorted_entries[i])
             lastEntryTime = sorted_entries[i]["createdAt"]
             i++
