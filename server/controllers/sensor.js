@@ -190,8 +190,7 @@ module.exports = {
         }
       })
       .then(sensor => {
-        entries = sensor.getEntries()
-        return entries
+        return sensor.getEntries()
       })
       .then(entries => {
         sorted_entries = entries.sort(function(entry1, entry2) {
@@ -204,15 +203,16 @@ module.exports = {
         lastEntryTime = req.timestamp
         i = 0
         while (lastEntryTime > req.timestamp - 24*60*60*1000) { // looking at entries in the last 24 hrs
-          //if (i < sorted_entries.length) console.log(sorted_entries[i]["createdAt"])
+          console.log(new Date(lastEntryTime).toJSON())
           thisEntryTime = (i < sorted_entries.length) ? sorted_entries[i]["createdAt"] : lastEntryTime - 1*60*60*1000
-          if (thisEntryTime > lastEntryTime - 1*60*60*1000) { // if this entry was made within an hour of the last one
+          if (thisEntryTime >= lastEntryTime - 1.1*60*60*1000) { // if this entry was made within an hour of the last one (w error margin)
             result.unshift(sorted_entries[i])
+            lastEntryTime = sorted_entries[i]["createdAt"]
             i++
           } else {
+            lastEntryTime -= 1*60*60*1000
             result.unshift({"id": null, "createdAt": new Date(lastEntryTime).toJSON()})
           }
-          lastEntryTime -= 1*60*60*1000
         }
         return res.status(200).send(result)
       })
