@@ -68,6 +68,7 @@ body {
 
 	3 { color: #4a89dc; }
 
+
 	form {
 		width: 380px;
 		margin: 4em auto;
@@ -187,39 +188,6 @@ body {
 		from { background: #4a89dc; }
 		to 	{ width: 0; background: transparent; }
 	}
-
-
-	/* Logo Image */
-	.logoImage {
-		height:auto;
-		width:50%;
-		position:relative;
-		top:10px;
-	}
-
-
-	/* Button for About Page */
-
-	.buttonAbout {
-		position: fixed;
-		top: 5px;
-		right: 10px;
-		background-color: #4a89dc;
-		color: white;
-		text-decoration: none;
-		text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
-		padding: 12px 12px;
-		margin: .3em 0 1em 0;
-		font-size: 16px;
-		line-height: 20px;
-		-webkit-font-smoothing: antialiased;
-		text-align: center;
-		letter-spacing: 1px;
-		border: 2px;
-		border-bottom: 2px solid #3160B6;
-		cursor: pointer;
-	}
-
 
 
 	/* Button */
@@ -483,37 +451,6 @@ body {
 		from { background: #4a89dc; }
 		to 	{ width: 0; background: transparent; }
 	}
-
-	/* Logo Image */
-	.logoImage {
-		height:auto;
-		width:50%;
-		position:relative;
-		top:10px;
-	}
-
-	/* Button for About Page */
-
-	.buttonAbout {
-		position: fixed;
-		top: 5px;
-		right: 10px;
-		background-color: #4a89dc;
-		color: white;
-		text-decoration: none;
-		text-shadow: 2px 2px 0 rgba(39, 110, 204, .5);
-		padding: 12px 18px;
-		margin: .6em 0 2em 0;
-		font-size: 32px;
-		line-height: 40px;
-		-webkit-font-smoothing: antialiased;
-		text-align: center;
-		letter-spacing: 2px;
-		border: 4px;
-		border-bottom: 4px solid #3160B6;
-		cursor: pointer;
-	}
-
 
 
 	/* Button */

@@ -67,9 +67,9 @@ app.use(cors());
 // Log requests to the console.
 app.use(logger('dev'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'))
-app.use("/static", express.static(__dirname + '/static'));
-app.use('/dist', express.static(__dirname + '/dist'))
-app.use("/AboutUs", express.static(__dirname + '/AboutUs'));
+app.use("/frontend/login/static", express.static(__dirname + '/frontend/login/static'));
+app.use('/frontend/dist', express.static(__dirname + '/frontend/dist'))
+app.use("/frontend/AboutUs", express.static(__dirname + '/frontend/AboutUs'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -103,15 +103,15 @@ app.use(require('express-session')({
 // );
 
 app.post('/', (req, res)=>{
-  res.redirect('index.html');
+  res.redirect('/frontend/index.html');
 })
 
 //webapp hosting stuff
 app.get('/', (req,res) => {
-    res.sendFile(__dirname + '/login.html');
+    res.sendFile(__dirname + '/frontend/login/login.html');
 });
 app.get('/index.html', /*isAuthenticated,*/ (req,res) =>{
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/frontend/index.html');
 });
 // Require our routes into the application.
 require('./server/routes')(app);

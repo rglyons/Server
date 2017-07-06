@@ -70,14 +70,17 @@ body {
 
 	form {
 		width: 380px;
-		margin: 4em auto;
+		margin: 8em auto;
 		padding: 3em 2em 2em 2em;
 		background: #fafafa;
 		border: 1px solid #ebebeb;
 		box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
 	}
 
-
+	#buttonList{
+		padding: 16px 0;
+		float: right;
+	}
 
 	.group {
 		position: relative;
@@ -187,6 +190,39 @@ body {
 		from { background: #4a89dc; }
 		to 	{ width: 0; background: transparent; }
 	}
+
+
+	/* Logo Image */
+	.logoImage {
+		height:auto;
+		width:50%;
+		position:relative;
+		top:10px;
+	}
+
+
+	/* Button for About Page */
+
+	.buttonAbout {
+		/*position: fixed;*/
+		top: 5px;
+		right: 10px;
+		background-color: transparent;
+		color: white;
+		text-decoration: none;
+		text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+		padding: 20px 12px;
+		margin: .3em 0 1em 0;
+		font-size: 32px;
+		line-height: 20px;
+		-webkit-font-smoothing: antialiased;
+		text-align: center;
+		letter-spacing: 1px;
+		border: 2px;
+		/*border-bottom: 2px solid #3160B6;*/
+		cursor: pointer;
+	}
+
 
 
 	/* Button */
@@ -340,7 +376,10 @@ body {
 		box-shadow: rgba(0,0,0,0.14902) 0px 2px 2px 0px,rgba(0,0,0,0.09804) 0px 2px 4px 0px;
 	}
 
-
+	#buttonList{
+		/*padding: 16px 0;*/
+		float: right;
+	}
 
 	.group {
 		position: relative;
@@ -450,6 +489,37 @@ body {
 		from { background: #4a89dc; }
 		to 	{ width: 0; background: transparent; }
 	}
+
+	/* Logo Image */
+	.logoImage {
+		height:auto;
+		width:50%;
+		position:relative;
+		top:10px;
+	}
+
+	/* Button for About Page */
+
+	.buttonAbout {
+		/*position: fixed;*/
+		top: 5px;
+		right: 10px;
+		background-color: transparent;
+		color: white;
+		text-decoration: none;
+		text-shadow: 2px 2px 0 rgba(39, 110, 204, .5);
+		padding: 0px 18px;
+		margin: .6em 0 2em 0;
+		font-size: 32px;
+		line-height: 40px;
+		-webkit-font-smoothing: antialiased;
+		text-align: center;
+		letter-spacing: 2px;
+		border: 4px;
+		/*border-bottom: 4px solid #3160B6;*/
+		cursor: pointer;
+	}
+
 
 
 	/* Button */

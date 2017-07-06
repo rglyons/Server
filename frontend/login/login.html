@@ -10,14 +10,37 @@
           if(token){
             console.log("you have a token");
             console.log(token);
-            window.location.href = '/index.html';
+            window.location.href = '../index.html';
           }
         </script>
+        <style>
+        #topbar{
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 90px;
+          z-index: 100;
+          opacity: 0.8;
+        }
+        .cyan {
+          background-color: black !important;
+          border-color: #00bcd4!important;
+        }
+        li {
+            display: inline-block;
+        }
+
+        </style>
     </head>
 
     <body>
-
-        <a href="AboutUs/About.html" class="buttonAbout">About Us </a>
+        <div id="topbar" class="cyan">
+            <ul id="buttonList">
+                <li><a href="../AboutUs/About.html" class="buttonAbout">About</a></li>
+                <li><a href="../AboutUs/About.html" class="buttonAbout">Contact</a></li>
+            </ul>
+        </div>
 
         <form action="/" method="post" id="loginForm">
           <div class="group">
