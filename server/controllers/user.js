@@ -1,5 +1,5 @@
 const User = require('../models').User;
-const Sensor = require('../models').Sensor;
+const Node = require('../models').Node;
 const randomstring = require("randomstring")
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
       .create({
         username: req.body.username,
         password: req.body.password,
-        sensor_count: 0,
+        nodeCount: 0,
       })
       .then(user => {
           user.password = null 
@@ -22,8 +22,8 @@ module.exports = {
     response = {}
     response["id"] = req.user.id
     response["username"] = req.user.username
-    response["sensor_count"] = req.user.sensor_count
-    response["sensors"] = req.user.sensors
+    response["nodeCount"] = req.user.nodeCount
+    response["nodes"] = req.user.nodes
     return res.status(200).send(response);
   },
   
@@ -34,7 +34,7 @@ module.exports = {
       })
       .then(() => {
         user.password = null 
-        res.status(200).send(user)  // Send back the updated sensor.
+        res.status(200).send(user)  // Send back the updated user.
       })
       .catch((error) => res.status(400).send(error));
   },
@@ -45,7 +45,7 @@ module.exports = {
         password: req.body.password || user.password,
         username: req.body.username || user.username,
       })
-      .then(() => res.status(200).send(user))  // Send back the updated sensor.
+      .then(() => res.status(200).send(user))  // Send back the updated user.
       .catch((error) => res.status(400).send(error));
   },
   

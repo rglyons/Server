@@ -1,17 +1,17 @@
-const Entry = require('../models').Entry;
+const Reading = require('../models').Reading;
 
 module.exports = {
   create(req, res) {
-    return Entry
+    return Reading
       .create({
         humidity: req.body.humidity,
         sunlight: req.body.sunlight,
         temperature: req.body.temperature,
         moisture: req.body.moisture,
         battery: req.body.battery,
-        sensorId: req.params.sid,
+        sensorId: req.params.nid,
       })
-      .then(entry => res.status(201).send(entry))
+      .then(reading => res.status(201).send(reading))
       .catch(error => res.status(400).send(error));
   },
 };

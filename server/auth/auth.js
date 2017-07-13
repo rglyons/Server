@@ -7,7 +7,7 @@
 */
 
 const User = require('../models').User;
-const Sensor = require('../models').Sensor;
+const Node = require('../models').Node;
 
 module.exports = {
   
@@ -19,12 +19,12 @@ module.exports = {
           password: req.body.password,          
         },
         include: [{
-          model: Sensor,
-          as: 'sensors',
+          model: Node,
+          as: 'nodes',
         }],
         order: [
             [
-              {model: Sensor, as:'sensors'},
+              {model: Node, as:'nodes'},
               'id'
             ]
         ]
@@ -48,12 +48,12 @@ module.exports = {
           api_token: req.body.api_token
         },
         include: [{
-          model: Sensor,
-          as: 'sensors',
+          model: Node,
+          as: 'nodes',
         }],
         order: [
             [
-              {model: Sensor, as:'sensors'},
+              {model: Node, as:'nodes'},
               'id'
             ]
         ]

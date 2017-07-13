@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    sensor_count: {
+    nodeCount: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
@@ -24,9 +24,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        User.hasMany(models.Sensor, {
+        User.hasMany(models.Node, {
           foreignKey: 'userId',
-          as: 'sensors',
+          as: 'nodes',
         });
       }
     }

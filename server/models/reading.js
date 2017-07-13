@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Entry = sequelize.define('Entry', {
+  var Reading = sequelize.define('Reading', {
     humidity: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -24,12 +24,12 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Entry.belongsTo(models.Sensor, {
-          foreignKey: 'sensorId',
+        Reading.belongsTo(models.Node, {
+          foreignKey: 'nodeId',
           //onDelete: 'CASCADE',
         });
       }
     }
   });
-  return Entry;
+  return Node;
 };

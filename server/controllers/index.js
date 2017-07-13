@@ -1,9 +1,9 @@
-const entry = require('./entry');
-const sensor = require('./sensor');
+const reading = require('./reading');
+const node = require('./node');
 const user = require('./user');
 
 module.exports = {
-  entry,
-  sensor,
+  reading,
+  node,
   user,
 };
