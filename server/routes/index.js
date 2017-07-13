@@ -11,7 +11,7 @@ module.exports = (app) => {
   // sensors & entries
   app.post('/api/nodes', auth.validate, nodesController.create); //create node under user
   app.get('/api/nodes/all', nodesController.list); // list all nodes
-  app.get('/api/node/:nid', nodesController.getSensorById); // retrieve node + readings
+  app.get('/api/node/:nid', nodesController.getNodeById); // retrieve node + readings
   app.post('/api/nodes/:nid/readings', readingsController.create); // create  for sensor
   app.put('/api/nodes/:nid', auth.validate, nodesController.update); // update sensor fields
   app.delete('/api/nodes/:nid', auth.validate, nodesController.destroy); // delete sensor
