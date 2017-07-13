@@ -101,5 +101,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return Sensor;
+  return Node;
 };
