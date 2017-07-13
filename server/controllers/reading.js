@@ -9,7 +9,7 @@ module.exports = {
         temperature: req.body.temperature,
         moisture: req.body.moisture,
         battery: req.body.battery,
-        sensorId: req.params.nid,
+        nodeId: req.params.nid,
       })
       .then(reading => res.status(201).send(reading))
       .catch(error => res.status(400).send(error));
