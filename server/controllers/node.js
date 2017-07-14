@@ -98,12 +98,26 @@ module.exports = {
   },
   
   getDayAvgForUser(req, res) {
-    req.timestamp = Date.now() // record the timestamp when the request is made
+    if (req.body.timestamp != null) {
+      // convert the timestamp from the body into a date object
+      var time = req.body.timestamp
+      var yr = parseInt(time.slice(0,4))
+      var mth = parseInt(time.slice(6,8)) - 1
+      var day = parseInt(time.slice(8,10))
+      var hr = parseInt(time.slice(11,13))
+      var min = parseInt(time.slice(14,16))
+      var sc = parseInt(time.slice(17,19))
+      var ms = parseInt(time.slice(20,23))
+      req.timestamp = new Date(yr, mth, day, hr, min, sc, ms)
+      req.timestamp -= req.timestamp.getTimezoneOffset() *60*1000 // adjust request timestamp to UTC
+    } else {
+      req.timestamp = Date.now() // record the timestamp when the request is made
+    }
     return Node
       .findOne({
         where: {
           userId: req.user.id,
-          id: req.body.id
+          id: req.params.nid
         }
       })
       .then(node => {
@@ -117,20 +131,22 @@ module.exports = {
       })
       .then(sorted_readings => {
         result = []
-        lastReadingsTime = req.timestamp
+        lastReadingTime = req.timestamp // option to give timestamp in request body
         i = 0
+        console.log('sorted_readings.length = ' + sorted_readings.length)
         while (lastReadingTime > req.timestamp - 24*60*60*1000) { // looking at readings in the last 24 hrs
-          console.log(new Date(lastReadingTime).toJSON())
+          console.log('lastReadingTime = ' + new Date(lastReadingTime).toJSON())
+          console.log('sorted_readings['+i+'] = ' + sorted_readings[i]["createdAt"].toJSON())
           thisReadingTime = (i < sorted_readings.length) ? sorted_readings[i]["createdAt"] : lastReadingTime - 1.01*60*60*1000
-          if (thisReadingTime < req.timestamp - 24*60*60*1000) break
           if (thisReadingTime >= lastReadingTime - 1*60*60*1000) { // if this reading was made within an hour of the last one (w error margin)
             result.unshift(sorted_readings[i])
-            lastReadingTime = sorted_readings[i]["createdAt"]
+            //lastReadingTime = sorted_readings[i]["createdAt"]
             i++
           } else {
-            lastReadingTime -= 1*60*60*1000
             result.unshift({"id": null, "createdAt": new Date(lastReadingTime).toJSON()})
+            console.log('shifting null value')
           }
+          lastReadingTime -= 1*60*60*1000
         }
         return res.status(200).send(result)
       })

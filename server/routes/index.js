@@ -27,5 +27,5 @@ module.exports = (app) => {
   app.delete('/api/users/delete', auth.validate, usersController.destroy); // delete user
 
   //other methods
-  app.post('/api/users/day_avg', auth.validate, nodesController.getDayAvgForUser);
+  app.post('/api/users/day_avg/:nid', auth.validate, nodesController.getDayAvgForUser);
 };
