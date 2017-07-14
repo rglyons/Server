@@ -71,6 +71,27 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
+  
+  getLatestNodeReading(req, res) {
+    return Node
+      .findOne({
+        where: {
+          userId: req.user.id,
+          id: req.params.nid
+        }
+      })
+      .then(node =>
+        Reading.findOne({
+          where: {
+            nodeId: node.id
+          },
+          order: [
+            ['id', 'DESC']
+          ]
+        }))
+      .then(reading => res.status(200).send(reading))
+      .catch(error => res.status(400).send(error));
+  },
 
   getLatestNodeReadingsForUser(req, res) {
     Node
