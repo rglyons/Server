@@ -97,7 +97,7 @@ module.exports = {
       })
   },
   
-  getDayAvgForUser(req, res) {
+  getLast24hrsOfReadingsForNode(req, res) {
     if (req.body.timestamp != null) {
       // convert the timestamp from the body into a date object
       var time = req.body.timestamp
