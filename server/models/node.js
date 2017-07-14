@@ -12,6 +12,11 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: null,
       allowNull: true,
     },
+    groupName: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+      allowNull: true,
+    },
     tempMin: {
       type: DataTypes.INTEGER,
       defaultValue: 0,

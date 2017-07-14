@@ -153,6 +153,7 @@ module.exports = {
           .update({
             ipaddress: req.body.ipaddress || node.ipaddress,
             name: ((req.body.name == "") ? null : req.body.name),
+            groupName: ((req.body.groupName == "") ? null : req.body.groupName),
             tempMin: req.body.tempMin || node.tempMin,
             tempMax: req.body.tempMax || node.tempMax,
             humidityMin: req.body.humidityMin || node.humidityMin,
