@@ -40,6 +40,6 @@ This directory is here so we are able to deploy our application on Heroku from a
  - run `nvm install 6.11.1`. This should install v6.11.1.
  - run `nvm use 6.11.1`.
 
-3. Export the PORT and DATABASE_URL environment variables from the *.env* file by running `set -o allexport; source .env; set +o allexport`
+3. Export the PORT, DEV\_DATABASE\_URL, and DATABASE_URL environment variables from the *.env* file by running `set -o allexport; source .env; set +o allexport`
 4. To run the app with access to data in the development DB, run `npm run-script dev` (This command runs the *dev* script defined in *package.json*)
 5. To run the app with access to data in the production DB, run `npm run-script prod` (This command runs the *prod* script defined in *package.json*). **Note**: Production data should not be edited when developing. If you need to add/change data for development testing purposes, run the application in development mode (refer to #4 above).
