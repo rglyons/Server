@@ -7,8 +7,8 @@
     "node": "6.11.1"
   },
   "scripts": {
-    "dev": "nodemon ./app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "cross-env NODE_ENV=production node ./app.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./app.js"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +28,7 @@
     "sequelize": "^3.30.1"
   },
   "devDependencies": {
+    "cross-env": "^5.0.1",
     "nodemon": "^1.11.0"
   }
 }

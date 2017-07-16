@@ -66,19 +66,18 @@ const port = process.env.PORT;
 app.use(cors());
 // Log requests to the console.
 app.use(logger('dev'));
-app.use('/bower_components', express.static(__dirname + '/bower_components'))
-app.use("/frontend/login/static", express.static(__dirname + '/frontend/login/static'));
+app.use("/static", express.static(__dirname + '/frontend/login/static'));
 app.use('/frontend/dist', express.static(__dirname + '/frontend/dist'))
 app.use("/frontend/AboutUs", express.static(__dirname + '/frontend/AboutUs'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(require('express-session')({
+/*app.use(require('express-session')({
   secret: 'a random string of garbo',
   resave: false,
   saveUninitialized: false
-}));
+}));*/
 
 // Initialize Passport and restore authentication state if needed, from the session
 // app.use(passport.initialize());
@@ -103,7 +102,7 @@ app.use(require('express-session')({
 // );
 
 app.post('/', (req, res)=>{
-  res.redirect('/frontend/index.html');
+  res.redirect('/index.html');
 })
 
 //webapp hosting stuff
