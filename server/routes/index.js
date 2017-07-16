@@ -8,7 +8,7 @@ module.exports = (app) => {
     message: 'Welcome to the Smart Irrigation API!'
   }))
 
-  // nodes & entries
+  // nodes & readings
   app.post('/api/nodes', auth.validate, nodesController.create) // create node under user
   app.get('/api/nodes/all', nodesController.list) // list all nodes
   app.get('/api/nodes/:nid', nodesController.getNodeById) // retrieve node + readings
