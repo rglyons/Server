@@ -14,9 +14,9 @@ Sequelize is the ORM for this solution and the Postgres database. The file *serv
 
 Models are defined through the Sequelize library and are located in *server/models*
 
-**sensor.js** defines the attributes and relationships of the Sensor model and Sensors Postgres table. **Note**: Each SlugSense device will be referred to as a *node*, and each node contains several *sensors*. However, the *sensor.js* file is a data representation of a *node*, not of the sensors on a node. Sorry for any confusion!
+**node.js** defines the attributes and relationships of the Node model and Nodes Postgres table. A node is a data representation of a single Slugsense device.
 
-**entry.js** defines the attributes and relationships of the Entry model and Entries Postgres table. An entry is simply a collection of the readings from all sensors on a node. 
+**reading.js** defines the attributes and relationships of the Reading model and Readings Postgres table. A reading is simply a collection of the values from all sensors on a node. 
 
 **user.js** defines the attributes and relationships of the User model and Users Postgres table.
 
