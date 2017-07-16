@@ -1,29 +1,18 @@
 {
   "development": {
-    "use_env_variable": "DATABASE_URL",
+    "use_env_variable": "DEV_DATABASE_URL",
     "dialect":"postgres",
     "ssl":true,
     "dialectOptions":{
-      "ssl":{
-        "require":true
-      }
+      "ssl": true
     }
-  },
-  "test": {
-    "username": "rglyons",
-    "password": null,
-    "database": "smart-irrigation-test",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
   },
   "production": {
     "use_env_variable": "DATABASE_URL",
     "dialect":"postgres",
     "ssl":true,
     "dialectOptions":{
-      "ssl":{
-        "require":true
-      }
+      "ssl": true
     }
   }
 }
