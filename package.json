@@ -8,7 +8,9 @@
   },
   "scripts": {
     "prod": "cross-env NODE_ENV=production node ./app.js",
-    "dev": "cross-env NODE_ENV=development nodemon ./app.js"
+    "dev": "cross-env NODE_ENV=development nodemon ./app.js",
+    "set": "set -o allexport; source .env; set +o allexport",
+    "test": "cross-env NODE_ENV=development node_modules/.bin/mocha test/*.js --opts=./test/mocha.opts"
   },
   "keywords": [],
   "author": "",
@@ -28,12 +30,32 @@
     "sequelize": "^3.30.1"
   },
   "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-istanbul": "^4.1.1",
     "chai": "^4.1.0",
     "chai-http": "^3.0.0",
     "chai-subset": "^1.5.0",
+    "cz-conventional-changelog": "^2.0.0",
+    "commitizen": "^2.9.6",
     "cross-env": "^5.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "eslint": "^3.14.1",
+    "eslint-config-standard": "^10.2.0",
+    "eslint-friendly-formatter": "^2.0.7",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-html": "^2.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

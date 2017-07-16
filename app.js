@@ -1,14 +1,14 @@
-global.Models = require("./server/models");
-const express = require('express');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const User = require('./server/models').User;
+global.Models = require('./server/models')
+const express = require('express')
+const logger = require('morgan')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const User = require('./server/models').User
 
-//passport and local Strategy
+// passport and local Strategy
 // const passport = require('passport');
 // const Local = require('passport-local').Strategy;
-//setup passport local Strategy
+// setup passport local Strategy
 
 // var findByUsername = function(username, password, cb) {
 //   console.log("passport local login initialized");
@@ -28,7 +28,6 @@ const User = require('./server/models').User;
 //   });
 // }
 
-
 /*
 / passport authentication begins with login here
 */
@@ -41,7 +40,7 @@ const User = require('./server/models').User;
 //       })
 // );
 
-//serialize and deserialize users with passport
+// serialize and deserialize users with passport
 // passport.serializeUser(function(user, cb) {
 //   console.log("serialize user");
 //   console.log(JSON.stringify(user));
@@ -61,23 +60,23 @@ const User = require('./server/models').User;
 // });
 
 // Set up the express app
-const app = express();
-const port = process.env.PORT;
-app.use(cors());
+const app = express()
+const port = process.env.PORT
+app.use(cors())
 // Log requests to the console.
-app.use(logger('dev'));
-app.use("/static", express.static(__dirname + '/frontend/login/static'));
+app.use(logger('dev'))
+app.use('/static', express.static(__dirname + '/frontend/login/static'))
 app.use('/frontend/dist', express.static(__dirname + '/frontend/dist'))
-app.use("/frontend/AboutUs", express.static(__dirname + '/frontend/AboutUs'));
+app.use('/frontend/AboutUs', express.static(__dirname + '/frontend/AboutUs'))
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
-/*app.use(require('express-session')({
+/* app.use(require('express-session')({
   secret: 'a random string of garbo',
   resave: false,
   saveUninitialized: false
-}));*/
+})); */
 
 // Initialize Passport and restore authentication state if needed, from the session
 // app.use(passport.initialize());
@@ -89,7 +88,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // 	res.redirect('/');
 // }
 
-//login using passport-local
+// login using passport-local
 // app.post('/',
 //   passport.authenticate('local', {
 //     failureRedirect: '/',
@@ -101,23 +100,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //   }
 // );
 
-app.post('/', (req, res)=>{
-  res.redirect('/index.html');
+app.post('/', (req, res) => {
+  res.redirect('/index.html')
 })
 
-//webapp hosting stuff
-app.get('/', (req,res) => {
-    res.sendFile(__dirname + '/frontend/login/login.html');
-});
-app.get('/index.html', /*isAuthenticated,*/ (req,res) =>{
-  res.sendFile(__dirname + '/frontend/index.html');
-});
+// webapp hosting stuff
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/frontend/login/login.html')
+})
+app.get('/index.html', /* isAuthenticated, */ (req, res) => {
+  res.sendFile(__dirname + '/frontend/index.html')
+})
 // Require our routes into the application.
-require('./server/routes')(app);
+require('./server/routes')(app)
 app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the beginning of nothingness.',
-}));
+  message: 'Welcome to the beginning of nothingness.'
+}))
 
+app.listen(port)
+console.log('Listening to port: ' + port)
 
-app.listen(port);
-console.log("Listening to port: " + port);
+module.exports = app
