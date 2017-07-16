@@ -8,7 +8,7 @@ App.js defines the Express application. This is where all requirements are state
 
 ## Sequelize
 
-Sequelize is the ORM for this solution and the Postgres database. The file *server/models/index.js* initializes Sequelize and looks for 'use\_env\_variable' in the file *server/config/config.json*. This variable is initialized to the environment variable 'DATABASE\_URL', which is defined as the Postgres database URL on the Heroku instance where this app is running. When running locally, 'DATABASE\_URL' must be initialized in a local .env file. The included .env file initializes the DATABASE_URL variable to the url of our production Postgres database. Handle it with care!
+Sequelize is the ORM for this solution and the Postgres database. The file *server/models/index.js* initializes Sequelize and looks for 'use\_env\_variable' in the file *server/config/config.json*. This variable is initialized to the environment variable 'DEV\_DATABASE\_URL' or 'DATABASE\_URL', which are both defined as a Postgres database URL on the Heroku instance where this app is running. When running locally, 'DEV\_DATABASE\_URL' and 'DATABASE\_URL' must be initialized in a local .env file. The included .env file initializes these variables to the URLs of our develpment and production Postgres databases, respectively. Sequelize will connect to the database with the URL that is specified by the Node run scripts (this is discussed below, in 'Running Locally').
 
 ## Database Models
 
