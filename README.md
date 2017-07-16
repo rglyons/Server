@@ -37,7 +37,7 @@ This directory is here so we are able to deploy our application on Heroku from a
 1. Download and install [Node.js]( https://nodejs.org/en/download/)
 2. Update Node.js to v6.11.1, which is the latest LTS (Long Term Support) version of Node.js
  - [install](https://github.com/creationix/nvm#installation) nvm
- - run `nvm install 6.11.1`. This should install v6.11.0.
+ - run `nvm install 6.11.1`. This should install v6.11.1.
  - run `nvm use 6.11.1`.
 
 3. Export the PORT and DATABASE_URL environment variables from the *.env* file by running `set -o allexport; source .env; set +o allexport`
