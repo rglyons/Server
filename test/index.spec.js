@@ -1,5 +1,6 @@
 // Require the dev-dependencies
 const User = require('../server/models').User
+const Node = require('../server/models').Node
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const chaiSubset = require('chai-subset')
@@ -40,10 +41,224 @@ describe('Test on server/routes/index.js', () => {
 })
 
 /*
+* /api/users/login
+*/
+describe('Test user login - POST to /api/users/login', () => {
+  before(() => {
+    // runs before all tests in this block
+    // create a new user
+    User
+      .create({
+        username: 'mocha_test_login',
+        password: 'mocha_test_login',
+        nodeCount: 0,
+      })
+  })
+  after(() => {
+    // runs after all tests in this block
+    // delete the test user
+    User
+      .destroy({ where: 
+        { 
+          username: 'mocha_test_login',
+          password: 'mocha_test_login'
+        }
+      })
+  })
+  beforeEach(() => {
+    // runs before each test in this block
+  })
+  afterEach(() => {
+    // runs after each test in this block
+  })
+  describe('POST correct user credentials to login', () => {
+    it('it should validate credentials and return the user', (done) => {
+      let credentials = {
+        username: 'mocha_test_login',
+        password: 'mocha_test_login'
+      }
+      chai.request(server)
+        .post('/api/users/login')
+        .send(credentials)
+        .end((err, res) => {
+          if (err) console.trace(err);
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          // id
+          res.body.should.have.property('id');
+          res.body.id.should.be.a('number');
+          // username
+          res.body.should.have.property('username');
+          res.body.username.should.be.a('string');
+          // password
+          res.body.should.have.property('password');
+          expect(res.body.password).to.be.null;
+          // nodeCount
+          res.body.should.have.property('nodeCount');
+          res.body.nodeCount.should.be.a('number');
+          res.body.nodeCount.should.equal(0, 'new user nodeCount != 0');
+          // api_token
+          res.body.should.have.property('api_token');
+          res.body.api_token.should.be.a('string');
+          // createdAt
+          res.body.should.have.property('createdAt');
+          res.body.createdAt.should.be.a('string');
+          // updatedAt
+          res.body.should.have.property('updatedAt');
+          res.body.updatedAt.should.be.a('string');
+          // nodes
+          res.body.should.have.property('nodes')
+          res.body.nodes.should.be.a('array');
+          res.body.nodes.length.should.equal(0);
+          
+          done();
+        })
+    })
+  })
+  describe('POST nonexistent user credentials to login', () => {
+    it('it should return a message about invalid credentials', (done) => {
+      let credentials = {
+        username: 'mocha_test_login',
+        password: 'mocha_test_login_wrong_password'
+      }
+      chai.request(server)
+        .post('/api/users/login')
+        .send(credentials)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          // message
+          res.body.should.have.property('message');
+          res.body.message.should.be.a('string');
+          res.body.message.should.equal('Invalid login credentials provided')
+          done();
+        })
+    })
+  })
+  describe('POST user credentials to login without password', () => {
+    it('it should return a message about invalid credentials', (done) => {
+      let credentials = {
+        username: 'mocha_test_login'
+      }
+      chai.request(server)
+        .post('/api/users/login')
+        .send(credentials)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          // message
+          res.body.should.have.property('message');
+          res.body.message.should.be.a('string');
+          res.body.message.should.equal('Invalid login credentials provided')
+          done();
+        })
+    })
+  })
+  describe('POST user credentials to login without username', () => {
+    it('it should return a message about invalid credentials', (done) => {
+      let credentials = {
+        password: 'mocha_test_login'
+      }
+      chai.request(server)
+        .post('/api/users/login')
+        .send(credentials)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          // message
+          res.body.should.have.property('message');
+          res.body.message.should.be.a('string');
+          res.body.message.should.equal('Invalid login credentials provided')
+          done();
+        })
+    })
+  })
+  describe('POST user credentials to login without username or password', () => {
+    it('it should return a message about invalid credentials', (done) => {
+      let credentials = {
+      }
+      chai.request(server)
+        .post('/api/users/login')
+        .send(credentials)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          // message
+          res.body.should.have.property('message');
+          res.body.message.should.be.a('string');
+          res.body.message.should.equal('Invalid login credentials provided')
+          done();
+        })
+    })
+  })
+  /*describe('POST correct user credentials to login after creating node under user', () => {
+    it('it should validate credentials and return the user with non-empty nodes list', (done) => {
+      let credentials = {
+        username: 'mocha_test_login',
+        password: 'mocha_test_login'
+      }
+      // create a node under the test case user
+      User
+        .findOne({ where: 
+          { 
+            username: 'mocha_test_login',
+            password: 'mocha_test_login'
+          }
+        })
+      .then(user => {
+        Node
+        .create({
+          ipaddress: '1.1.1.1',
+          userId: user.id
+        })
+      })
+      .then(node => {
+        // check is done before the node hook runs to increment nodeCount. How do we make sure the hook runs first?
+        chai.request(server)
+          .post('/api/users/login')
+          .send(credentials)
+          .end((err, res) => {
+            if (err) console.trace(err);
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            // id
+            res.body.should.have.property('id');
+            res.body.id.should.be.a('number');
+            // username
+            res.body.should.have.property('username');
+            res.body.username.should.be.a('string');
+            // password
+            res.body.should.have.property('password');
+            expect(res.body.password).to.be.null;
+            // nodeCount
+            res.body.should.have.property('nodeCount');
+            res.body.nodeCount.should.be.a('number');
+            res.body.nodeCount.should.equal(1);
+            // api_token
+            res.body.should.have.property('api_token');
+            res.body.api_token.should.be.a('string');
+            // createdAt
+            res.body.should.have.property('createdAt');
+            res.body.createdAt.should.be.a('string');
+            // updatedAt
+            res.body.should.have.property('updatedAt');
+            res.body.updatedAt.should.be.a('string');
+            // nodes
+            res.body.should.have.property('nodes')
+            res.body.nodes.should.be.a('array');
+            res.body.nodes.length.should.equal(1);
+            
+            done();
+          })
+        })
+    })
+  })*/
+})
+
+/*
 * /api/users
 */
 describe('Test creation of new user - POST to /api/users', () => {
-  let newUser = null
   before(() => {
     // runs before all tests in this block
   })
@@ -76,7 +291,6 @@ describe('Test creation of new user - POST to /api/users', () => {
         .send(user)
         .end((err, res) => {
           if (err) console.trace(err);
-          newUser = res.body
           res.should.have.status(201);
           res.body.should.be.a('object');
           res.body.should.have.property('api_token');
