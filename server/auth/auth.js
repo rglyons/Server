@@ -1,11 +1,3 @@
-/*
-.then (user)->
-    req.user = user
-    next()
-    
-  .catch next
-*/
-
 const User = require('../models').User;
 const Node = require('../models').Node;
 
