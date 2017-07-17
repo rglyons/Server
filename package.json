@@ -10,7 +10,8 @@
     "prod": "cross-env NODE_ENV=production node ./app.js",
     "dev": "cross-env NODE_ENV=development nodemon ./app.js",
     "set": "set -o allexport; source .env; set +o allexport",
-    "test": "cross-env NODE_ENV=development node_modules/.bin/mocha test/*.js --opts=./test/mocha.opts"
+    "test": "cross-env NODE_ENV=development node_modules/.bin/mocha test/*.js --opts=./test/mocha.opts",
+    "coverage": "cross-env NODE_ENV=development node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -u exports -R spec"
   },
   "keywords": [],
   "author": "",
