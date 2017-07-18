@@ -42,10 +42,13 @@ module.exports = {
   update(req, res) {
     return req.user
       .update({
-        password: req.body.password || user.password,
-        username: req.body.username || user.username,
+        password: req.body.password || req.user.password,
+        username: req.body.username || req.user.username,
       })
-      .then(() => res.status(200).send(user))  // Send back the updated user.
+      .then(user => {
+        user.password = null;
+        res.status(200).send(user);  // Send back the updated user.
+      })
       .catch((error) => res.status(400).send(error));
   },
   

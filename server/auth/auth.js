@@ -56,9 +56,9 @@ module.exports = {
             message: 'Invalid API token provided',
           });
         }
-        console.log(user)
+        //console.log(user)
         req.user = user
-        next()
+        return next()
       })
       .catch(next)
   }
