@@ -14,5 +14,13 @@
     "dialectOptions":{
       "ssl": true
     }
+  },
+  "test": {
+    "use_env_variable": "DEV_DATABASE_URL",
+    "dialect":"postgres",
+    "ssl":true,
+    "dialectOptions":{
+      "ssl": true
+    }
   }
 }

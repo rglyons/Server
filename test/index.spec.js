@@ -9,7 +9,6 @@ const chaiHttp = require('chai-http')
 const chaiSubset = require('chai-subset')
 const server = require('../app')
 const expect = chai.expect
-chai.should()
 chai.use(chaiHttp)
 chai.use(chaiSubset)
 
@@ -95,7 +94,7 @@ describe('POST to /api/users/login - Test user login', () => {
         .post('/api/users/login')
         .send(credentials)
         .end((err, res) => {
-          if (err) console.trace(err)
+//           if (err) console.trace(err)
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
           // message
@@ -111,7 +110,7 @@ describe('POST to /api/users/login - Test user login', () => {
         .post('/api/users/login')
         .send(credentials)
         .end((err, res) => {
-          if (err) console.trace(err)
+//           if (err) console.trace(err)
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
           // message
@@ -127,7 +126,7 @@ describe('POST to /api/users/login - Test user login', () => {
         .post('/api/users/login')
         .send(credentials)
         .end((err, res) => {
-          if (err) console.trace(err)
+//           if (err) console.trace(err)
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
           // message
@@ -143,7 +142,7 @@ describe('POST to /api/users/login - Test user login', () => {
         .post('/api/users/login')
         .send(credentials)
         .end((err, res) => {
-          if (err) console.trace(err)
+//           if (err) console.trace(err)
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
           // message
