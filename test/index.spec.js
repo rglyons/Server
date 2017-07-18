@@ -94,7 +94,6 @@ describe('POST to /api/users/login - Test user login', () => {
         .post('/api/users/login')
         .send(credentials)
         .end((err, res) => {
-//           if (err) console.trace(err)
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
           // message
@@ -110,7 +109,6 @@ describe('POST to /api/users/login - Test user login', () => {
         .post('/api/users/login')
         .send(credentials)
         .end((err, res) => {
-//           if (err) console.trace(err)
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
           // message
@@ -126,7 +124,6 @@ describe('POST to /api/users/login - Test user login', () => {
         .post('/api/users/login')
         .send(credentials)
         .end((err, res) => {
-//           if (err) console.trace(err)
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
           // message
@@ -142,7 +139,6 @@ describe('POST to /api/users/login - Test user login', () => {
         .post('/api/users/login')
         .send(credentials)
         .end((err, res) => {
-//           if (err) console.trace(err)
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
           // message
@@ -152,68 +148,6 @@ describe('POST to /api/users/login - Test user login', () => {
           done()
         })
   })
-  /* describe('POST correct user credentials to login after creating node under user', () => {
-    it('it should validate credentials and return the user with non-empty nodes list', (done) => {
-      let credentials = {
-        username: 'mocha_test_login',
-        password: 'mocha_test_login'
-      }
-      // create a node under the test case user
-      User
-        .findOne({ where:
-          {
-            username: 'mocha_test_login',
-            password: 'mocha_test_login'
-          }
-        })
-      .then(user => {
-        Node
-        .create({
-          ipaddress: '1.1.1.1',
-          userId: user.id
-        })
-      })
-      .then(node => {
-        // check is done before the node hook runs to increment nodeCount. How do we make sure the hook runs first?
-        chai.request(server)
-          .post('/api/users/login')
-          .send(credentials)
-          .end((err, res) => {
-            if (err) console.trace(err);
-            res.should.have.status(200);
-            res.body.should.be.a('object');
-            // id
-            res.body.should.have.property('id');
-            res.body.id.should.be.a('number');
-            // username
-            res.body.should.have.property('username');
-            res.body.username.should.be.a('string');
-            // password
-            res.body.should.have.property('password');
-            expect(res.body.password).to.be.null;
-            // nodeCount
-            res.body.should.have.property('nodeCount');
-            res.body.nodeCount.should.be.a('number');
-            res.body.nodeCount.should.equal(1);
-            // api_token
-            res.body.should.have.property('api_token');
-            res.body.api_token.should.be.a('string');
-            // createdAt
-            res.body.should.have.property('createdAt');
-            res.body.createdAt.should.be.a('string');
-            // updatedAt
-            res.body.should.have.property('updatedAt');
-            res.body.updatedAt.should.be.a('string');
-            // nodes
-            res.body.should.have.property('nodes')
-            res.body.nodes.should.be.a('array');
-            res.body.nodes.length.should.equal(1);
-
-            done();
-          })
-        })
-    })
-  }) */
 })
 
 /*
@@ -339,4 +273,221 @@ describe('POST to /api/users - Test creation of new user', () => {
           done()
         })
   })
+})
+
+/*
+* /api/users/update
+*/
+describe('PUT to /api/users/update - Test updating an existing user', () => {
+  let theUser = null
+  before(() => { // create a new user
+    User.create({
+      username: 'mocha_test_update',
+      password: 'mocha_test_update',
+      nodeCount: 0
+    });
+  })
+  after(() => { // delete the test user
+    User.destroy({ where: {
+      api_token: theUser.api_token
+    }})
+  })
+  beforeEach(() => {
+    if (theUser) {
+      User.update({
+        username: 'mocha_test_update',
+        password: 'mocha_test_update'
+      }, {
+        where: {
+          api_token: theUser.api_token
+        }
+      })
+    }
+  })
+  afterEach(() => {})
+  it('with required data: it should update the user and return it in the response', (done) => {
+    User.findOne({where:
+      {
+        username: 'mocha_test_update',
+        password: 'mocha_test_update',
+      }
+    })
+    .then (user => { 
+      theUser = user
+      const newUser = {
+        username: 'test1',
+        password: 'test1',
+        api_token: user.api_token
+      }
+      chai.request(server)
+          .put('/api/users/update')
+          .send(newUser)
+          .end((err, res) => {
+            if (err) console.trace(err)
+            expect(res).to.have.status(200)
+            expect(res.body).to.be.a('object')
+  
+            expect(res.body).to.have.all.keys(['id', 'username', 'password', 'nodeCount', 'api_token', 'createdAt', 'updatedAt', 'nodes'])
+  
+            // Type Check
+            expect(res.body.id).to.be.a('number')
+            expect(res.body.username).to.be.a('string')
+            expect(res.body.password).to.be.null
+            expect(res.body.nodeCount).to.be.a('number')
+            expect(res.body.createdAt).to.be.a('string')
+            expect(res.body.updatedAt).to.be.a('string')
+            expect(res.body.nodes).to.be.a('array')
+  
+            // Value Check
+            expect(res.body.nodeCount).to.equal(0, 'new user nodeCount != 0')
+            expect(res.body.username).to.equal('test1')
+            expect(res.body.nodes.length).to.equal(0)
+            
+            done()
+          })
+    })
+  })
+  it('with no api_token: it should return a message about invalid API token', (done) => {
+    const theUser = {
+        username: 'test1',
+        password: 'test1'
+    }
+    chai.request(server)
+        .put('/api/users/update')
+        .send(theUser)
+        .end((err, res) => {
+          expect(res).to.have.status(404)
+          expect(res.body).to.be.a('object')
+          // message
+          expect(res.body).to.have.property('message')
+          expect(res.body.message).to.be.a('string')
+          expect(res.body.message).to.equal('Invalid API token provided')
+          done()
+        })
+  })
+  it('with no username: it should not update the user\'s username, and return the user in the response', (done) => {
+    User.findOne({where:
+      {
+        username: 'mocha_test_update',
+        password: 'mocha_test_update',
+      }
+    })
+    .then (user => { 
+      theUser = user
+      const newUser = {
+        password: 'test1',
+        api_token: user.api_token
+      }
+
+      chai.request(server)
+          .put('/api/users/update')
+          .send(newUser)
+          .end((err, res) => {
+            if (err) console.trace(err)
+            expect(res).to.have.status(200)
+            expect(res.body).to.be.a('object')
+  
+            expect(res.body).to.have.all.keys(['id', 'username', 'password', 'nodeCount', 'api_token', 'createdAt', 'updatedAt', 'nodes'])
+  
+            // Type Check
+            expect(res.body.id).to.be.a('number')
+            expect(res.body.username).to.be.a('string')
+            expect(res.body.password).to.be.null
+            expect(res.body.nodeCount).to.be.a('number')
+            expect(res.body.createdAt).to.be.a('string')
+            expect(res.body.updatedAt).to.be.a('string')
+            expect(res.body.nodes).to.be.a('array')
+  
+            // Value Check
+            expect(res.body.nodeCount).to.equal(0, 'new user nodeCount != 0')
+            expect(res.body.username).to.equal('mocha_test_update')
+            expect(res.body.nodes.length).to.equal(0)
+            
+            done()
+          })
+    })
+  })
+  it('with no password: it should not update the user\'s password, and return the user in the response', (done) => {
+    User.findOne({where:
+      {
+        username: 'mocha_test_update',
+        password: 'mocha_test_update',
+      }
+    })
+    .then (user => { 
+      theUser = user
+      const newUser = {
+        username: 'test1',
+        api_token: user.api_token
+      }
+      chai.request(server)
+          .put('/api/users/update')
+          .send(newUser)
+          .end((err, res) => {
+            if (err) console.trace(err)
+            expect(res).to.have.status(200)
+            expect(res.body).to.be.a('object')
+  
+            expect(res.body).to.have.all.keys(['id', 'username', 'password', 'nodeCount', 'api_token', 'createdAt', 'updatedAt', 'nodes'])
+  
+            // Type Check
+            expect(res.body.id).to.be.a('number')
+            expect(res.body.username).to.be.a('string')
+            expect(res.body.password).to.be.null
+            expect(res.body.nodeCount).to.be.a('number')
+            expect(res.body.createdAt).to.be.a('string')
+            expect(res.body.updatedAt).to.be.a('string')
+            expect(res.body.nodes).to.be.a('array')
+  
+            // Value Check
+            expect(res.body.nodeCount).to.equal(0, 'new user nodeCount != 0')
+            expect(res.body.username).to.equal('test1')
+            expect(res.body.nodes.length).to.equal(0)
+            
+            done()
+          })
+    })
+  })
+  it('with nothing: it should not update the user\'s username or password, and return the user in the response', (done) => {
+    User.findOne({where:
+      {
+        username: 'mocha_test_update',
+        password: 'mocha_test_update',
+      }
+    })
+    .then (user => { 
+      theUser = user
+      const newUser = {
+        api_token: user.api_token
+      }
+
+      chai.request(server)
+          .put('/api/users/update')
+          .send(newUser)
+          .end((err, res) => {
+            if (err) console.trace(err)
+            expect(res).to.have.status(200)
+            expect(res.body).to.be.a('object')
+  
+            expect(res.body).to.have.all.keys(['id', 'username', 'password', 'nodeCount', 'api_token', 'createdAt', 'updatedAt', 'nodes'])
+  
+            // Type Check
+            expect(res.body.id).to.be.a('number')
+            expect(res.body.username).to.be.a('string')
+            expect(res.body.password).to.be.null
+            expect(res.body.nodeCount).to.be.a('number')
+            expect(res.body.createdAt).to.be.a('string')
+            expect(res.body.updatedAt).to.be.a('string')
+            expect(res.body.nodes).to.be.a('array')
+  
+            // Value Check
+            expect(res.body.nodeCount).to.equal(0, 'new user nodeCount != 0')
+            expect(res.body.username).to.equal('mocha_test_update')
+            expect(res.body.nodes.length).to.equal(0)
+            
+            done()
+          })
+    })
+  })
+
 })
