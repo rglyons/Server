@@ -142,6 +142,9 @@ module.exports = {
         }
       })
       .then(node => {
+        if (!node) {
+          throw new Error('Invalid Node For User')
+        }
         return node.getReadings()
       })
       .then(readings => {
@@ -169,7 +172,13 @@ module.exports = {
       })
       .catch((error) => {
         console.log(error)
-        res.status(400).send(error)
+        if (error.message == 'Invalid Node For User') {
+          res.status(404).send({
+            message: 'User with id ' + req.user.id + ' does not own node with id ' + req.params.nid,
+          });
+        } else {
+          res.status(400).send(error)
+        }
       })
   },
 
