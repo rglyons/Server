@@ -129,8 +129,7 @@ module.exports = {
       var min = parseInt(time.slice(14,16))
       var sc = parseInt(time.slice(17,19))
       var ms = parseInt(time.slice(20,23))
-      req.timestamp = new Date(yr, mth, day, hr, min, sc, ms)
-      req.timestamp -= req.timestamp.getTimezoneOffset() *60*1000 // adjust request timestamp to UTC
+      req.timestamp = new Date(Date.UTC(yr, mth, day, hr, min, sc, ms))
     } else {
       req.timestamp = Date.now() // record the timestamp when the request is made
     }
@@ -156,12 +155,21 @@ module.exports = {
       .then(sorted_readings => {
         result = []
         lastReadingTime = req.timestamp // option to give timestamp in request body
+        // remove any readings that happened after the provided timestamp
+        i = 0
+        while (sorted_readings[i]["createdAt"] > req.timestamp) {
+          console.log('splicing reading posted at ' + new Date(sorted_readings[i]["createdAt"]).toJSON())
+          sorted_readings.splice(i, 1)
+        }
+        // look at readings before the provided timestamp up until 24 hrs before said timestamp
         i = 0
         while (lastReadingTime > req.timestamp - 24*60*60*1000) { // looking at readings in the last 24 hrs
+          console.log('lastReadingtime = ' + new Date(lastReadingTime).toJSON())
           thisReadingTime = (i < sorted_readings.length) ? sorted_readings[i]["createdAt"] : lastReadingTime - 1.01*60*60*1000
-          if (thisReadingTime >= lastReadingTime - 1*60*60*1000) { // if this reading was made within an hour of the last one (w error margin)
+          console.log('thisReadingTime = ' + new Date(thisReadingTime).toJSON())
+          // if this reading was made within an hour of the last one (w error margin), put it on the back of the list
+          if (thisReadingTime >= lastReadingTime - 1*60*60*1000) { 
             result.unshift(sorted_readings[i])
-            //lastReadingTime = sorted_readings[i]["createdAt"]
             i++
           } else {
             result.unshift({"id": null, "createdAt": new Date(lastReadingTime).toJSON()})
