@@ -154,10 +154,7 @@ module.exports = {
         result = []
         lastReadingTime = req.timestamp // option to give timestamp in request body
         i = 0
-        console.log('sorted_readings.length = ' + sorted_readings.length)
         while (lastReadingTime > req.timestamp - 24*60*60*1000) { // looking at readings in the last 24 hrs
-          console.log('lastReadingTime = ' + new Date(lastReadingTime).toJSON())
-          console.log('sorted_readings['+i+'] = ' + sorted_readings[i]["createdAt"].toJSON())
           thisReadingTime = (i < sorted_readings.length) ? sorted_readings[i]["createdAt"] : lastReadingTime - 1.01*60*60*1000
           if (thisReadingTime >= lastReadingTime - 1*60*60*1000) { // if this reading was made within an hour of the last one (w error margin)
             result.unshift(sorted_readings[i])
@@ -165,7 +162,6 @@ module.exports = {
             i++
           } else {
             result.unshift({"id": null, "createdAt": new Date(lastReadingTime).toJSON()})
-            console.log('shifting null value')
           }
           lastReadingTime -= 1*60*60*1000
         }
