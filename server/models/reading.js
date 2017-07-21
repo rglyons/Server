@@ -26,7 +26,6 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Reading.belongsTo(models.Node, {
           foreignKey: 'nodeId',
-          //onDelete: 'CASCADE',
         });
       }
     }

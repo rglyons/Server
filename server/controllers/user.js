@@ -32,7 +32,7 @@ module.exports = {
       .update({
         api_token: randomstring.generate(30)
       })
-      .then(() => {
+      .then((user) => {
         user.password = null 
         res.status(200).send(user)  // Send back the updated user.
       })
