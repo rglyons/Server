@@ -55,7 +55,7 @@ module.exports = {
         }],
         order: [
             [
-              {model: Readings, as:'readings'},
+              {model: Reading, as:'readings'},
               'id',
               'DESC'
             ]
