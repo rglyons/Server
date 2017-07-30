@@ -1734,11 +1734,11 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
           done()
     })
   })
-  it('it should return the node\'s new reading in the response', () => {
+  it('it should return the node\'s new reading in the response', (done) => {
     const body = {
       api_token: theUser.api_token
     }
-    return Reading
+    Reading
       .create({
         humidity: 1,
         sunlight: 2,
@@ -1775,9 +1775,10 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
             expect(res.body.temperature).to.equal(3)
             expect(res.body.sunlight).to.equal(2)
             expect(res.body.moisture).to.equal(4)
-            expect(res.body.battery).to.equal(5)
+            expect(res.body.battery).to.equal(5) 
           })
     })
+    .then(done, done)
   })
   it('without api_token: it should return a message about invalid API token', (done) => {
     const body = {}
@@ -1928,16 +1929,16 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
           expect(res.body[1].battery).to.equal(1)
           
           // Order Check
-          expect(res.body[1].id).to.be.greaterThan(res.body[0].id)
+          expect(res.body[1].nodeId).to.be.greaterThan(res.body[0].nodeId)
                     
           done()
     })
   })
-  it('it should return the nodes\' newest readings in the response', () => {
+  it('it should return the nodes\' newest readings in the response', (done) => {
     const body = {
       api_token: theUser.api_token
     }
-    return Reading
+    Reading
       .create({
         humidity: 10,
         sunlight: 11,
@@ -1994,13 +1995,12 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
             expect(res.body[1].sunlight).to.equal(1)
             expect(res.body[1].moisture).to.equal(1)
             expect(res.body[1].battery).to.equal(1)
-            
-            console.log(res.body)
-            
+                                    
             // Order Check
-            expect(res.body[1].id).to.be.greaterThan(res.body[0].id)
+            expect(res.body[1].nodeId).to.be.greaterThan(res.body[0].nodeId)   
           })
     })
+    .then(done, done)
   })
   it('without api_token: it should return a message about invalid API token', (done) => {
     const body = {}
@@ -2039,7 +2039,6 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
 /*
 * /api/nodes/prev_24h/:nid
 */
-/* ASYNCHRONICITY ISSUES?
 describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a node\'s readings by the hour', () => {
   let theUser = null
   let theNode = null
@@ -2050,7 +2049,6 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
     })
     .then(user => {
       theUser = user
-      console.log(theUser)
       return theUser
     })
     .then(theUser => {
@@ -2074,7 +2072,6 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
     })
   })
   after((done) => {
-    console.log('destroying theUser')
     theUser.destroy()
     theNode.destroy()
     done()
@@ -2086,7 +2083,7 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
       api_token: theUser.api_token,
     }
     chai.request(server)
-        .put('/api/nodes/prev_24h/' + theNode.id)
+        .post('/api/nodes/prev_24h/' + theNode.id)
         .send(body)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -2157,4 +2154,4 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
           done()
         })
   })
-})*/
+})
