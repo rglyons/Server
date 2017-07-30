@@ -1570,7 +1570,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
 })
 
 /*
-* /api/nodes/:nid (DELETE
+* /api/nodes/:nid (DELETE)
 */
 describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
   let theUser = null
@@ -1606,7 +1606,6 @@ describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
   })
   after(() => {
     theUser.destroy()
-    //theNode.destroy()
   })
   beforeEach(() => {})
   afterEach(() => {})
@@ -1646,6 +1645,502 @@ describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
     chai.request(server)
         .delete('/api/nodes/' + theNode.id)
         .send(user)
+        .end((err, res) => {
+          expect(res).to.have.status(404)
+          expect(res.body).to.be.a('object')
+          // message
+          expect(res.body).to.have.property('message')
+          expect(res.body.message).to.be.a('string')
+          expect(res.body.message).to.equal('Invalid API token provided')
+          done()
+        })
+  })
+})
+
+/*
+* /api/nodes/:nid/latest_reading
+*/
+describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest reading', () => {
+  let theUser = null
+  let theNode = null
+  before(() => { // create a new user, node, and dummy reading
+    return User.create({
+      username: 'mocha_test_latest_reading',
+      password: 'mocha_test_latest_reading',
+    })
+    .then(user => {
+      theUser = user
+      return theUser
+    })
+    .then(theUser => {
+      return Node
+        .create({
+          ipaddress: '1.1.1.1',
+          userId: theUser.id
+        })
+        .then(node => {
+          theNode = node
+          return Reading
+            .create({
+              humidity: 0,
+              sunlight: 0,
+              temperature: 0,
+              moisture: 0,
+              battery: null,
+              nodeId: node.id,
+            })
+          })
+    })
+  })
+  after((done) => {
+    theUser.destroy()
+    theNode.destroy()
+    done()
+  })
+  beforeEach(() => {})
+  afterEach(() => {})
+  it('it should return the node\'s dummy reading in the response', (done) => {
+    const body = {
+      api_token: theUser.api_token
+    }
+    chai.request(server)
+        .post('/api/nodes/' + theNode.id + '/latest_reading')
+        .send(body)
+        .end((err, res) => {
+          if (err) console.trace(err)
+          expect(res).to.have.status(200)
+          expect(res.body).to.be.a('object')
+
+          expect(res.body).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+                                              'battery', 'nodeId', 'createdAt', 'updatedAt'])
+
+          // Type Check
+          expect(res.body.id).to.be.a('number')
+          expect(res.body.humidity).to.be.a('number')
+          expect(res.body.temperature).to.be.a('number')
+          expect(res.body.sunlight).to.be.a('number')
+          expect(res.body.moisture).to.be.a('number')
+          expect(res.body.battery).to.be.null
+          expect(res.body.createdAt).to.be.a('string')
+          expect(res.body.updatedAt).to.be.a('string')
+          expect(res.body.nodeId).to.be.a('number')
+          
+          // Value Check
+          expect(res.body.humidity).to.equal(0)
+          expect(res.body.temperature).to.equal(0)
+          expect(res.body.sunlight).to.equal(0)
+          expect(res.body.moisture).to.equal(0)
+                    
+          done()
+    })
+  })
+  it('it should return the node\'s new reading in the response', () => {
+    const body = {
+      api_token: theUser.api_token
+    }
+    return Reading
+      .create({
+        humidity: 1,
+        sunlight: 2,
+        temperature: 3,
+        moisture: 4,
+        battery: 5,
+        nodeId: theNode.id,
+      })
+    .then(reading => {     
+      chai.request(server)
+          .post('/api/nodes/' + theNode.id + '/latest_reading')
+          .send(body)
+          .end((err, res) => {
+            if (err) console.trace(err)
+            expect(res).to.have.status(200)
+            expect(res.body).to.be.a('object')
+  
+            expect(res.body).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+                                                'battery', 'nodeId', 'createdAt', 'updatedAt'])
+  
+            // Type Check
+            expect(res.body.id).to.be.a('number')
+            expect(res.body.humidity).to.be.a('number')
+            expect(res.body.temperature).to.be.a('number')
+            expect(res.body.sunlight).to.be.a('number')
+            expect(res.body.moisture).to.be.a('number')
+            expect(res.body.battery).to.be.a('number')
+            expect(res.body.createdAt).to.be.a('string')
+            expect(res.body.updatedAt).to.be.a('string')
+            expect(res.body.nodeId).to.be.a('number')
+            
+            // Value Check
+            expect(res.body.humidity).to.equal(1)
+            expect(res.body.temperature).to.equal(3)
+            expect(res.body.sunlight).to.equal(2)
+            expect(res.body.moisture).to.equal(4)
+            expect(res.body.battery).to.equal(5)
+          })
+    })
+  })
+  it('without api_token: it should return a message about invalid API token', (done) => {
+    const body = {}
+    chai.request(server)
+        .post('/api/nodes/' + theNode.id + '/latest_reading')
+        .send(body)
+        .end((err, res) => {
+          expect(res).to.have.status(404)
+          expect(res.body).to.be.a('object')
+          // message
+          expect(res.body).to.have.property('message')
+          expect(res.body.message).to.be.a('string')
+          expect(res.body.message).to.equal('Invalid API token provided')
+          done()
+        })
+  })
+  it('with improper api_token: it should return a message about invalid API token', (done) => {
+    const body = {
+      api_token: 'incorrect_api_token'  
+    }
+    chai.request(server)
+        .post('/api/nodes/' + theNode.id + '/latest_reading')
+        .send(body)
+        .end((err, res) => {
+          expect(res).to.have.status(404)
+          expect(res.body).to.be.a('object')
+          // message
+          expect(res.body).to.have.property('message')
+          expect(res.body.message).to.be.a('string')
+          expect(res.body.message).to.equal('Invalid API token provided')
+          done()
+        })
+  })
+})
+
+/*
+* /api/nodes/latest_readings/all
+*/
+describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest reading', () => {
+  let theUser = null
+  let theNode1 = null
+  let theNode2 = null
+  before(() => { // create a new user, two nodes, and dummy readings
+    return User.create({
+      username: 'mocha_test_latest_readings_all',
+      password: 'mocha_test_latest_readings_all',
+    })
+    .then(user => {
+      theUser = user
+      return theUser
+    })
+    .then(theUser => {
+      return Node
+        .create({
+          ipaddress: '1.1.1.1',
+          userId: theUser.id
+        })
+    .then(node => {
+      theNode1 = node
+      return Reading
+        .create({
+          humidity: 0,
+          sunlight: 0,
+          temperature: 0,
+          moisture: 0,
+          battery: null,
+          nodeId: node.id,
+        })
+      })
+    })
+    .then(() => {
+      return Node
+        .create({
+          ipaddress: '1.1.1.2',
+          userId: theUser.id
+        })
+    .then(node => {
+      theNode2 = node
+      return Reading
+        .create({
+          humidity: 1,
+          sunlight: 1,
+          temperature: 1,
+          moisture: 1,
+          battery: 1,
+          nodeId: node.id,
+        })
+      })
+    })
+  })
+  after((done) => {
+    theUser.destroy()
+    theNode1.destroy()
+    theNode2.destroy()
+    done()
+  })
+  beforeEach(() => {})
+  afterEach(() => {})
+  it('it should return the nodes\' dummy readings in the response', (done) => {
+    const body = {
+      api_token: theUser.api_token
+    }
+    chai.request(server)
+        .post('/api/nodes/latest_readings/all')
+        .send(body)
+        .end((err, res) => {
+          if (err) console.trace(err)
+          expect(res).to.have.status(200)
+          expect(res.body).to.be.a('array')
+
+          expect(res.body[0]).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+                                                'battery', 'nodeId', 'createdAt', 'updatedAt'])
+                                              
+          expect(res.body[1]).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+                                                'battery', 'nodeId', 'createdAt', 'updatedAt'])
+
+          // Type Check
+          expect(res.body[0].id).to.be.a('number')
+          expect(res.body[0].humidity).to.be.a('number')
+          expect(res.body[0].temperature).to.be.a('number')
+          expect(res.body[0].sunlight).to.be.a('number')
+          expect(res.body[0].moisture).to.be.a('number')
+          expect(res.body[0].battery).to.be.null
+          expect(res.body[0].createdAt).to.be.a('string')
+          expect(res.body[0].updatedAt).to.be.a('string')
+          expect(res.body[0].nodeId).to.be.a('number')
+          
+          expect(res.body[1].id).to.be.a('number')
+          expect(res.body[1].humidity).to.be.a('number')
+          expect(res.body[1].temperature).to.be.a('number')
+          expect(res.body[1].sunlight).to.be.a('number')
+          expect(res.body[1].moisture).to.be.a('number')
+          expect(res.body[1].battery).to.be.a('number')
+          expect(res.body[1].createdAt).to.be.a('string')
+          expect(res.body[1].updatedAt).to.be.a('string')
+          expect(res.body[1].nodeId).to.be.a('number')
+          
+          // Value Check
+          expect(res.body[0].humidity).to.equal(0)
+          expect(res.body[0].temperature).to.equal(0)
+          expect(res.body[0].sunlight).to.equal(0)
+          expect(res.body[0].moisture).to.equal(0)
+          
+          expect(res.body[1].humidity).to.equal(1)
+          expect(res.body[1].temperature).to.equal(1)
+          expect(res.body[1].sunlight).to.equal(1)
+          expect(res.body[1].moisture).to.equal(1)
+          expect(res.body[1].battery).to.equal(1)
+          
+          // Order Check
+          expect(res.body[1].id).to.be.greaterThan(res.body[0].id)
+                    
+          done()
+    })
+  })
+  it('it should return the nodes\' newest readings in the response', () => {
+    const body = {
+      api_token: theUser.api_token
+    }
+    return Reading
+      .create({
+        humidity: 10,
+        sunlight: 11,
+        temperature: 12,
+        moisture: 13,
+        battery: 14,
+        nodeId: theNode1.id,
+      })
+    .then(reading => {     
+      chai.request(server)
+          .post('/api/nodes/latest_readings/all')
+          .send(body)
+          .end((err, res) => {
+            if (err) console.trace(err)
+            expect(res).to.have.status(200)
+            expect(res.body).to.be.a('object')
+  
+            expect(res.body[0]).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+                                                'battery', 'nodeId', 'createdAt', 'updatedAt'])
+                                              
+            expect(res.body[1]).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+                                                  'battery', 'nodeId', 'createdAt', 'updatedAt'])
+  
+            // Type Check
+            expect(res.body[0].id).to.be.a('number')
+            expect(res.body[0].humidity).to.be.a('number')
+            expect(res.body[0].temperature).to.be.a('number')
+            expect(res.body[0].sunlight).to.be.a('number')
+            expect(res.body[0].moisture).to.be.a('number')
+            expect(res.body[0].battery).to.be.a('number')
+            expect(res.body[0].createdAt).to.be.a('string')
+            expect(res.body[0].updatedAt).to.be.a('string')
+            expect(res.body[0].nodeId).to.be.a('number')
+            
+            expect(res.body[1].id).to.be.a('number')
+            expect(res.body[1].humidity).to.be.a('number')
+            expect(res.body[1].temperature).to.be.a('number')
+            expect(res.body[1].sunlight).to.be.a('number')
+            expect(res.body[1].moisture).to.be.a('number')
+            expect(res.body[1].battery).to.be.a('number')
+            expect(res.body[1].createdAt).to.be.a('string')
+            expect(res.body[1].updatedAt).to.be.a('string')
+            expect(res.body[1].nodeId).to.be.a('number')
+            
+            // Value Check
+            expect(res.body[0].humidity).to.equal(10)
+            expect(res.body[0].temperature).to.equal(12)
+            expect(res.body[0].sunlight).to.equal(11)
+            expect(res.body[0].moisture).to.equal(13)
+            expect(res.body[0].battery).to.equal(14)
+            
+            expect(res.body[1].humidity).to.equal(1)
+            expect(res.body[1].temperature).to.equal(1)
+            expect(res.body[1].sunlight).to.equal(1)
+            expect(res.body[1].moisture).to.equal(1)
+            expect(res.body[1].battery).to.equal(1)
+            
+            // Order Check
+            expect(res.body[1].id).to.be.greaterThan(res.body[0].id)
+          })
+    })
+  })
+  it('without api_token: it should return a message about invalid API token', (done) => {
+    const body = {}
+    chai.request(server)
+        .post('/api/nodes/latest_readings/all')
+        .send(body)
+        .end((err, res) => {
+          expect(res).to.have.status(404)
+          expect(res.body).to.be.a('object')
+          // message
+          expect(res.body).to.have.property('message')
+          expect(res.body.message).to.be.a('string')
+          expect(res.body.message).to.equal('Invalid API token provided')
+          done()
+        })
+  })
+  it('with improper api_token: it should return a message about invalid API token', (done) => {
+    const body = {
+      api_token: 'incorrect_api_token'  
+    }
+    chai.request(server)
+        .post('/api/nodes/latest_readings/all')
+        .send(body)
+        .end((err, res) => {
+          expect(res).to.have.status(404)
+          expect(res.body).to.be.a('object')
+          // message
+          expect(res.body).to.have.property('message')
+          expect(res.body.message).to.be.a('string')
+          expect(res.body.message).to.equal('Invalid API token provided')
+          done()
+        })
+  })
+})
+
+/*
+* /api/nodes/prev_24h/:nid
+*/
+describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a node\'s readings by the hour', () => {
+  let theUser = null
+  let theNode = null
+  before(() => { // create a new user, node, and dummy reading
+    return User.create({
+      username: 'mocha_test_prev_24h',
+      password: 'mocha_test_prev_24h',
+    })
+    .then(user => {
+      theUser = user
+      return theUser
+    })
+    .then(theUser => {
+      return Node
+        .create({
+          ipaddress: '1.1.1.1',
+          userId: theUser.id
+        })
+        .then(node => {
+          theNode = node
+          return Reading
+            .create({
+              humidity: 0,
+              sunlight: 0,
+              temperature: 0,
+              moisture: 0,
+              battery: null,
+              nodeId: node.id,
+            })
+          })
+    })
+  })
+  after((done) => {
+    theUser.destroy()
+    theNode.destroy()
+    done()
+  })
+  beforeEach(() => {})
+  afterEach(() => {})
+  it('it should build a list of the last 24 hours of readings for a node and return it in the response', (done) => {
+    const body = {
+      api_token: theUser.api_token,
+    }
+    chai.request(server)
+        .put('/api/nodes/prev_24h/' + theNode.id)
+        .send(body)
+        .end((err, res) => {
+          if (err) console.trace(err)
+          expect(res).to.have.status(200)
+          expect(res.body).to.be.a('array')
+
+          // Random Key Check
+          expect(res.body[0]).to.have.all.keys(['id', 'createdAt'])
+          expect(res.body[10]).to.have.all.keys(['id', 'createdAt'])
+          expect(res.body[20]).to.have.all.keys(['id', 'createdAt'])
+          // Check for dummy reading at end of list
+          expect(res.body[23]).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+                                                  'battery', 'nodeId', 'createdAt', 'updatedAt'])
+
+          // Type Check
+          expect(res.body[0].id).to.be.null
+          expect(res.body[0].createdAt).to.be.a('string')
+          
+          expect(res.body[23].id).to.be.a('number')
+          expect(res.body[23].humidity).to.be.a('number')
+          expect(res.body[23].temperature).to.be.a('number')
+          expect(res.body[23].sunlight).to.be.a('number')
+          expect(res.body[23].moisture).to.be.a('number')
+          expect(res.body[23].battery).to.be.null
+          expect(res.body[23].createdAt).to.be.a('string')
+          expect(res.body[23].updatedAt).to.be.a('string')
+          expect(res.body[23].nodeId).to.be.a('number')
+
+          // Value Check
+          expect(res.body[23].humidity).to.equal(0)
+          expect(res.body[23].temperature).to.equal(0)
+          expect(res.body[23].sunlight).to.equal(0)
+          expect(res.body[23].moisture).to.equal(0)
+          
+          done()
+        })
+  })
+  it('without api_token: it should return a message about invalid API token', (done) => {
+    const body = {}
+    chai.request(server)
+        .post('/api/nodes/latest_readings/all')
+        .send(body)
+        .end((err, res) => {
+          expect(res).to.have.status(404)
+          expect(res.body).to.be.a('object')
+          // message
+          expect(res.body).to.have.property('message')
+          expect(res.body.message).to.be.a('string')
+          expect(res.body.message).to.equal('Invalid API token provided')
+          done()
+        })
+  })
+  it('with improper api_token: it should return a message about invalid API token', (done) => {
+    const body = {
+      api_token: 'incorrect_api_token'  
+    }
+    chai.request(server)
+        .post('/api/nodes/latest_readings/all')
+        .send(body)
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
