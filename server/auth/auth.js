@@ -45,7 +45,7 @@ module.exports = {
     return User
       .findOne( { where: 
         { 
-          api_token: req.body.api_token
+          api_token: req.body.api_token || req.headers.authorization
         },
         include: [{
           model: Node,
@@ -64,7 +64,7 @@ module.exports = {
             message: 'Invalid API token provided',
           });
         }
-        console.log(user)
+        //console.log(user)
         req.user = user
         next()
       })
