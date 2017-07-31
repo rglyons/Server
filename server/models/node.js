@@ -100,7 +100,7 @@ module.exports = function(sequelize, DataTypes) {
         });  
         Node.belongsTo(models.User, {
           foreignKey: 'userId',
-          onDelete: 'CASCADE',
+          hooks: true,
           as: 'user'  // this name is used by Sequelize to create the getUser() function
         });           // used in the hooks above
       }

@@ -10,12 +10,22 @@ var db        = {};
 
 if (config.use_env_variable) {
   console.log("RIGHT SEQUELIZE");
-  var sequelize = new Sequelize(process.env[config.use_env_variable], {
-    dialect: 'postgres',
-    dialectOptions: {
-      ssl: true
-    },
-  });
+  if (env == 'test') {
+    var sequelize = new Sequelize(process.env[config.use_env_variable], {
+      dialect: 'postgres',
+      logging: false,
+      dialectOptions: {
+        ssl: true
+      },
+    });
+  } else {
+    var sequelize = new Sequelize(process.env[config.use_env_variable], {
+      dialect: 'postgres',
+      dialectOptions: {
+        ssl: true
+      },
+    });
+  }
 } else {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
