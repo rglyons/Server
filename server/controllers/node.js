@@ -119,9 +119,9 @@ module.exports = {
   },
   
   getLast24hrsOfReadingsForNode(req, res) {
-    if (req.body.timestamp != null) {
+    if (req.query.timestamp != null) {
       // convert the timestamp from the body into a date object
-      var time = req.body.timestamp
+      var time = req.query.timestamp
       var yr = parseInt(time.slice(0,4))
       var mth = parseInt(time.slice(6,8)) - 1
       var day = parseInt(time.slice(8,10))
