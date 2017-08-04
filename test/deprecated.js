@@ -1447,34 +1447,27 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
           expect(res).to.have.status(200)
           expect(res.body).to.be.a('array')
 
-          // Random Key Check
-          expect(res.body[0]).to.have.all.keys(['id', 'createdAt'])
-          expect(res.body[10]).to.have.all.keys(['id', 'createdAt'])
-          expect(res.body[20]).to.have.all.keys(['id', 'createdAt'])
-          // Check for dummy reading at end of list
-          expect(res.body[23]).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+          // Check for dummy reading
+          expect(res.body[0]).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
                                                   'battery', 'nodeId', 'createdAt', 'updatedAt'])
 
-          // Type Check
-          expect(res.body[0].id).to.be.null
+          // Type Check          
+          expect(res.body[0].id).to.be.a('number')
+          expect(res.body[0].humidity).to.be.a('number')
+          expect(res.body[0].temperature).to.be.a('number')
+          expect(res.body[0].sunlight).to.be.a('number')
+          expect(res.body[0].moisture).to.be.a('number')
+          expect(res.body[0].battery).to.be.null
           expect(res.body[0].createdAt).to.be.a('string')
-          
-          expect(res.body[23].id).to.be.a('number')
-          expect(res.body[23].humidity).to.be.a('number')
-          expect(res.body[23].temperature).to.be.a('number')
-          expect(res.body[23].sunlight).to.be.a('number')
-          expect(res.body[23].moisture).to.be.a('number')
-          expect(res.body[23].battery).to.be.null
-          expect(res.body[23].createdAt).to.be.a('string')
-          expect(res.body[23].updatedAt).to.be.a('string')
-          expect(res.body[23].nodeId).to.be.a('number')
+          expect(res.body[0].updatedAt).to.be.a('string')
+          expect(res.body[0].nodeId).to.be.a('number')
 
           // Value Check
-          expect(res.body[23].humidity).to.equal(0)
-          expect(res.body[23].temperature).to.equal(0)
-          expect(res.body[23].sunlight).to.equal(0)
-          expect(res.body[23].moisture).to.equal(0)
-          expect(res.body.length).to.equal(24)
+          expect(res.body[0].humidity).to.equal(0)
+          expect(res.body[0].temperature).to.equal(0)
+          expect(res.body[0].sunlight).to.equal(0)
+          expect(res.body[0].moisture).to.equal(0)
+          expect(res.body.length).to.equal(1)
           
           done()
         })
