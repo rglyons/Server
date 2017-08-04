@@ -33,6 +33,8 @@ module.exports = (app) => {
 
   app.get('/api/nodes/prev_24h/:nid?', auth.validate, nodesController.getLast24hrsOfReadingsForNode) // retrieve the last 24 hrs of readings for a node
   
+  app.get('/api/nodes/prev_xh/:nid?', auth.validate, nodesController.getLastXhrsOfReadingsForNode) // retrieve the last x hrs of readings for a node
+  
   // deprecated
   app.post('/api/users/getuser', auth.validate, usersController.getUser) // retrieve user + nodes
   
