@@ -311,10 +311,10 @@ describe('PUT to /api/users/update - Test updating an existing user', () => {
     const newUser = {
       username: 'test1',
       password: 'test1',
-      api_token: theUser.api_token
     }
     chai.request(server)
         .put('/api/users/update')
+        .set('Authorization', theUser.api_token)
         .send(newUser)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -362,10 +362,10 @@ describe('PUT to /api/users/update - Test updating an existing user', () => {
   it('with no username: it should not update the user\'s username, and return the user in the response', (done) => {
     const newUser = {
       password: 'test1',
-      api_token: theUser.api_token
     }
     chai.request(server)
         .put('/api/users/update')
+        .set('Authorization', theUser.api_token)
         .send(newUser)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -395,10 +395,10 @@ describe('PUT to /api/users/update - Test updating an existing user', () => {
   it('with no password: it should not update the user\'s password, and return the user in the response', (done) => {
     const newUser = {
       username: 'test1',
-      api_token: theUser.api_token
     }
     chai.request(server)
         .put('/api/users/update')
+        .set('Authorization', theUser.api_token)
         .send(newUser)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -426,11 +426,10 @@ describe('PUT to /api/users/update - Test updating an existing user', () => {
         })
   })
   it('with nothing: it should not update the user\'s username or password, and return the user in the response', (done) => {
-    const newUser = {
-      api_token: theUser.api_token
-    }
+    const newUser = {}
     chai.request(server)
         .put('/api/users/update')
+        .set('Authorization', theUser.api_token)
         .send(newUser)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -482,11 +481,10 @@ describe('PUT to /api/users/token - Test creating a new api token for user', () 
   beforeEach(() => {})
   afterEach(() => {})
   it('with required data: it should update the user and return it in the response', (done) => {
-    const newUser = {
-      api_token: theUser.api_token
-    }
+    const newUser = {}
     chai.request(server)
         .put('/api/users/token')
+        .set('Authorization', theUser.api_token)
         .send(newUser)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -533,11 +531,10 @@ describe('PUT to /api/users/token - Test creating a new api token for user', () 
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const newUser = {
-      api_token: 'incorrect_api_token'  
-    }
+    const newUser = {}
     chai.request(server)
         .put('/api/users/token')
+        .set('Authorization', 'wrong api_token')
         .send(newUser)
         .end((err, res) => {
           expect(res).to.have.status(404)
@@ -554,7 +551,7 @@ describe('PUT to /api/users/token - Test creating a new api token for user', () 
 /*
 * /api/users/getuser
 */
-describe('POST to /api/users/getuser - Test getting a user and his/her nodes', () => {
+describe('GET to /api/users/getuser - Test getting a user and his/her nodes', () => {
   let theUser = null
   before(() => { // create a new user
     return User.create({
@@ -574,12 +571,9 @@ describe('POST to /api/users/getuser - Test getting a user and his/her nodes', (
   beforeEach(() => {})
   afterEach(() => {})
   it('with required data: it should get the user and return it in the response', (done) => {
-    const newUser = {
-      api_token: theUser.api_token
-    }
     chai.request(server)
-        .post('/api/users/getuser')
-        .send(newUser)
+        .get('/api/users/getuser')
+        .set('Authorization', theUser.api_token)
         .end((err, res) => {
           if (err) console.trace(err)
           expect(res).to.have.status(200)
@@ -602,10 +596,8 @@ describe('POST to /api/users/getuser - Test getting a user and his/her nodes', (
         })
   })
   it('without api_token: it should return a message about invalid API token', (done) => {
-    const newUser = { }
     chai.request(server)
-        .post('/api/users/getuser')
-        .send(newUser)
+        .get('/api/users/getuser')
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
@@ -617,12 +609,9 @@ describe('POST to /api/users/getuser - Test getting a user and his/her nodes', (
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const newUser = {
-      api_token: 'incorrect_api_token'  
-    }
     chai.request(server)
-        .post('/api/users/getuser')
-        .send(newUser)
+        .get('/api/users/getuser')
+        .set('Authorization', 'wrong api_token')
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
@@ -654,11 +643,10 @@ describe('DELETE to /api/users/delete - Test deleting a user', () => {
   beforeEach(() => {})
   afterEach(() => {})
   it('with required data: it should delete the user and return no content', (done) => {
-    const newUser = {
-      api_token: theUser.api_token
-    }
+    const newUser = {}
     chai.request(server)
         .delete('/api/users/delete')
+        .set('Authorization', theUser.api_token)
         .send(newUser)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -683,11 +671,10 @@ describe('DELETE to /api/users/delete - Test deleting a user', () => {
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const newUser = {
-      api_token: 'incorrect_api_token'  
-    }
+    const newUser = {}
     chai.request(server)
         .delete('/api/users/delete')
+        .set('Authorization', 'wrong api_token')
         .send(newUser)
         .end((err, res) => {
           expect(res).to.have.status(404)
@@ -726,11 +713,11 @@ describe('POST to /api/nodes - Test creating a node under a user', () => {
   afterEach(() => {})
   it('with required data: it should create the node and return it in the response', (done) => {
     const newNode = {
-      api_token: theUser.api_token,
       ipaddress: '1.1.1.1'
     }
     chai.request(server)
         .post('/api/nodes')
+        .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -778,12 +765,12 @@ describe('POST to /api/nodes - Test creating a node under a user', () => {
   })
   it('with required data + optional id: it should create the node and return it in the response', (done) => {
     const newNode = {
-      api_token: theUser.api_token,
       ipaddress: '1.1.1.1',
       id: 101
     }
     chai.request(server)
         .post('/api/nodes')
+        .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -835,11 +822,10 @@ describe('POST to /api/nodes - Test creating a node under a user', () => {
         })
   })
   it('with no ipaddress: it should generate an error message and respond with 400', (done) => {
-    const node = {
-      api_token: theUser.api_token
-    }
+    const node = {}
     chai.request(server)
         .post('/api/nodes')
+        .set('Authorization', theUser.api_token)
         .send(node)
         .end((err, res) => {
           expect(err).to.not.be.null
@@ -876,11 +862,10 @@ describe('POST to /api/nodes - Test creating a node under a user', () => {
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const newUser = {
-      api_token: 'incorrect_api_token'  
-    }
+    const newUser = {}
     chai.request(server)
         .post('/api/nodes')
+        .set('Authorization', 'wrong api_token')
         .send(newUser)
         .end((err, res) => {
           expect(res).to.have.status(404)
@@ -893,11 +878,10 @@ describe('POST to /api/nodes - Test creating a node under a user', () => {
         })
   })
   it('afterCreate/afterDestroy hook (/models/node.js): it should get and return the user, and check the user\'s nodeCount', (done) => {
-    const newUser = {
-      api_token: theUser.api_token
-    }
+    const newUser = {}
     chai.request(server)
         .post('/api/users/getuser')
+        .set('Authorization', theUser.api_token)
         .send(newUser)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -1361,7 +1345,6 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
   })
   it('with all optional data: it should update the node and return it in the response', (done) => {
     const newNode = {
-      api_token: theUser.api_token,
       ipaddress: '1.1.1.2',
       name: 'name',
       groupName: 'groupName',
@@ -1376,6 +1359,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
     }
     chai.request(server)
         .put('/api/nodes/' + theNode.id)
+        .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -1422,12 +1406,12 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
   })
   it('empty string name and groupName: it should update the node and return it in the response', (done) => {
     const newNode = {
-      api_token: theUser.api_token,
       name: '',
       groupName: ''
     }
     chai.request(server)
         .put('/api/nodes/' + theNode.id)
+        .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -1471,11 +1455,10 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
         })
   })
   it('with no optional data: it should not update any fields and return the node in the response', (done) => {
-    const newNode = {
-      api_token: theUser.api_token,
-    }
+    const newNode = {}
     chai.request(server)
         .put('/api/nodes/' + theNode.id)
+        .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -1534,11 +1517,10 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const newNode = {
-      api_token: 'incorrect_api_token'  
-    }
+    const newNode = {}
     chai.request(server)
         .put('/api/nodes/' + theNode.id)
+        .set('Authorization', 'wrong api_token')
         .send(newNode)
         .end((err, res) => {
           expect(res).to.have.status(404)
@@ -1551,11 +1533,10 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
         })
   })
   it('non-existent node: it should return a node not found message', (done) => {
-    const newNode = {
-      api_token: theUser.api_token
-    }
+    const newNode = {}
     chai.request(server)
         .put('/api/nodes/-1')
+        .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           expect(res).to.have.status(404)
@@ -1610,11 +1591,10 @@ describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
   beforeEach(() => {})
   afterEach(() => {})
   it('with required data: it should delete the user and return no content', (done) => {
-    const user = {
-      api_token: theUser.api_token
-    }
+    const user = {}
     chai.request(server)
         .delete('/api/nodes/' + theNode.id)
+        .set('Authorization', theUser.api_token)
         .send(user)
         .end((err, res) => {
           if (err) console.trace(err)
@@ -1639,11 +1619,10 @@ describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const user = {
-      api_token: 'incorrect_api_token'  
-    }
+    const user = {}
     chai.request(server)
         .delete('/api/nodes/' + theNode.id)
+        .set('Authorization', 'wrong api_token')
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(404)
@@ -1660,7 +1639,7 @@ describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
 /*
 * /api/nodes/:nid/latest_reading
 */
-describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest reading', () => {
+describe('GET to /api/nodes/:nid/latest_reading - Test getting a node\'s latest reading', () => {
   let theUser = null
   let theNode = null
   before(() => { // create a new user, node, and dummy reading
@@ -1700,12 +1679,9 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
   beforeEach(() => {})
   afterEach(() => {})
   it('it should return the node\'s dummy reading in the response', (done) => {
-    const body = {
-      api_token: theUser.api_token
-    }
     chai.request(server)
-        .post('/api/nodes/' + theNode.id + '/latest_reading')
-        .send(body)
+        .get('/api/nodes/' + theNode.id + '/latest_reading')
+        .set('Authorization', theUser.api_token)
         .end((err, res) => {
           if (err) console.trace(err)
           expect(res).to.have.status(200)
@@ -1735,9 +1711,6 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
     })
   })
   it('it should return the node\'s new reading in the response', (done) => {
-    const body = {
-      api_token: theUser.api_token
-    }
     Reading
       .create({
         humidity: 1,
@@ -1749,8 +1722,8 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
       })
     .then(reading => {     
       chai.request(server)
-          .post('/api/nodes/' + theNode.id + '/latest_reading')
-          .send(body)
+          .get('/api/nodes/' + theNode.id + '/latest_reading')
+          .set('Authorization', theUser.api_token)
           .end((err, res) => {
             if (err) console.trace(err)
             expect(res).to.have.status(200)
@@ -1781,10 +1754,8 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
     .then(done, done)
   })
   it('without api_token: it should return a message about invalid API token', (done) => {
-    const body = {}
     chai.request(server)
-        .post('/api/nodes/' + theNode.id + '/latest_reading')
-        .send(body)
+        .get('/api/nodes/' + theNode.id + '/latest_reading')
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
@@ -1796,12 +1767,9 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const body = {
-      api_token: 'incorrect_api_token'  
-    }
     chai.request(server)
-        .post('/api/nodes/' + theNode.id + '/latest_reading')
-        .send(body)
+        .get('/api/nodes/' + theNode.id + '/latest_reading')
+        .set('Authorization', 'wrong api_token')
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
@@ -1817,7 +1785,7 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
 /*
 * /api/nodes/latest_readings/all
 */
-describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest reading', () => {
+describe('GET to /api/nodes/latest_readings/all - Test getting a node\'s latest reading', () => {
   let theUser = null
   let theNode1 = null
   let theNode2 = null
@@ -1878,12 +1846,9 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
   beforeEach(() => {})
   afterEach(() => {})
   it('it should return the nodes\' dummy readings in the response', (done) => {
-    const body = {
-      api_token: theUser.api_token
-    }
     chai.request(server)
-        .post('/api/nodes/latest_readings/all')
-        .send(body)
+        .get('/api/nodes/latest_readings/all')
+        .set('Authorization', theUser.api_token)
         .end((err, res) => {
           if (err) console.trace(err)
           expect(res).to.have.status(200)
@@ -1935,9 +1900,6 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
     })
   })
   it('it should return the nodes\' newest readings in the response', (done) => {
-    const body = {
-      api_token: theUser.api_token
-    }
     Reading
       .create({
         humidity: 10,
@@ -1949,8 +1911,8 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
       })
     .then(reading => {     
       chai.request(server)
-          .post('/api/nodes/latest_readings/all')
-          .send(body)
+          .get('/api/nodes/latest_readings/all')
+          .set('Authorization', theUser.api_token)
           .end((err, res) => {
             if (err) console.trace(err)
             expect(res).to.have.status(200)
@@ -2003,10 +1965,8 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
     .then(done, done)
   })
   it('without api_token: it should return a message about invalid API token', (done) => {
-    const body = {}
     chai.request(server)
-        .post('/api/nodes/latest_readings/all')
-        .send(body)
+        .get('/api/nodes/latest_readings/all')
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
@@ -2018,12 +1978,9 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const body = {
-      api_token: 'incorrect_api_token'  
-    }
     chai.request(server)
-        .post('/api/nodes/latest_readings/all')
-        .send(body)
+        .get('/api/nodes/latest_readings/all')
+        .set('Authorization', 'wrong api_token')
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
@@ -2039,7 +1996,7 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
 /*
 * /api/nodes/prev_24h/:nid
 */
-describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a node\'s readings by the hour', () => {
+describe('GET to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a node\'s readings by the hour', () => {
   let theUser = null
   let theNode = null
   before(() => { // create a new user, node, and dummy reading
@@ -2079,12 +2036,9 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
   beforeEach(() => {})
   afterEach(() => {})
   it('it should build a list of the last 24 hours of readings for a node and return it in the response', (done) => {
-    const body = {
-      api_token: theUser.api_token,
-    }
     chai.request(server)
-        .post('/api/nodes/prev_24h/' + theNode.id)
-        .send(body)
+        .get('/api/nodes/prev_24h/' + theNode.id)
+        .set('Authorization', theUser.api_token)
         .end((err, res) => {
           if (err) console.trace(err)
           expect(res).to.have.status(200)
@@ -2123,10 +2077,8 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
         })
   })
   it('without api_token: it should return a message about invalid API token', (done) => {
-    const body = {}
     chai.request(server)
-        .post('/api/nodes/latest_readings/all')
-        .send(body)
+        .get('/api/nodes/latest_readings/all')
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
@@ -2138,12 +2090,9 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
         })
   })
   it('with improper api_token: it should return a message about invalid API token', (done) => {
-    const body = {
-      api_token: 'incorrect_api_token'  
-    }
     chai.request(server)
-        .post('/api/nodes/latest_readings/all')
-        .send(body)
+        .get('/api/nodes/latest_readings/all')
+        .set('Authorization', 'wrong api_token')
         .end((err, res) => {
           expect(res).to.have.status(404)
           expect(res.body).to.be.a('object')
