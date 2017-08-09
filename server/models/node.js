@@ -1,6 +1,4 @@
 'use strict';
-const User = require('./user');
-
 module.exports = function(sequelize, DataTypes) {
   var Node = sequelize.define('Node', {
     ipaddress: {
@@ -97,7 +95,11 @@ module.exports = function(sequelize, DataTypes) {
         Node.hasMany(models.Reading, {
           foreignKey: 'nodeId',
           as: 'readings',
-        });  
+        });
+        Node.hasMany(models.Notification, {
+          foreignKey: 'nodeId',
+          as: 'notifications',
+        });
         Node.belongsTo(models.User, {
           foreignKey: 'userId',
           hooks: true,

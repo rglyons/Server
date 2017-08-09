@@ -326,7 +326,12 @@ module.exports = {
 
   update(req, res) {
     return Node
-      .findById(req.params.nid)
+      .findOne({
+        where: {
+          userId: req.user.id,
+          id: req.params.nid
+        }
+      })
       .then(node => {
         if (!node) {
           return res.status(404).send({
@@ -355,7 +360,12 @@ module.exports = {
 
   destroy(req, res) {
     return Node
-      .findById(req.params.nid)
+      .findOne({
+        where: {
+          userId: req.user.id,
+          id: req.params.nid
+        }
+      })
       .then(node => {
         if (!node) {
           return res.status(400).send({

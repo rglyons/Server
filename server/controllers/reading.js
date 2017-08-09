@@ -12,6 +12,9 @@ module.exports = {
         nodeId: req.params.nid,
       })
       .then(reading => res.status(201).send(reading))
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        console.log(error)
+        return res.status(400).send(error)
+      });
   },
 };
