@@ -828,6 +828,36 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
           done()
         })
   })
+  it('as different user: it should return a message about not finding the node', () => {
+    const newNode = {
+      tempMin: 1,
+    }
+    return User
+      .create({
+        username: 'mocha_test_update_node_fake_user',
+        password: 'mocha_test_update_node_fake_user'
+      })
+    .then(user => {
+      chai.request(server)
+          .put('/api/nodes/' + theNode.id)
+          .set('Authorization', user.api_token)
+          .send(newNode)
+          .end((err, res) => {
+            expect(res).to.have.status(404)
+            expect(res.body).to.be.a('object')
+  
+            expect(res.body).to.have.all.keys(['message'])
+  
+            // Type Check
+            expect(res.body.message).to.be.a('string')
+  
+            // Value Check
+            expect(res.body.message).to.equal('Node Not Found')
+            
+            return user.destroy()
+          })
+    })
+  })
   it('with no api_token: it should return a message about invalid API token', (done) => {
     const newNode = {}
     chai.request(server)
@@ -929,6 +959,32 @@ describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
                     
           done()
         })
+  })
+  it('as different user: it should return a message about not finding the node', () => {
+    return User
+      .create({
+        username: 'mocha_test_delete_node_fake_user',
+        password: 'mocha_test_delete_node_fake_user'
+      })
+    .then(user => {
+      chai.request(server)
+          .delete('/api/nodes/' + theNode.id)
+          .set('Authorization', user.api_token)
+          .end((err, res) => {
+            expect(res).to.have.status(404)
+            expect(res.body).to.be.a('object')
+  
+            expect(res.body).to.have.all.keys(['message'])
+  
+            // Type Check
+            expect(res.body.message).to.be.a('string')
+  
+            // Value Check
+            expect(res.body.message).to.equal('Node Not Found')
+              
+            return user.destroy()
+          })
+    })
   })
   it('without api_token: it should return a message about invalid API token', (done) => {
     const user = {}

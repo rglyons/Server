@@ -180,7 +180,6 @@ module.exports = {
         return res.status(200).send(result)
       })
       .catch((error) => {
-        console.log(error)
         if (error.message == 'Invalid Node For User') {
           res.status(404).send({
             message: 'User with id ' + req.user.id + ' does not own node with id ' + req.params.nid,
@@ -230,7 +229,7 @@ module.exports = {
         lastReadingTime = req.timestamp
         // remove any readings that happened after the provided timestamp
         i = 0
-        while (sorted_readings[i]["createdAt"] > req.timestamp) {
+        while (sorted_readings[i] && sorted_readings[i]["createdAt"] > req.timestamp) {
           console.log('splicing reading posted at ' + new Date(sorted_readings[i]["createdAt"]).toJSON())
           sorted_readings.splice(i, 1)
         }
@@ -368,7 +367,7 @@ module.exports = {
       })
       .then(node => {
         if (!node) {
-          return res.status(400).send({
+          return res.status(404).send({
             message: 'Node Not Found',
           });
         }

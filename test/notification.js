@@ -770,3 +770,120 @@ describe('DELETE to /api/notifications/:nid - Test deleting a notification', () 
         })
   })
 })
+
+/*
+* notification auto-generation
+*/
+describe('Test posting a bad reading and generating a new notification', () => {
+  let theUser = null
+  let theNode = null
+  let theNotification = null
+  before(() => { // create user, node, bad reading to generate notifications
+    return User.create({
+      username: 'mocha_test_generate_notification',
+      password: 'mocha_test_generate_notification',
+    })
+    .then(user => {
+      theUser = user
+      return theUser
+    })
+    .then(theUser => {
+      return Node
+        .create({
+          ipaddress: '1.1.1.1',
+          userId: theUser.id
+        })
+    })
+    .then(node => {
+      theNode = node
+      return node.update({
+        tempMin: 20,
+        tempMax: 30,
+        humidityMin: 20,
+        humidityMax: 30
+      })
+    })
+    .then(node => { 
+      Reading // this reading should generate an overMax temperature notification
+        .create({
+          humidity: 25,
+          sunlight: 50,
+          temperature: 40,
+          moisture: 50,
+          battery: null,
+          nodeId: node.id,
+        })
+        return Reading  // this reading should generate an underMin humidity notification
+          .create({
+            humidity: 10,
+            sunlight: 50,
+            temperature: 25,
+            moisture: 50,
+            battery: null,
+            nodeId: node.id,
+          })
+    })
+  })
+  after(() => {
+    theUser.destroy()
+    theNode.destroy()
+  })
+  beforeEach(() => {})
+  afterEach(() => {})
+  it('it should return the user with the newly generated notifications included', (done) => {
+    user = {
+      username: 'mocha_test_generate_notification',
+      password: 'mocha_test_generate_notification'
+    }
+    chai.request(server)
+      .post('/api/users/login')
+      .send(user)
+      .end((err, res) => {
+        if (err) console.trace(err)
+        expect(res).to.have.status(200)
+        expect(res.body).to.be.a('object')
+        
+        expect(res.body).to.have.all.keys([ 'id', 'username', 'password', 'nodeCount', 'api_token',
+                                            'createdAt', 'updatedAt', 'nodes', 'notifications'])
+
+        // Type Check
+        expect(res.body.username).to.be.a('string')
+        expect(res.body.password).to.be.null
+        expect(res.body.nodeCount).to.be.a('number')
+        expect(res.body.api_token).to.be.a('string')
+        expect(res.body.id).to.be.a('number')
+        expect(res.body.nodes).to.be.a('array')
+        expect(res.body.notifications).to.be.a('array')
+        expect(res.body.createdAt).to.be.a('string')
+        expect(res.body.updatedAt).to.be.a('string')
+
+        // Value Check
+        expect(res.body.nodeCount).to.equal(1)
+        expect(res.body.nodes.length).to.equal(1)
+        expect(res.body.notifications.length).to.equal(2)
+        
+        // consistency of notification order is questionable
+        expect(res.body.notifications[0].sensor).to.equal('temperature')
+        expect(res.body.notifications[0].overMax).to.equal(true)
+        expect(res.body.notifications[0].underMin).to.equal(false)
+        expect(res.body.notifications[0].reading).to.equal(40)
+        expect(res.body.notifications[0].dismissed).to.equal(false)
+        
+        expect(res.body.notifications[1].sensor).to.equal('humidity')
+        expect(res.body.notifications[1].overMax).to.equal(false)
+        expect(res.body.notifications[1].underMin).to.equal(true)
+        expect(res.body.notifications[1].reading).to.equal(10)
+        expect(res.body.notifications[1].dismissed).to.equal(false)
+        
+        Notification.destroy({ where: {
+          id: res.body.notifications[0].id
+        }})
+        
+         Notification.destroy({ where: {
+          id: res.body.notifications[1].id
+        }})
+        
+        done()
+      })
+  })
+})

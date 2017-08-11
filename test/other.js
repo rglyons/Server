@@ -401,6 +401,7 @@ describe('GET to /api/nodes/latest_readings/all - Test getting a node\'s latest 
 describe('GET to /api/nodes/prev_24h/:nid - Test getting all readings for node within the last 24 hours', () => {
   let theUser = null
   let theNode = null
+  let readingCreationTime = null
   before(() => { // create a new user, node, and dummy reading
     return User.create({
       username: 'mocha_test_prev_24h',
@@ -468,8 +469,85 @@ describe('GET to /api/nodes/prev_24h/:nid - Test getting all readings for node w
           expect(res.body[0].moisture).to.equal(0)
           expect(res.body.length).to.equal(1)
           
+          readingCreationTime = res.body[0].createdAt   // for timestamp query test
+          
           done()
         })
+  })
+  it('with in-range optional timestamp - it should build a list of the last 24 hours of readings for a node and return it in the response', (done) => {
+    chai.request(server)
+        .get('/api/nodes/prev_24h/' + theNode.id + '?timestamp=' + readingCreationTime)
+        .set('Authorization', theUser.api_token)
+        .end((err, res) => {
+          if (err) console.trace(err)
+          expect(res).to.have.status(200)
+          expect(res.body).to.be.a('array')
+          
+          // Check for dummy reading
+          expect(res.body[0]).to.have.all.keys(['temperature', 'humidity', 'sunlight', 'moisture', 'id',
+                                                  'battery', 'nodeId', 'createdAt', 'updatedAt'])
+
+          // Type Check          
+          expect(res.body[0].id).to.be.a('number')
+          expect(res.body[0].humidity).to.be.a('number')
+          expect(res.body[0].temperature).to.be.a('number')
+          expect(res.body[0].sunlight).to.be.a('number')
+          expect(res.body[0].moisture).to.be.a('number')
+          expect(res.body[0].battery).to.be.null
+          expect(res.body[0].createdAt).to.be.a('string')
+          expect(res.body[0].updatedAt).to.be.a('string')
+          expect(res.body[0].nodeId).to.be.a('number')
+
+          // Value Check
+          expect(res.body[0].humidity).to.equal(0)
+          expect(res.body[0].temperature).to.equal(0)
+          expect(res.body[0].sunlight).to.equal(0)
+          expect(res.body[0].moisture).to.equal(0)
+          expect(res.body.length).to.equal(1)
+          
+          done()
+        })
+  })
+  it('with out-of-range optional timestamp - it should return an empty list of readings in the response', (done) => {
+    chai.request(server)
+        .get('/api/nodes/prev_24h/' + theNode.id + '?timestamp=2017-07-29 21:23:08.986+00')
+        .set('Authorization', theUser.api_token)
+        .end((err, res) => {
+          if (err) console.trace(err)
+          expect(res).to.have.status(200)
+          expect(res.body).to.be.a('array')
+          
+          // Value Check
+          expect(res.body.length).to.equal(0)
+          
+          done()
+        })
+  })
+  it('node doesn\'t belong to requesting user - it should return an error message', () => {
+    return User
+      .create({
+        username: 'mocha_test_prev_24h_fake_user',
+        password: 'mocha_test_prev_24h_fake_user'
+      })
+    .then(user => {
+      chai.request(server)
+          .get('/api/nodes/prev_24h/' + theNode.id)
+          .set('Authorization', user.api_token)
+          .end((err, res) => {
+            expect(res).to.have.status(404)
+            expect(res.body).to.be.a('object')
+            
+            expect(res.body).to.have.all.keys(['message'])
+            
+            // Type Check          
+            expect(res.body.message).to.be.a('string')
+  
+            // Value Check
+            expect(res.body.message).to.equal('User with id ' + user.id + ' does not own node with id ' + theNode.id)
+            
+            return user.destroy()
+          })
+    })
   })
   it('without api_token: it should return a message about invalid API token', (done) => {
     chai.request(server)
