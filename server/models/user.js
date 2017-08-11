@@ -28,6 +28,10 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: 'userId',
           as: 'nodes',
         });
+        User.hasMany(models.Notification, {
+          foreignKey: 'userId',
+          as: 'notifications',
+        });
       }
     }
   });

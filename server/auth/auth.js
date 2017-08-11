@@ -1,5 +1,6 @@
 const User = require('../models').User;
 const Node = require('../models').Node;
+const Notification = require('../models').Notification;
 
 module.exports = {
   
@@ -10,13 +11,27 @@ module.exports = {
           username: req.body.username,
           password: req.body.password,          
         },
-        include: [{
-          model: Node,
-          as: 'nodes',
-        }],
+        include: 
+          [{
+            model: Node,
+            as: 'nodes',
+          },
+          {
+            model: Notification,
+            as: 'notifications',
+            where: {
+              dismissed: false
+            },
+            required: false // fix issue where above where clause caused
+          }                 // user to not be returned from findOne query
+          ],
         order: [
             [
               {model: Node, as:'nodes'},
+              'id'
+            ],
+            [
+              {model: Notification, as:'notifications'},
               'id'
             ]
         ]

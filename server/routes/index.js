@@ -1,6 +1,7 @@
 const readingsController = require('../controllers').reading
 const nodesController = require('../controllers').node
 const usersController = require('../controllers').user
+const notificationsController = require('../controllers').notification
 const auth = require('../auth').auth
 
 module.exports = (app) => {
@@ -23,27 +24,28 @@ module.exports = (app) => {
   app.put('/api/users/token', auth.validate, usersController.generateApiToken) // generate new api token for existing user
   app.get('/api/users/getuser', auth.validate, usersController.getUser) // retrieve user + nodes
   app.delete('/api/users/delete', auth.validate, usersController.destroy) // delete user
+  
+  // notifications
+  app.post('/api/notifications?', auth.validate, notificationsController.create) // create notification under user & node
+  app.get('/api/notifications/all', auth.validate, notificationsController.getAllNotificationsForUser) // get all notifications for user
+  app.get('/api/notifications/undismissed', auth.validate, notificationsController.getUndismissedNotificationsForUser) // get undismissed notifications for user
+  app.put('/api/notifications/:nid', auth.validate, notificationsController.update) // update notification fields
+  app.delete('/api/notifications/:nid', auth.validate, notificationsController.destroy) // create notification under user & node
 
   // other methods
   app.get('/api/nodes/:nid/latest_reading',
             auth.validate, nodesController.getLatestNodeReading) // retrieve latest reading for one of a user's nodes
-
   app.get('/api/nodes/latest_readings/all',
             auth.validate, nodesController.getLatestNodeReadingsForUser) // retrieve latest reading for each of a user's nodes
-
   app.get('/api/nodes/prev_24h/:nid?', auth.validate, nodesController.getLast24hrsOfReadingsForNode) // retrieve the last 24 hrs of readings for a node
-  
   app.get('/api/nodes/prev_xh/:nid?', auth.validate, nodesController.getLastXhrsOfReadingsForNode) // retrieve the last x hrs of readings for a node
   
   // deprecated
   app.post('/api/users/getuser', auth.validate, usersController.getUser) // retrieve user + nodes
-  
   app.post('/api/nodes/:nid/latest_reading',
             auth.validate, nodesController.getLatestNodeReading) // retrieve latest reading for one of a user's nodes
-
   app.post('/api/nodes/latest_readings/all',
             auth.validate, nodesController.getLatestNodeReadingsForUser) // retrieve latest reading for each of a user's nodes
-
   app.post('/api/nodes/prev_24h/:nid', auth.validate, nodesController.getLast24hrsOfReadingsForNode) // retrieve the last 24 hrs of readings for a node
   
 }
