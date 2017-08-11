@@ -298,7 +298,7 @@ module.exports = {
         lastReadingTime = req.timestamp
         // remove any readings that happened after the provided timestamp
         i = 0
-        while (sorted_readings[i]["createdAt"] > req.timestamp) {
+        while (sorted_readings[i] && sorted_readings[i]["createdAt"] > req.timestamp) {
           console.log('splicing reading posted at ' + new Date(sorted_readings[i]["createdAt"]).toJSON())
           sorted_readings.splice(i, 1)
         }
