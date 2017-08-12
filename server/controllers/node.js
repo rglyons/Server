@@ -323,7 +323,7 @@ module.exports = {
       })
   },
 
-  update(req, res) {
+  updateOneNode(req, res) {
     return Node
       .findOne({
         where: {
@@ -355,6 +355,69 @@ module.exports = {
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
+  },
+  
+  updateMultipleNodes(req, res) {
+    if (!req.query.nodes) {
+      return res.status(400).send({
+        message: 'No nodes provided in request query!',
+      });
+    }
+    var query_elems = req.query.nodes.split(',')
+    var nodes = query_elems.map(Number)
+    var promises = []
+    // find all nodes in query
+    for (let i=0; i<nodes.length; i++) {
+      // check for bad input
+      if (isNaN(nodes[i])) {
+        return res.status(400).send({
+          message: query_elems[i] + ' is not an integer node ID',
+        });
+      }
+      let newPromise = Node
+        .findOne({
+          where: {
+            userId: req.user.id,
+            id: nodes[i]
+          } 
+        })
+      promises.push(newPromise)
+    }
+    return Promise.all(promises)
+      .then(nodes => {
+        promises = []
+        // update all nodes in query
+        for (let i=0; i<nodes.length; i++) {
+          if (!nodes[i]) {
+            return res.status(404).send({
+              message: 'Node Not Found. Aborting update procedure.',
+            });
+          }
+          newPromise = nodes[i]
+            .update({
+              ipaddress: req.body.ipaddress || nodes[i].ipaddress,
+              name: ((req.body.name == "") ? null : req.body.name),
+              groupName: ((req.body.groupName == "") ? null : req.body.groupName),
+              tempMin: req.body.tempMin || nodes[i].tempMin,
+              tempMax: req.body.tempMax || nodes[i].tempMax,
+              humidityMin: req.body.humidityMin || nodes[i].humidityMin,
+              humidityMax: req.body.humidityMax || nodes[i].humidityMax,
+              moistureMin: req.body.moistureMin || nodes[i].moistureMin,
+              moistureMax: req.body.moistureMax || nodes[i].moistureMax,
+              sunlightMin: req.body.sunlightMin || nodes[i].sunlightMin,
+              sunlightMax: req.body.sunlightMax || nodes[i].sunlightMax,
+            })
+          promises.push(newPromise)
+        }
+        return Promise.all(promises)
+      })
+      .then(updatedNodes => {
+        res.status(200).send(updatedNodes)
+      })
+      .catch(error => {
+        console.log(error)
+        res.status(400).send(error)
+      })
   },
 
   destroy(req, res) {

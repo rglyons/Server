@@ -804,7 +804,8 @@ describe('Test posting a bad reading and generating a new notification', () => {
       })
     })
     .then(node => { 
-      Reading // this reading should generate an overMax temperature notification
+      let promises = []
+      let newPromise = Reading // this reading should generate an overMax temperature notification
         .create({
           humidity: 25,
           sunlight: 50,
@@ -813,15 +814,18 @@ describe('Test posting a bad reading and generating a new notification', () => {
           battery: null,
           nodeId: node.id,
         })
-        return Reading  // this reading should generate an underMin humidity notification
-          .create({
-            humidity: 10,
-            sunlight: 50,
-            temperature: 25,
-            moisture: 50,
-            battery: null,
-            nodeId: node.id,
-          })
+      promises.push(newPromise)
+      newPromise = Reading  // this reading should generate an underMin humidity notification
+        .create({
+          humidity: 10,
+          sunlight: 50,
+          temperature: 25,
+          moisture: 50,
+          battery: null,
+          nodeId: node.id,
+        })
+      promises.push(newPromise)
+      return Promise.all(promises)
     })
   })
   after(() => {
