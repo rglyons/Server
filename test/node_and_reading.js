@@ -614,10 +614,11 @@ describe('POST to /api/nodes/:nid/new_reading - Test creation of a new reading',
 /*
 * /api/nodes/:nid (PUT)
 */
-describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
+describe('PUT to /api/nodes/:nid - Test updating one or more existing nodes', () => {
   let theUser = null
-  let theNode = null
-  before(() => { // create a new user, node, and dummy reading
+  let theNode1 = null
+  let theNode2 = null
+  before(() => { // create a new user, two nodes, and dummy readings
     return User.create({
       username: 'mocha_test_update_node',
       password: 'mocha_test_update_node',
@@ -632,23 +633,43 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
           ipaddress: '1.1.1.1',
           userId: theUser.id
         })
-        .then(node => {
-          theNode = node
-          return Reading
-            .create({
-              humidity: 0,
-              sunlight: 0,
-              temperature: 0,
-              moisture: 0,
-              battery: null,
-              nodeId: node.id,
-            })
-          })
+    .then(node => {
+      theNode1 = node
+      return Reading
+        .create({
+          humidity: 0,
+          sunlight: 0,
+          temperature: 0,
+          moisture: 0,
+          battery: null,
+          nodeId: node.id,
+        })
+      })
+    })
+    .then(() => {
+      return Node
+        .create({
+          ipaddress: '1.1.1.2',
+          userId: theUser.id
+        })
+    .then(node => {
+      theNode2 = node
+      return Reading
+        .create({
+          humidity: 1,
+          sunlight: 1,
+          temperature: 1,
+          moisture: 1,
+          battery: 1,
+          nodeId: node.id,
+        })
+      })
     })
   })
   after((done) => {
     theUser.destroy()
-    theNode.destroy()
+    theNode1.destroy()
+    theNode2.destroy()
     done()
   })
   beforeEach(() => {})
@@ -667,7 +688,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
         sunlightMin: 0,
         sunlightMax: 100
     }, { where : {
-      id: theNode.id
+      id: theNode1.id
     }})
   })
   it('with all optional data: it should update the node and return it in the response', (done) => {
@@ -685,48 +706,49 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
       sunlightMax: 96
     }
     chai.request(server)
-        .put('/api/nodes/' + theNode.id)
+        .put('/api/nodes/update?nodes=' + theNode1.id)
         .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           if (err) console.trace(err)
           expect(res).to.have.status(200)
-          expect(res.body).to.be.a('object')
+          expect(res.body).to.be.a('array')
 
-          expect(res.body).to.have.all.keys(['name', 'groupName', 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
+          expect(res.body[0]).to.have.all.keys(['name', 'groupName', 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
                                             'moistureMin', 'moistureMax', 'sunlightMin', 'sunlightMax', 'id',
                                             'ipaddress', 'userId', 'createdAt', 'updatedAt'])
 
           // Type Check
-          expect(res.body.name).to.be.a('string')
-          expect(res.body.groupName).to.be.a('string')
-          expect(res.body.tempMin).to.be.a('number')
-          expect(res.body.tempMax).to.be.a('number')
-          expect(res.body.humidityMin).to.be.a('number')
-          expect(res.body.humidityMax).to.be.a('number')
-          expect(res.body.moistureMin).to.be.a('number')
-          expect(res.body.moistureMax).to.be.a('number')
-          expect(res.body.sunlightMin).to.be.a('number')
-          expect(res.body.sunlightMax).to.be.a('number')
-          expect(res.body.id).to.be.a('number')
-          expect(res.body.ipaddress).to.be.a('string')
-          expect(res.body.userId).to.be.a('number')
-          expect(res.body.createdAt).to.be.a('string')
-          expect(res.body.updatedAt).to.be.a('string')
+          expect(res.body[0].name).to.be.a('string')
+          expect(res.body[0].groupName).to.be.a('string')
+          expect(res.body[0].tempMin).to.be.a('number')
+          expect(res.body[0].tempMax).to.be.a('number')
+          expect(res.body[0].humidityMin).to.be.a('number')
+          expect(res.body[0].humidityMax).to.be.a('number')
+          expect(res.body[0].moistureMin).to.be.a('number')
+          expect(res.body[0].moistureMax).to.be.a('number')
+          expect(res.body[0].sunlightMin).to.be.a('number')
+          expect(res.body[0].sunlightMax).to.be.a('number')
+          expect(res.body[0].id).to.be.a('number')
+          expect(res.body[0].ipaddress).to.be.a('string')
+          expect(res.body[0].userId).to.be.a('number')
+          expect(res.body[0].createdAt).to.be.a('string')
+          expect(res.body[0].updatedAt).to.be.a('string')
 
           // Value Check
-          expect(res.body.userId).to.equal(theUser.id)
-          expect(res.body.name).to.equal('name')
-          expect(res.body.groupName).to.equal('groupName')
-          expect(res.body.tempMin).to.equal(1)
-          expect(res.body.tempMax).to.equal(99)
-          expect(res.body.humidityMin).to.equal(2)
-          expect(res.body.humidityMax).to.equal(98)
-          expect(res.body.moistureMin).to.equal(3)
-          expect(res.body.moistureMax).to.equal(97)
-          expect(res.body.sunlightMin).to.equal(4)
-          expect(res.body.sunlightMax).to.equal(96)
-          expect(res.body.ipaddress).to.equal('1.1.1.2')
+          expect(res.body[0].userId).to.equal(theUser.id)
+          expect(res.body[0].id).to.equal(theNode1.id)
+          expect(res.body[0].name).to.equal('name')
+          expect(res.body[0].groupName).to.equal('groupName')
+          expect(res.body[0].tempMin).to.equal(1)
+          expect(res.body[0].tempMax).to.equal(99)
+          expect(res.body[0].humidityMin).to.equal(2)
+          expect(res.body[0].humidityMax).to.equal(98)
+          expect(res.body[0].moistureMin).to.equal(3)
+          expect(res.body[0].moistureMax).to.equal(97)
+          expect(res.body[0].sunlightMin).to.equal(4)
+          expect(res.body[0].sunlightMax).to.equal(96)
+          expect(res.body[0].ipaddress).to.equal('1.1.1.2')
           
           done()
         })
@@ -737,46 +759,47 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
       groupName: ''
     }
     chai.request(server)
-        .put('/api/nodes/' + theNode.id)
+        .put('/api/nodes/update?nodes=' + theNode1.id)
         .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           if (err) console.trace(err)
           expect(res).to.have.status(200)
-          expect(res.body).to.be.a('object')
+          expect(res.body).to.be.a('array')
 
-          expect(res.body).to.have.all.keys(['name', 'groupName', 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
+          expect(res.body[0]).to.have.all.keys(['name', 'groupName', 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
                                             'moistureMin', 'moistureMax', 'sunlightMin', 'sunlightMax', 'id',
                                             'ipaddress', 'userId', 'createdAt', 'updatedAt'])
 
           // Type Check
-          expect(res.body.name).to.be.null
-          expect(res.body.groupName).to.be.null
-          expect(res.body.tempMin).to.be.a('number')
-          expect(res.body.tempMax).to.be.a('number')
-          expect(res.body.humidityMin).to.be.a('number')
-          expect(res.body.humidityMax).to.be.a('number')
-          expect(res.body.moistureMin).to.be.a('number')
-          expect(res.body.moistureMax).to.be.a('number')
-          expect(res.body.sunlightMin).to.be.a('number')
-          expect(res.body.sunlightMax).to.be.a('number')
-          expect(res.body.id).to.be.a('number')
-          expect(res.body.ipaddress).to.be.a('string')
-          expect(res.body.userId).to.be.a('number')
-          expect(res.body.createdAt).to.be.a('string')
-          expect(res.body.updatedAt).to.be.a('string')
+          expect(res.body[0].name).to.be.null
+          expect(res.body[0].groupName).to.be.null
+          expect(res.body[0].tempMin).to.be.a('number')
+          expect(res.body[0].tempMax).to.be.a('number')
+          expect(res.body[0].humidityMin).to.be.a('number')
+          expect(res.body[0].humidityMax).to.be.a('number')
+          expect(res.body[0].moistureMin).to.be.a('number')
+          expect(res.body[0].moistureMax).to.be.a('number')
+          expect(res.body[0].sunlightMin).to.be.a('number')
+          expect(res.body[0].sunlightMax).to.be.a('number')
+          expect(res.body[0].id).to.be.a('number')
+          expect(res.body[0].ipaddress).to.be.a('string')
+          expect(res.body[0].userId).to.be.a('number')
+          expect(res.body[0].createdAt).to.be.a('string')
+          expect(res.body[0].updatedAt).to.be.a('string')
 
           // Value Check
-          expect(res.body.userId).to.equal(theUser.id)
-          expect(res.body.tempMin).to.equal(0)
-          expect(res.body.tempMax).to.equal(100)
-          expect(res.body.humidityMin).to.equal(0)
-          expect(res.body.humidityMax).to.equal(100)
-          expect(res.body.moistureMin).to.equal(0)
-          expect(res.body.moistureMax).to.equal(100)
-          expect(res.body.sunlightMin).to.equal(0)
-          expect(res.body.sunlightMax).to.equal(100)
-          expect(res.body.ipaddress).to.equal('1.1.1.1')
+          expect(res.body[0].userId).to.equal(theUser.id)
+          expect(res.body[0].id).to.equal(theNode1.id)
+          expect(res.body[0].tempMin).to.equal(0)
+          expect(res.body[0].tempMax).to.equal(100)
+          expect(res.body[0].humidityMin).to.equal(0)
+          expect(res.body[0].humidityMax).to.equal(100)
+          expect(res.body[0].moistureMin).to.equal(0)
+          expect(res.body[0].moistureMax).to.equal(100)
+          expect(res.body[0].sunlightMin).to.equal(0)
+          expect(res.body[0].sunlightMax).to.equal(100)
+          expect(res.body[0].ipaddress).to.equal('1.1.1.1')
           
           done()
         })
@@ -784,46 +807,139 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
   it('with no optional data: it should not update any fields and return the node in the response', (done) => {
     const newNode = {}
     chai.request(server)
-        .put('/api/nodes/' + theNode.id)
+        .put('/api/nodes/update?nodes=' + theNode1.id)
         .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
           if (err) console.trace(err)
           expect(res).to.have.status(200)
-          expect(res.body).to.be.a('object')
+          expect(res.body).to.be.a('array')
           
-          expect(res.body).to.have.all.keys([/*'name', 'groupName',*/ 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
+          expect(res.body[0]).to.have.all.keys([/*'name', 'groupName',*/ 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
                                             'moistureMin', 'moistureMax', 'sunlightMin', 'sunlightMax', 'id',
                                             'ipaddress', 'userId', 'createdAt', 'updatedAt'])
 
           // Type Check
           //expect(res.body.name).to.be.null
           //expect(res.body.groupName).to.be.null
-          expect(res.body.tempMin).to.be.a('number')
-          expect(res.body.tempMax).to.be.a('number')
-          expect(res.body.humidityMin).to.be.a('number')
-          expect(res.body.humidityMax).to.be.a('number')
-          expect(res.body.moistureMin).to.be.a('number')
-          expect(res.body.moistureMax).to.be.a('number')
-          expect(res.body.sunlightMin).to.be.a('number')
-          expect(res.body.sunlightMax).to.be.a('number')
-          expect(res.body.id).to.be.a('number')
-          expect(res.body.ipaddress).to.be.a('string')
-          expect(res.body.userId).to.be.a('number')
-          expect(res.body.createdAt).to.be.a('string')
-          expect(res.body.updatedAt).to.be.a('string')
+          expect(res.body[0].tempMin).to.be.a('number')
+          expect(res.body[0].tempMax).to.be.a('number')
+          expect(res.body[0].humidityMin).to.be.a('number')
+          expect(res.body[0].humidityMax).to.be.a('number')
+          expect(res.body[0].moistureMin).to.be.a('number')
+          expect(res.body[0].moistureMax).to.be.a('number')
+          expect(res.body[0].sunlightMin).to.be.a('number')
+          expect(res.body[0].sunlightMax).to.be.a('number')
+          expect(res.body[0].id).to.be.a('number')
+          expect(res.body[0].ipaddress).to.be.a('string')
+          expect(res.body[0].userId).to.be.a('number')
+          expect(res.body[0].createdAt).to.be.a('string')
+          expect(res.body[0].updatedAt).to.be.a('string')
 
           // Value Check
-          expect(res.body.userId).to.equal(theUser.id)
-          expect(res.body.tempMin).to.equal(0)
-          expect(res.body.tempMax).to.equal(100)
-          expect(res.body.humidityMin).to.equal(0)
-          expect(res.body.humidityMax).to.equal(100)
-          expect(res.body.moistureMin).to.equal(0)
-          expect(res.body.moistureMax).to.equal(100)
-          expect(res.body.sunlightMin).to.equal(0)
-          expect(res.body.sunlightMax).to.equal(100)
-          expect(res.body.ipaddress).to.equal('1.1.1.1')
+          expect(res.body[0].userId).to.equal(theUser.id)
+          expect(res.body[0].id).to.equal(theNode1.id)
+          expect(res.body[0].tempMin).to.equal(0)
+          expect(res.body[0].tempMax).to.equal(100)
+          expect(res.body[0].humidityMin).to.equal(0)
+          expect(res.body[0].humidityMax).to.equal(100)
+          expect(res.body[0].moistureMin).to.equal(0)
+          expect(res.body[0].moistureMax).to.equal(100)
+          expect(res.body[0].sunlightMin).to.equal(0)
+          expect(res.body[0].sunlightMax).to.equal(100)
+          expect(res.body[0].ipaddress).to.equal('1.1.1.1')
+          
+          done()
+        })
+  })
+  it('with all optional data, multiple nodes: it should update the nodes and return them in the response', (done) => {
+    const newNode = {
+      ipaddress: '1.1.1.2',
+      name: 'name',
+      groupName: 'groupName',
+      tempMin: 1,
+      tempMax: 99,
+      humidityMin: 2,
+      humidityMax: 98,
+      moistureMin: 3,
+      moistureMax: 97,
+      sunlightMin: 4,
+      sunlightMax: 96
+    }
+    chai.request(server)
+        .put('/api/nodes/update?nodes=' + theNode1.id + ',' + theNode2.id)
+        .set('Authorization', theUser.api_token)
+        .send(newNode)
+        .end((err, res) => {
+          if (err) console.trace(err)
+          expect(res).to.have.status(200)
+          expect(res.body).to.be.a('array')
+
+          expect(res.body[0]).to.have.all.keys(['name', 'groupName', 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
+                                            'moistureMin', 'moistureMax', 'sunlightMin', 'sunlightMax', 'id',
+                                            'ipaddress', 'userId', 'createdAt', 'updatedAt'])
+
+          // Type Check
+          expect(res.body[0].name).to.be.a('string')
+          expect(res.body[0].groupName).to.be.a('string')
+          expect(res.body[0].tempMin).to.be.a('number')
+          expect(res.body[0].tempMax).to.be.a('number')
+          expect(res.body[0].humidityMin).to.be.a('number')
+          expect(res.body[0].humidityMax).to.be.a('number')
+          expect(res.body[0].moistureMin).to.be.a('number')
+          expect(res.body[0].moistureMax).to.be.a('number')
+          expect(res.body[0].sunlightMin).to.be.a('number')
+          expect(res.body[0].sunlightMax).to.be.a('number')
+          expect(res.body[0].id).to.be.a('number')
+          expect(res.body[0].ipaddress).to.be.a('string')
+          expect(res.body[0].userId).to.be.a('number')
+          expect(res.body[0].createdAt).to.be.a('string')
+          expect(res.body[0].updatedAt).to.be.a('string')
+          
+          expect(res.body[1].name).to.be.a('string')
+          expect(res.body[1].groupName).to.be.a('string')
+          expect(res.body[1].tempMin).to.be.a('number')
+          expect(res.body[1].tempMax).to.be.a('number')
+          expect(res.body[1].humidityMin).to.be.a('number')
+          expect(res.body[1].humidityMax).to.be.a('number')
+          expect(res.body[1].moistureMin).to.be.a('number')
+          expect(res.body[1].moistureMax).to.be.a('number')
+          expect(res.body[1].sunlightMin).to.be.a('number')
+          expect(res.body[1].sunlightMax).to.be.a('number')
+          expect(res.body[1].id).to.be.a('number')
+          expect(res.body[1].ipaddress).to.be.a('string')
+          expect(res.body[1].userId).to.be.a('number')
+          expect(res.body[1].createdAt).to.be.a('string')
+          expect(res.body[1].updatedAt).to.be.a('string')
+
+          // Value Check
+          expect(res.body[0].userId).to.equal(theUser.id)
+          expect(res.body[0].id).to.equal(theNode1.id)
+          expect(res.body[0].name).to.equal('name')
+          expect(res.body[0].groupName).to.equal('groupName')
+          expect(res.body[0].tempMin).to.equal(1)
+          expect(res.body[0].tempMax).to.equal(99)
+          expect(res.body[0].humidityMin).to.equal(2)
+          expect(res.body[0].humidityMax).to.equal(98)
+          expect(res.body[0].moistureMin).to.equal(3)
+          expect(res.body[0].moistureMax).to.equal(97)
+          expect(res.body[0].sunlightMin).to.equal(4)
+          expect(res.body[0].sunlightMax).to.equal(96)
+          expect(res.body[0].ipaddress).to.equal('1.1.1.2')
+          
+          expect(res.body[1].userId).to.equal(theUser.id)
+          expect(res.body[1].id).to.equal(theNode2.id)
+          expect(res.body[1].name).to.equal('name')
+          expect(res.body[1].groupName).to.equal('groupName')
+          expect(res.body[1].tempMin).to.equal(1)
+          expect(res.body[1].tempMax).to.equal(99)
+          expect(res.body[1].humidityMin).to.equal(2)
+          expect(res.body[1].humidityMax).to.equal(98)
+          expect(res.body[1].moistureMin).to.equal(3)
+          expect(res.body[1].moistureMax).to.equal(97)
+          expect(res.body[1].sunlightMin).to.equal(4)
+          expect(res.body[1].sunlightMax).to.equal(96)
+          expect(res.body[1].ipaddress).to.equal('1.1.1.2')
           
           done()
         })
@@ -839,7 +955,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
       })
     .then(user => {
       chai.request(server)
-          .put('/api/nodes/' + theNode.id)
+          .put('/api/nodes/update?nodes=' + theNode1.id)
           .set('Authorization', user.api_token)
           .send(newNode)
           .end((err, res) => {
@@ -852,7 +968,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
             expect(res.body.message).to.be.a('string')
   
             // Value Check
-            expect(res.body.message).to.equal('Node Not Found')
+            expect(res.body.message).to.equal('Node Not Found. Aborting update procedure.')
             
             return user.destroy()
           })
@@ -861,7 +977,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
   it('with no api_token: it should return a message about invalid API token', (done) => {
     const newNode = {}
     chai.request(server)
-        .put('/api/nodes/' + theNode.id)
+        .put('/api/nodes/update?nodes=' + theNode1.id)
         .send(newNode)
         .end((err, res) => {
           expect(res).to.have.status(404)
@@ -876,7 +992,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
   it('with improper api_token: it should return a message about invalid API token', (done) => {
     const newNode = {}
     chai.request(server)
-        .put('/api/nodes/' + theNode.id)
+        .put('/api/nodes/update?nodes=' + theNode1.id)
         .set('Authorization', 'wrong api_token')
         .send(newNode)
         .end((err, res) => {
@@ -892,7 +1008,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
   it('non-existent node: it should return a node not found message', (done) => {
     const newNode = {}
     chai.request(server)
-        .put('/api/nodes/-1')
+        .put('/api/nodes/update?nodes=-1')
         .set('Authorization', theUser.api_token)
         .send(newNode)
         .end((err, res) => {
@@ -901,7 +1017,7 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
           // message
           expect(res.body).to.have.property('message')
           expect(res.body.message).to.be.a('string')
-          expect(res.body.message).to.equal('Node Not Found')
+          expect(res.body.message).to.equal('Node Not Found. Aborting update procedure.')
           done()
         })
   })
