@@ -411,8 +411,8 @@ module.exports = {
         }
         return Promise.all(promises)
       })
-      .then(nodes => {
-        res.status(200).send(nodes)
+      .then(updatedNodes => {
+        res.status(200).send(updatedNodes)
       })
       .catch(error => {
         console.log(error)
