@@ -340,8 +340,8 @@ module.exports = {
         return node
           .update({
             ipaddress: req.body.ipaddress || node.ipaddress,
-            name: ((req.body.name == "") ? null : req.body.name),
-            groupName: ((req.body.groupName == "") ? null : req.body.groupName),
+            name: ((req.body.name == "") ? null : (req.body.name) ? req.body.name : node.name),
+            groupName: ((req.body.groupName == "") ? null : (req.body.groupName) ? req.body.groupName : node.groupName),
             tempMin: req.body.tempMin || node.tempMin,
             tempMax: req.body.tempMax || node.tempMax,
             humidityMin: req.body.humidityMin || node.humidityMin,
@@ -396,8 +396,8 @@ module.exports = {
           newPromise = nodes[i]
             .update({
               ipaddress: req.body.ipaddress || nodes[i].ipaddress,
-              name: ((req.body.name == "") ? null : req.body.name),
-              groupName: ((req.body.groupName == "") ? null : req.body.groupName),
+              name: ((req.body.name == "") ? null : (req.body.name) ? req.body.name : nodes[i].name),
+              groupName: ((req.body.groupName == "") ? null : (req.body.groupName) ? req.body.groupName : nodes[i].groupName),
               tempMin: req.body.tempMin || nodes[i].tempMin,
               tempMax: req.body.tempMax || nodes[i].tempMax,
               humidityMin: req.body.humidityMin || nodes[i].humidityMin,

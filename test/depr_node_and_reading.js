@@ -420,13 +420,13 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
           expect(res).to.have.status(200)
           expect(res.body).to.be.a('object')
           
-          expect(res.body).to.have.all.keys([/*'name', 'groupName',*/ 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
+          expect(res.body).to.have.all.keys(['name', 'groupName', 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
                                             'moistureMin', 'moistureMax', 'sunlightMin', 'sunlightMax', 'id',
                                             'ipaddress', 'userId', 'createdAt', 'updatedAt'])
 
           // Type Check
-          //expect(res.body.name).to.be.null
-          //expect(res.body.groupName).to.be.null
+          expect(res.body.name).to.be.null
+          expect(res.body.groupName).to.be.null
           expect(res.body.tempMin).to.be.a('number')
           expect(res.body.tempMax).to.be.a('number')
           expect(res.body.humidityMin).to.be.a('number')
@@ -690,13 +690,13 @@ describe('PUT to /api/nodes/:nid - Test updating an existing node', () => {
           expect(res).to.have.status(200)
           expect(res.body).to.be.a('object')
           
-          expect(res.body).to.have.all.keys([/*'name', 'groupName',*/ 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
+          expect(res.body).to.have.all.keys(['name', 'groupName', 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
                                             'moistureMin', 'moistureMax', 'sunlightMin', 'sunlightMax', 'id',
                                             'ipaddress', 'userId', 'createdAt', 'updatedAt'])
 
           // Type Check
-          //expect(res.body.name).to.be.null
-          //expect(res.body.groupName).to.be.null
+          expect(res.body.name).to.be.null
+          expect(res.body.groupName).to.be.null
           expect(res.body.tempMin).to.be.a('number')
           expect(res.body.tempMax).to.be.a('number')
           expect(res.body.humidityMin).to.be.a('number')

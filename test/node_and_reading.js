@@ -815,13 +815,13 @@ describe('PUT to /api/nodes/:nid - Test updating one or more existing nodes', ()
           expect(res).to.have.status(200)
           expect(res.body).to.be.a('array')
           
-          expect(res.body[0]).to.have.all.keys([/*'name', 'groupName',*/ 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
+          expect(res.body[0]).to.have.all.keys(['name', 'groupName', 'tempMin', 'tempMax', 'humidityMin', 'humidityMax',
                                             'moistureMin', 'moistureMax', 'sunlightMin', 'sunlightMax', 'id',
                                             'ipaddress', 'userId', 'createdAt', 'updatedAt'])
 
           // Type Check
-          //expect(res.body.name).to.be.null
-          //expect(res.body.groupName).to.be.null
+          expect(res.body[0].name).to.be.null
+          expect(res.body[0].groupName).to.be.null
           expect(res.body[0].tempMin).to.be.a('number')
           expect(res.body[0].tempMax).to.be.a('number')
           expect(res.body[0].humidityMin).to.be.a('number')
