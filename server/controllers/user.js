@@ -29,6 +29,7 @@ function sendVerificationEmail(req, res, user) {
         response: info.response
       }
       console.log("Email successfully sent to " + result.accepted);
+      //res.sendFile(__dirname + '/frontend/sent_email.html')
       return res.status(200).send(result);
     }
   });
@@ -63,6 +64,8 @@ module.exports = {
         .then(user => {
             delete newUsers[req.query.id]   // remove created user from list of users in creation limbo
             user.password = null 
+            // login user (set cookies, etc.)
+            // res.sendFile(__dirname + '/frontend/index.html')
             return res.status(201).send(user)
           }
         )
