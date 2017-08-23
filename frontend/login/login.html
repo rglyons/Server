@@ -1,155 +1,153 @@
+<!-- HTML document for the login display -->
+<!-- Files included: materialize.min.css, login.css, crypto-js.min.js, materialize.min.js, jquery.js -->
+<!-- Upon clicking the facebook and istagram images, the user is redirected to the proper login pages -->
+<!-- As of 7/27/17, the login credentials are username: sustainability and password: sustainability. -->
+<!-- An ajax post request is used here to communicate with the server.  Also local storage is used to hold the token -->
+<!-- The screen layout is handled through a row and column materialize template. -->
+<!-- Modified by: Deshawn Rivers -->
+<!-- date: 7/27/2017-->
+
 <!DOCTYPE html>
 <html>
-
-    <head>
-        <meta charset="UTF-8">
-        <title>Smart Irrigation Login</title>
-        <link rel="stylesheet" href="static/css/login.css">
-        <script type="text/javascript">
-          var token = localStorage.getItem("token");
-          if(token){
-            console.log("you have a token");
-            console.log(token);
-            window.location.href = '../index.html';
-          }
-        </script>
-        <style>
-        #topbar{
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 90px;
-          z-index: 100;
-          opacity: 0.8;
-        }
-        .cyan {
-          background-color: black !important;
-          border-color: #00bcd4!important;
-        }
-        li {
-            display: inline-block;
-        }
-
-        </style>
-    </head>
-
-    <body>
-        <div id="topbar" class="cyan">
-            <ul id="buttonList">
-                <li><a href="../AboutUs/About.html" class="buttonAbout">About</a></li>
-                <li><a href="../AboutUs/About.html" class="buttonAbout">Contact</a></li>
-            </ul>
-        </div>
-
-        <form action="/" method="post" id="loginForm">
-          <div class="group">
-                <input type="text" name="username" id="username" value="" autofocus><span class="highlight"></span><span class="bar"></span>
-                <label>Username</label>
-            </div>
-
-            <!--password field-->
-            <div class="group">
-                <input type="password" name="password" id="password" value=""><span class="highlight"></span><span class="bar"></span>
-                <label>Password</label>
-            </div>
-          <div>
-              <!-- <input type="submit" value="Log In"/> -->
-              <button class="button buttonBlue">Log in
-                <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-              </button>
+  <head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <title>SlugSense Login</title>
+    <link rel="stylesheet" href="static/css/materialize.min.css">
+    <link rel="stylesheet" href="static/css/login.css">
+    <script src="static/js/js.cookie.js"></script>
+    <script type="text/javascript">
+      // redirect to app page if we have token
+      var token = Cookies.get('token')
+      if (token) {
+        console.log('User has login before')
+        window.location.href = '/'
+      }
+    </script>
+  </head>
+  <body>
+    <!-- any stuff about columns and rows is magic from ewing -->
+    <div class="myContainer">
+      <div class="row" style="margin: 0px">
+        <div class="col s7 hide-on-med-and-down topLeftSquare border" style="color:white;">
+          <div style="margin: 10%;">
+            <h1 style="margin-left: 10%;">SlugSense</h1>
+            <img src="static/images/forest-login/checkmark.png" height="60px" width="60px" align="center">
+            Automated environmental monitoring
+            <br>
+            <img src="static/images/forest-login/checkmark.png" height="60px" width="60px" align="center">
+            Historical data analytics<br>
+            <img src="static/images/forest-login/checkmark.png" height="60px" width="60px" align="center">
+            Wi-Fi™ connectivity
+            <br>
+            <img src="static/images/forest-login/checkmark.png" height="60px" width="60px" align="center">
+            Increased crop performance
+            <br>
+            <img src="static/images/forest-login/checkmark.png" height="60px" width="60px" align="center">
+            Reduced environmental footprint
+            <br>
+            <img src="static/images/forest-login/checkmark.png" height="60px" width="60px" align="center">
+            Save water and money
+            <br>
+            <!-- <div style="margin-left: 25%">
+              <a href="https://facebook.com"><img src="static/images/forest-login/facebook.png" height="60px" width="60px" align="center"></a>
+              <a href="https://instagram.com"><img src="static/images/forest-login/instagram.png" height="60px" width="60px" align="center"></a>
+            </div> -->
           </div>
-          <!--this <p> is only needed to center the logo image-->
-          <p style="text-align:center;">
-            <img class="logoImage" src="/static/images/logo2.png" alt="Slugsense Logo">
-          </p>
-          <div id="result">
-            <p id="errMess"></p>
+        </div>
+        <form method="post" id="loginForm">
+          <div class="col s12 l5 wrapper border">
+            <div class="row rightBox">
+              <div class="col s1 m3 l2 border"></div>
+              <div class="col s10 m6 l8 white border z-depth-3" style="margin-top:28%;">
+                <div class="row border loginBox">
+                  <div class="input-field col s12" style="margin-top: 0px;">
+                    <input id="username" type="text" class="validate">
+                    <label for="username">Username</label>
+                  </div>
+                  <div class="input-field col s12" style="margin-top: 0px;">
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                  </div>
+                  <p style="padding-left: 10px;">
+                    <input type="checkbox" id="remember"/>
+                    <label for="remember">Remember me for 30 days</label>
+                  </p>
+                  <!-- a div for error messages to display
+                                  (jQuery displays errors here) -->
+                  <div id="errMess" style="color: gray; text-align: center;"></div>
+                  <button class="btn waves-effect waves-light">Login</button>
+                  <div style=" font-size: 69%">
+                    <p>
+                      <a href="#">Forget Username?</a>
+                    </p>
+                    <p>
+                      <a href="#">Forget Password?</a>
+                    </p>
+                  </div>
+                  <p style="text-align: center;">
+                    <!-- links to page that's about SlugSense staff! -->
+                    <a href="../AboutUs/About.html"><img style="align: center; max-width: 100%; height: auto; width: auto;" src="static/images/logo2.png" alt="About Us"></a>
+                  </p>
+                </div>
+              </div>
+              <div class="col s1 m3 l2 border"></div>
+            </div>
           </div>
         </form>
+      </div>
+    </div>
+  </body>
+  <script src="static/js/jquery.js"></script>
+  <script src="static/js/crypto-js.min.js"></script>
+  <script src="static/js/materialize.min.js"></script>
+  <script src="static/js/index.js"></script>
+  <script type="text/javascript">
+    // jQuery convenience - if someone hits "enter"/submits the login form, this code runs; don't need to click login button manually
+    $('#loginForm').submit(function (e) {
+      e.preventDefault()
 
+      // need to make sure that fields aren't blank otherwise, spit notification to id="errMess"
+      var myUsername = $('#username').val()
+      var myPassword = $('#password').val()
+      if (!myUsername || !myPassword) {
+        $('#errMess').text('Fill out all fields')
+        return
+      }
 
+      // SHA-3/SHA-256 in the future?
+      var myUsername = $('#username').val()
+      var myPassword = CryptoJS.MD5($('#password').val()).toString()
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="bower_components/crypto-js/crypto-js.js"></script>
-
-    <!--function that is called on click of the Login button-->
-    <!-- <script type="text/javascript">
-      $("#loginForm").submit(function(e){
-        e.preventDefault();
-        var myUsername = document.getElementById('username').value;
-        var myPassword = document.getElementById('password').value;
-        var hashedPass = CryptoJS.MD5(myPassword);
-
-        if(!myUsername || !myPassword) {
-          console.log("error, fields are empty");
-          document.getElementById("result").innerHTML = "Fill out all fields";
-          return;
+      // API takes POST requests for some reason Peter Alvaro might teach you that RESTful APIs don't use POST
+      $.ajax({
+        type: 'POST',
+        // url: 'https://slugsense.herokuapp.com/api/users/login',
+        url: 'http://127.0.0.1:3030/api/users/login',
+        data: {
+          username: myUsername,
+          password: myPassword
+        },
+        success: function (data) {
+          var in10sec = 1 / (24 * 60 * 6)
+          if ($('#remember').prop('checked')) {
+            Cookies.set('token', data.api_token, {expires: 30})
+          } else {
+            Cookies.set('token', data.api_token, {expires: in10sec})
+          }
+          window.location.href = '/'
+        },
+        error: function (err) {
+          if (err.responseJSON) {
+            $('#errMess').text(err.responseJSON.message)
+          } else {
+            $('#errMess').text('Connection Error.')
+          }
         }
-        if(typeof(Storage) !== "undefined"){
-          var form = this;
-          sessionStorage.setItem("username", myUsername);
-          // remove bottom comment to enable hashing password
-          // $("#password").val(hashedPass);
-          console.log("password is "+ $("#password").val());
-          form.submit();
-        } else{
-          document.getElementById("result").innerHTML = "your browser is out of date";
-        }
-      });
-    </script> -->
-
-    <script type="text/javascript">
-      $("#loginForm").submit(function(e){
-        e.preventDefault();
-        var myUsername = document.getElementById('username').value;
-        var myPassword = document.getElementById('password').value;
-        var hashedPass = CryptoJS.MD5(myPassword);
-
-        if(!myUsername || !myPassword) {
-          console.log("error, fields are empty");
-          document.getElementById("result").innerHTML = "Fill out all fields";
-          return;
-        }
-        if(typeof(Storage) !== "undefined"){
-          var form = this;
-          sessionStorage.setItem("username", myUsername);
-          // remove bottom comment to enable hashing password
-           $("#password").val(hashedPass);
-          var myUsername = $("#username").val();
-          var myPassword = $("#password").val();
-          console.log(myUsername+ myPassword);
-          $.ajax({
-              type: "POST",
-              url: "https://slugsense.herokuapp.com/api/users/login",
-              data: {
-                username: myUsername,
-                password: myPassword
-              },
-              success: function(data){
-                console.log(data);
-                localStorage.setItem("token", data.api_token);
-                form.submit();
-              },
-              error: function (err) {
-                console.log(err);
-                console.log(JSON.stringify(err));
-                console.log(err.resposeJSON);
-                console.log("invalid credentials");
-                console.log()
-                $("#errMess").text("invalid login");
-              }
-              // dataType: dataType
-            });
-          console.log("password is "+ $("#password").val());
-        } else{
-          document.getElementById("result").innerHTML = "your browser is out of date";
-        }
-      });
-    </script>
-
-    <script src="static/js/index.js"></script>
-
-
-    </body>
+      })
+    })
+  </script>
+</html>
+or.') } }) })
+</script>
 </html>

@@ -2,8 +2,10 @@ global.Models = require('./server/models')
 const express = require('express')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const User = require('./server/models').User
+const auth = require('./server/auth').auth
 
 // passport and local Strategy
 // const passport = require('passport');
@@ -71,6 +73,7 @@ app.use('/frontend/AboutUs', express.static(__dirname + '/frontend/AboutUs'))
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
 
 /* app.use(require('express-session')({
   secret: 'a random string of garbo',
@@ -100,16 +103,27 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //   }
 // );
 
-app.post('/', (req, res) => {
-  res.redirect('/index.html')
-})
+// app.post('/', (req, res) => {
+//   res.redirect('/index.html')
+// })
 
 // webapp hosting stuff
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/frontend/login/login.html')
-})
-app.get('/index.html', /* isAuthenticated, */ (req, res) => {
-  res.sendFile(__dirname + '/frontend/index.html')
+// app.get('/', (req, res) => {
+//   // console.log('Cookies: ', req.cookies)
+//   if (req.cookies.token)
+//     res.sendFile(__dirname + '/frontend/index.html')
+//   else
+//     res.sendFile(__dirname + '/frontend/login/login.html')
+// })
+app.get('/', auth.validateLogin, (req, res) => {
+  console.log('COMING INTO MY PLACE!!!!!!!!!!!!!!!!!!!!!!')
+  if (req.user){
+    console.log('in ')
+    res.sendFile(__dirname + '/frontend/index.html')
+}else{
+    console.log('out ')
+    res.sendFile(__dirname + '/frontend/login/login.html')
+}
 })
 // Require our routes into the application.
 require('./server/routes')(app)
