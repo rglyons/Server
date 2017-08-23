@@ -20,6 +20,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       defaultValue: function() { return randomstring.generate(30) },
       allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     classMethods: {

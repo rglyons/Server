@@ -25,6 +25,7 @@ describe('POST to /api/nodes - Test creating a node under a user', () => {
     return User.create({
       username: 'mocha_test_create_node',
       password: 'mocha_test_create_node',
+      email: 'mocha_test_create_node',
     })
     .then(user => {
       theUser = user
@@ -215,7 +216,7 @@ describe('POST to /api/nodes - Test creating a node under a user', () => {
           expect(res).to.have.status(200)
           expect(res.body).to.be.a('object')
 
-          expect(res.body).to.have.all.keys(['id', 'username', 'nodeCount', 'nodes'])
+          expect(res.body).to.have.all.keys(['id', 'username', 'email', 'nodeCount', 'nodes'])
 
           // Type Check
           expect(res.body.id).to.be.a('number')
@@ -243,6 +244,7 @@ describe('GET to /api/nodes/all - Test listing all nodes', () => {
     return User.create({
       username: 'mocha_test_list_nodes',
       password: 'mocha_test_list_nodes',
+      email: 'mocha_test_list_nodes',
     })
     .then(user => {
       theUser = user
@@ -351,6 +353,7 @@ describe('GET to /api/nodes/:nid - Test getting a specific node', () => {
     return User.create({
       username: 'mocha_test_get_node',
       password: 'mocha_test_get_node',
+      email: 'mocha_test_get_node',
     })
     .then(user => {
       theUser = user
@@ -460,6 +463,7 @@ describe('POST to /api/nodes/:nid/new_reading - Test creation of a new reading',
     return User.create({
       username: 'mocha_test_create_reading',
       password: 'mocha_test_create_reading',
+      email: 'mocha_test_create_reading',
     })
     .then(user => {
       theUser = user
@@ -622,6 +626,7 @@ describe('PUT to /api/nodes/:nid - Test updating one or more existing nodes', ()
     return User.create({
       username: 'mocha_test_update_node',
       password: 'mocha_test_update_node',
+      email: 'mocha_test_update_node',
     })
     .then(user => {
       theUser = user
@@ -951,7 +956,8 @@ describe('PUT to /api/nodes/:nid - Test updating one or more existing nodes', ()
     return User
       .create({
         username: 'mocha_test_update_node_fake_user',
-        password: 'mocha_test_update_node_fake_user'
+        password: 'mocha_test_update_node_fake_user',
+        email: 'mocha_test_update_node_fake_user'
       })
     .then(user => {
       chai.request(server)
@@ -1033,6 +1039,7 @@ describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
     return User.create({
       username: 'mocha_test_delete_node',
       password: 'mocha_test_delete_node',
+      email: 'mocha_test_delete_node',
     })
     .then(user => {
       theUser = user
@@ -1080,7 +1087,8 @@ describe('DELETE to /api/nodes/:nid - Test deleting a node', () => {
     return User
       .create({
         username: 'mocha_test_delete_node_fake_user',
-        password: 'mocha_test_delete_node_fake_user'
+        password: 'mocha_test_delete_node_fake_user',
+        email: 'mocha_test_delete_node_fake_user'
       })
     .then(user => {
       chai.request(server)

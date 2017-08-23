@@ -26,6 +26,7 @@ describe('POST to /api/nodes/:nid/latest_reading - Test getting a node\'s latest
     return User.create({
       username: 'mocha_test_latest_reading',
       password: 'mocha_test_latest_reading',
+      email: 'mocha_test_latest_reading',
     })
     .then(user => {
       theUser = user
@@ -184,6 +185,7 @@ describe('POST to /api/nodes/latest_readings/all - Test getting a node\'s latest
     return User.create({
       username: 'mocha_test_latest_readings_all',
       password: 'mocha_test_latest_readings_all',
+      email: 'mocha_test_latest_readings_all',
     })
     .then(user => {
       theUser = user
@@ -404,7 +406,8 @@ describe('POST to /api/nodes/prev_24h/:nid - Test getting last 24 hours of a nod
   before(() => { // create a new user, node, and dummy reading
     return User.create({
       username: 'mocha_test_prev_24h',
-      password: 'mocha_test_prev_24h'
+      password: 'mocha_test_prev_24h',
+      email: 'mocha_test_prev_24h'
     })
     .then(user => {
       theUser = user

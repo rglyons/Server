@@ -8,6 +8,7 @@ module.exports = {
       .create({
         username: req.body.username,
         password: req.body.password,
+        email: req.body.email,
         nodeCount: 0,
       })
       .then(user => {
@@ -22,6 +23,7 @@ module.exports = {
     response = {}
     response["id"] = req.user.id
     response["username"] = req.user.username
+    response["email"] = req.user.email
     response["nodeCount"] = req.user.nodeCount
     response["nodes"] = req.user.nodes
     return res.status(200).send(response);
@@ -44,6 +46,7 @@ module.exports = {
       .update({
         password: req.body.password || req.user.password,
         username: req.body.username || req.user.username,
+        email: req.body.email || req.user.email,
       })
       .then(user => {
         user.password = null;
