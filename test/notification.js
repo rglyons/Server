@@ -27,6 +27,7 @@ describe('POST to /api/notifications - test creating a new notification', () => 
     return User.create({
       username: 'mocha_test_create_notification',
       password: 'mocha_test_create_notification',
+      email: 'mocha_test_create_notification',
     })
     .then(user => {
       theUser = user
@@ -261,6 +262,7 @@ describe('GET to /api/notifications/all - test getting all of a user\'s notifica
     return User.create({
       username: 'mocha_test_get_all_notifications',
       password: 'mocha_test_get_all_notifications',
+      email: 'mocha_test_get_all_notifications',
     })
     .then(user => {
       theUser = user
@@ -412,6 +414,7 @@ describe('GET to /api/notifications/undismissed - test getting all of a user\'s 
     return User.create({
       username: 'mocha_test_get_all_undismissed',
       password: 'mocha_test_get_all_undismissed',
+      email: 'mocha_test_get_all_undismissed',
     })
     .then(user => {
       theUser = user
@@ -540,6 +543,7 @@ describe('PUT to /api/notifications/:nid - test updating a notification', () => 
     return User.create({
       username: 'mocha_test_update_notification',
       password: 'mocha_test_update_notification',
+      email: 'mocha_test_update_notification',
     })
     .then(user => {
       theUser = user
@@ -699,6 +703,7 @@ describe('DELETE to /api/notifications/:nid - Test deleting a notification', () 
     return User.create({
       username: 'mocha_test_update_notification',
       password: 'mocha_test_update_notification',
+      email: 'mocha_test_update_notification',
     })
     .then(user => {
       theUser = user
@@ -782,6 +787,7 @@ describe('Test posting a bad reading and generating a new notification', () => {
     return User.create({
       username: 'mocha_test_generate_notification',
       password: 'mocha_test_generate_notification',
+      email: 'mocha_test_generate_notification',
     })
     .then(user => {
       theUser = user
@@ -837,7 +843,8 @@ describe('Test posting a bad reading and generating a new notification', () => {
   it('it should return the user with the newly generated notifications included', (done) => {
     user = {
       username: 'mocha_test_generate_notification',
-      password: 'mocha_test_generate_notification'
+      password: 'mocha_test_generate_notification',
+      email: 'mocha_test_generate_notification'
     }
     chai.request(server)
       .post('/api/users/login')
@@ -847,11 +854,12 @@ describe('Test posting a bad reading and generating a new notification', () => {
         expect(res).to.have.status(200)
         expect(res.body).to.be.a('object')
         
-        expect(res.body).to.have.all.keys([ 'id', 'username', 'password', 'nodeCount', 'api_token',
+        expect(res.body).to.have.all.keys([ 'id', 'username', 'password', 'email', 'nodeCount', 'api_token',
                                             'createdAt', 'updatedAt', 'nodes', 'notifications'])
 
         // Type Check
         expect(res.body.username).to.be.a('string')
+        expect(res.body.email).to.be.a('string')
         expect(res.body.password).to.be.null
         expect(res.body.nodeCount).to.be.a('number')
         expect(res.body.api_token).to.be.a('string')
@@ -867,13 +875,13 @@ describe('Test posting a bad reading and generating a new notification', () => {
         expect(res.body.notifications.length).to.equal(2)
         
         // consistency of notification order is questionable
-        expect(res.body.notifications[0].sensor).to.equal('temperature')
+        expect(res.body.notifications[0].sensor).to.equal('temperature', '(consistency of notification order is questionable)')
         expect(res.body.notifications[0].overMax).to.equal(true)
         expect(res.body.notifications[0].underMin).to.equal(false)
         expect(res.body.notifications[0].reading).to.equal(40)
         expect(res.body.notifications[0].dismissed).to.equal(false)
         
-        expect(res.body.notifications[1].sensor).to.equal('humidity')
+        expect(res.body.notifications[1].sensor).to.equal('humidity', '(consistency of notification order is questionable)')
         expect(res.body.notifications[1].overMax).to.equal(false)
         expect(res.body.notifications[1].underMin).to.equal(true)
         expect(res.body.notifications[1].reading).to.equal(10)

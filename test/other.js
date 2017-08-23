@@ -48,6 +48,7 @@ describe('GET to /api/nodes/:nid/latest_reading - Test getting a node\'s latest 
     return User.create({
       username: 'mocha_test_latest_reading',
       password: 'mocha_test_latest_reading',
+      email: 'mocha_test_latest_reading',
     })
     .then(user => {
       theUser = user
@@ -195,6 +196,7 @@ describe('GET to /api/nodes/latest_readings/all - Test getting a node\'s latest 
     return User.create({
       username: 'mocha_test_latest_readings_all',
       password: 'mocha_test_latest_readings_all',
+      email: 'mocha_test_latest_readings_all',
     })
     .then(user => {
       theUser = user
@@ -405,7 +407,8 @@ describe('GET to /api/nodes/prev_24h/:nid - Test getting all readings for node w
   before(() => { // create a new user, node, and dummy reading
     return User.create({
       username: 'mocha_test_prev_24h',
-      password: 'mocha_test_prev_24h'
+      password: 'mocha_test_prev_24h',
+      email: 'mocha_test_prev_24h'
     })
     .then(user => {
       theUser = user
@@ -527,7 +530,8 @@ describe('GET to /api/nodes/prev_24h/:nid - Test getting all readings for node w
     return User
       .create({
         username: 'mocha_test_prev_24h_fake_user',
-        password: 'mocha_test_prev_24h_fake_user'
+        password: 'mocha_test_prev_24h_fake_user',
+        email: 'mocha_test_prev_24h_fake_user'
       })
     .then(user => {
       chai.request(server)
@@ -588,7 +592,8 @@ describe('GET to /api/nodes/prev_xh/:nid - Test getting all readings for node wi
   before(() => { // create a new user, node, and dummy reading
     return User.create({
       username: 'mocha_test_prev_xh',
-      password: 'mocha_test_prev_xh'
+      password: 'mocha_test_prev_xh',
+      email: 'mocha_test_prev_xh'
     })
     .then(user => {
       theUser = user
@@ -710,7 +715,8 @@ describe('GET to /api/nodes/prev_xh/:nid - Test getting all readings for node wi
     return User
       .create({
         username: 'mocha_test_prev_xh_fake_user',
-        password: 'mocha_test_prev_xh_fake_user'
+        password: 'mocha_test_prev_xh_fake_user',
+        email: 'mocha_test_prev_xh_fake_user'
       })
     .then(user => {
       chai.request(server)
