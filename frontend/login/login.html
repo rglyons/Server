@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="static/css/materialize.min.css">
     <link rel="stylesheet" href="static/css/login.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="static/js/js.cookie.js"></script>
     <script type="text/javascript">
       /* eslint-disable no-undef */
@@ -114,12 +115,12 @@
     </div>
 
     <!-- Modal Structure -->
-    <div id="sign-up" class="modal modal-fixed-footer myModal" style="max-width: 500px; max-height: 450px;">
+    <div id="sign-up" class="modal modal-fixed-footer myModal" style="max-width: 500px; max-height: 600px;">
       <div class="modal-content">
         <h4>Create Account</h4>
         <div class="row">
-          <form class="col s12">
-            <div class="row">
+          <form class="col s12" method="POST">
+            <div class="row" style="margin: 0px">
               <div class="col s2 border">
                 <i class="small material-icons border" style="margin-top: 25px;">account_circle</i>
               </div>
@@ -128,7 +129,7 @@
                 <label for="create_user_name">User Name</label>
               </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin: 0px">
               <div class="col s2 border">
                 <i class="small material-icons border" style="margin-top: 25px;">email</i>
               </div>
@@ -137,7 +138,7 @@
                 <label for="create_email">Email</label>
               </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin: 0px">
               <div class="col s2 border">
                 <i class="small material-icons border" style="margin-top: 25px;">fingerprint</i>
               </div>
@@ -146,6 +147,9 @@
                 <label for="create_password">Password</label>
               </div>
             </div>
+            <div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LeYAC4UAAAAAPKYTvape1wnQfo5fYxSGx9s5Rb1"></div>
+            <!-- <br/> -->
+            <!-- <input type="submit" value="Submit"> -->
           </form>
         </div>
       </div>
@@ -182,6 +186,8 @@
       $('#create_account_btn').on('click', function () {
         if ($('#create_email').hasClass('invalid')) {
           alert('Invalid Email')
+        } else if (grecaptcha.getResponse() === '') {
+          alert('Please verify to be human')
         } else {
           $.ajax({
             type: 'POST',
@@ -189,7 +195,8 @@
             data: {
               username: $('#create_user_name').val(),
               password: CryptoJS.MD5($('#create_password').val()).toString(),
-              email: $('#create_email').val()
+              email: $('#create_email').val(),
+              'g-recaptcha-response': grecaptcha.getResponse()
             },
             success: login,
             error: error
