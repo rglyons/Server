@@ -187,7 +187,7 @@
         if ($('#create_email').hasClass('invalid')) {
           alert('Invalid Email')
         } else if (grecaptcha.getResponse() === '') {
-          alert('Please verify to be human')
+          alert('Please verify that you are human')
         } else {
           $.ajax({
             type: 'POST',
