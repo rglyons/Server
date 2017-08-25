@@ -177,9 +177,14 @@
       var error = function (err) {
         if (err.responseJSON) {
           $('#errMess').text(err.responseJSON.message)
+          if (err.responseJSON.message.includes('already exists')) alert('Username already exists!')  // NEED TO MAKE THIS ALERT SMOOTHER
         } else {
           $('#errMess').text('Connection Error.')
         }
+      }
+      
+      var emailRedirect = function (data) {
+        window.location.href = '/sent_email'  // redirect to page notifying new user of verification email
       }
 
       // Create User
@@ -201,7 +206,7 @@
               email: $('#create_email').val(),
               'g-recaptcha-response': grecaptcha.getResponse()
             },
-            success: window.location.href = '/sent_email',  // redirect to page notifying new user of verification email
+            success: emailRedirect,
             error: error
           })
         }

@@ -36,13 +36,32 @@ function sendVerificationEmail (req, res, user) {
 
 module.exports = {
   initNewUser (req, res) {
-    let user = {
-      username: req.body.username,
-      password: req.body.password,
-      email: req.body.email,
-      nodeCount: 0
-    }
-    return sendVerificationEmail(req, res, user)
+    return User
+      .findOne({ where: {
+        username: req.body.username
+      }})
+    .then(user => {
+      if (user) {
+        throw new Error('User with username already exists')
+      } else {
+        let user = {
+          username: req.body.username,
+          password: req.body.password,
+          email: req.body.email,
+          nodeCount: 0
+        }
+        return sendVerificationEmail(req, res, user)
+      }
+    })
+    .catch(error => {
+      if (error.message == 'User with username already exists') {
+        res.status(400).send({
+          message: 'User with username ' + req.body.username + ' already exists.',
+        });
+      } else {
+        res.status(400).send(error)
+      }
+    })
   },
 
   verifyUserEmail (req, res) {
@@ -63,12 +82,11 @@ module.exports = {
         .then(user => {
           delete newUsers[req.query.id]   // remove created user from list of users in creation limbo
           user.password = null
-            // login user (set cookies, redirect)
-          const tenSeconds = 100000
+          // login user (set cookies, redirect)
+          const tenSeconds = 10000
           res.cookie('token', user.api_token, { maxAge: tenSeconds, httpOnly: false })
-            // res.status(201).send(user)
-        //   res.sendFile('/frontend/index.html', {root: './'})
-          res.redirect('/')
+          // res.status(201).send(user)
+          res.status(201).redirect('/')
         }
         )
         .catch(error => {
@@ -80,18 +98,35 @@ module.exports = {
 
   create (req, res) {
     return User
-      .create({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        nodeCount: 0
+      .findOne({ where: {
+        username: req.body.username
+      }})
+    .then(user => {
+      if (user) {
+        throw new Error('User with username already exists')
+      } else {
+        return User
+          .create({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            nodeCount: 0
+          })
+          .then(user => {
+            user.password = null
+            res.status(201).send(user)
+          })
+      }  
+    })
+    .catch(error => {
+        if (error.message == 'User with username already exists') {
+          res.status(400).send({
+            message: 'User with username ' + req.body.username + ' already exists.',
+          });
+        } else {
+          res.status(400).send(error)
+        }
       })
-      .then(user => {
-        user.password = null
-        res.status(201).send(user)
-      }
-      )
-      .catch(error => res.status(400).send(error))
   },
 
   getUser (req, res) {
