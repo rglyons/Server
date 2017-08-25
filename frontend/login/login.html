@@ -147,6 +147,8 @@
                 <label for="create_password">Password</label>
               </div>
             </div>
+            <div id="signUpErrMess" style="color: gray; text-align: center;"></div>
+            <br>
             <div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LeYAC4UAAAAAPKYTvape1wnQfo5fYxSGx9s5Rb1"></div>
             <!-- <br/> -->
             <!-- <input type="submit" value="Submit"> -->
@@ -177,9 +179,16 @@
       var error = function (err) {
         if (err.responseJSON) {
           $('#errMess').text(err.responseJSON.message)
-          if (err.responseJSON.message.includes('already exists')) alert('Username already exists!')  // NEED TO MAKE THIS ALERT SMOOTHER
         } else {
           $('#errMess').text('Connection Error.')
+        }
+      }
+      
+      var signUpError = function (err) {
+        if (err.responseJSON) {
+          $('#signUpErrMess').text(err.responseJSON.message)
+        } else {
+          $('#signUpErrMess').text('Connection Error.')
         }
       }
       
@@ -207,7 +216,7 @@
               'g-recaptcha-response': grecaptcha.getResponse()
             },
             success: emailRedirect,
-            error: error
+            error: signUpError
           })
         }
       })
