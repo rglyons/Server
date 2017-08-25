@@ -11,6 +11,7 @@ const auth = require('./server/auth').auth
 // Set up the express app
 const app = express()
 const port = process.env.PORT
+global.appPath = __dirname
 app.use(cors())
 // Log requests to the console.
 app.use(logger('dev'))
@@ -58,6 +59,10 @@ app.get('/', auth.validateLogin, (req, res) => {
     console.log('out ')
     res.sendFile(__dirname + '/frontend/login/login.html')
 }
+})
+
+app.get('/sent_email', (req, res) => {
+  res.sendFile(__dirname + '/frontend/sent_email.html')
 })
 
 // Require our other routes into the application.

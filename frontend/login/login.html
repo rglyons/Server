@@ -184,21 +184,24 @@
 
       // Create User
       $('#create_account_btn').on('click', function () {
+        
+        // if username, email, or password field empty, throw error or return
+        
         if ($('#create_email').hasClass('invalid')) {
           alert('Invalid Email')
-        } else if (grecaptcha.getResponse() === '') {
-          alert('Please verify that you are human')
+        //} else if (grecaptcha.getResponse() === '') { // UNCOMMENT WHEN DONE DEVELOPING
+        //  alert('Please verify that you are human')
         } else {
           $.ajax({
             type: 'POST',
-            url: host + '/api/users',
+            url: host + '/api/users/email',   // store new user info, send verification email
             data: {
               username: $('#create_user_name').val(),
               password: CryptoJS.MD5($('#create_password').val()).toString(),
               email: $('#create_email').val(),
               'g-recaptcha-response': grecaptcha.getResponse()
             },
-            success: login,
+            success: window.location.href = '/sent_email',  // redirect to page notifying new user of verification email
             error: error
           })
         }

@@ -20,8 +20,8 @@ module.exports = (app) => {
   // users
   app.post('/api/users/login', auth.login) // login user
   app.post('/api/users', usersController.create) // want to replace this route with the two routes below - init user obj, send and verify email -> create user
-  app.post('/api/users/email', usersController.initNewUser /*, REDIRECT TO 'Verification email has been sent' PAGE*/) // store user info for creating new user, send verification email
-  app.get('/api/verify?', usersController.verifyUserEmail /*, ON SUCCESS, REDIRECT TO DASHBOARD (index.html)*/)
+  app.post('/api/users/email', usersController.initNewUser) // store user info for creating new user, send verification email
+  app.get('/api/verify?', usersController.verifyUserEmail)
   app.put('/api/users/update', auth.validate, usersController.update) // update user fields
   app.put('/api/users/token', auth.validate, usersController.generateApiToken) // generate new api token for existing user
   app.get('/api/users/getuser', auth.validate, usersController.getUser) // retrieve user + nodes
