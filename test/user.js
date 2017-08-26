@@ -145,19 +145,23 @@ describe('POST to /api/users/login - Test user login', () => {
 * /api/users
 */
 describe('POST to /api/users - Test creation of new user', () => {
-  before(() => {})
-  after(() => {})
-  beforeEach(() => {
-    // clear the Users table
-    /* User.sync({ force : true }) // drops table and re-creates it
-      .then(function() {
-        console.log('Users table dropped and recreated')
-        done(null);
-      })
-      .catch(function(error) {
-        done(error);
-      }); */
+  let theUser = null
+  before(() => {
+    // for testing the creation of a user with existing username
+    return User.create({
+      username: 'mocha_test_create_user',
+      password: 'mocha_test_create_user',
+      email: 'mocha_test_create_user',
+      nodeCount: 0
+    })
+    .then(user => {
+      theUser = user
+    })
   })
+  after(() => {
+    theUser.destroy()
+  })
+  beforeEach(() => {})
   afterEach(() => {})
   it('with required data: it should create the user and return it in the response', (done) => {
     const user = {
@@ -190,6 +194,30 @@ describe('POST to /api/users - Test creation of new user', () => {
           User.destroy({ where: {
             api_token: res.body.api_token
           } })
+          done()
+        })
+  })
+  it('with existing username: it should return an error message in the response', (done) => {
+    const user = {
+      username: theUser.username,
+      password: 'test1',
+      email: 'email1'
+    }
+    chai.request(server)
+        .post('/api/users')
+        .send(user)
+        .end((err, res) => {
+          expect(res).to.have.status(400)
+          expect(res.body).to.be.a('object')
+          
+          expect(res.body).to.have.all.keys(['message'])
+
+          // Type Check
+          expect(res.body.message).to.be.a('string')
+      
+          // Value Check
+          expect(res.body.message).to.equal('User with username ' + theUser.username + ' already exists.')
+          
           done()
         })
   })
