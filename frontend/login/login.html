@@ -85,6 +85,8 @@
                   <div class="row border" style="margin: 3px">
                     <div class="col s12 right-align border">
                       <a class="waves-effect waves-light modal-trigger border" style="font-size: 12px;" href="#sign-up">Sign Up</a>
+                      <br>
+                      <a class="waves-effect waves-light modal-trigger border" style="font-size: 12px;" href="#forgot-pwd">Forgot Password</a>
                     </div>
                   </div>
                   <div class="row border">
@@ -159,6 +161,33 @@
         <a href="#!" id="create_account_btn" class="modal-action waves-effect waves-green btn-flat">Sign Up</a>
       </div>
     </div>
+    
+    <!-- Modal Structure -->
+    <div id="forgot-pwd" class="modal modal-fixed-footer myModal" style="max-width: 500px; max-height: 600px;">
+      <div class="modal-content">
+        <h4>Forgot Password</h4>
+        <p>Please enter your email. We'll send you a link to recover your password.</p>
+        <div class="row">
+          <form class="col s12" method="POST">
+            <div class="row" style="margin: 0px">
+              <div class="col s2 border">
+                <i class="small material-icons border" style="margin-top: 25px;">email</i>
+              </div>
+              <div class="input-field col s10 border">
+                <input id="forgot_pwd_email" type="email" class="validate">
+                <label for="forgot_pwd_email">Email</label>
+              </div>
+            </div>
+            <div id="forgotpwdErrMess" style="color: gray; text-align: center;"></div>
+            <!-- <br/> -->
+            <!-- <input type="submit" value="Submit"> -->
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" id="recover_pwd_btn" class="modal-action waves-effect waves-green btn-flat">Send Recovery Link</a>
+      </div>
+    </div>
 
     <script src="static/js/jquery.js"></script>
     <script src="static/js/crypto-js.min.js"></script>
@@ -192,6 +221,14 @@
         }
       }
       
+      var forgotPwdError = function (err) {
+        if (err.responseJSON) {
+          $('#forgotpwdErrMess').text(err.responseJSON.message)
+        } else {
+          $('#forgotpwdErrMess').text('Connection Error.')
+        }
+      }
+      
       var emailRedirect = function (data) {
         window.location.href = '/sent_email'  // redirect to page notifying new user of verification email
       }
@@ -217,6 +254,28 @@
             },
             success: emailRedirect,
             error: signUpError
+          })
+        }
+      })
+      
+      // Recover Password
+      $('#recover_pwd_btn').on('click', function () {
+        
+        // if username, email, or password field empty, throw error or return
+        
+        if ($('#forgot_pwd_email').hasClass('invalid')) {
+          $('#forgotpwdErrMess').text('Invalid Email')
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: host + '/api/users/recover_pwd',
+            data: {
+              email: $('#forgot_pwd_email').val(),
+            },
+            success:  function() {
+                        $('#forgotpwdErrMess').text('Email Sent!')
+                      },
+            error: forgotPwdError
           })
         }
       })

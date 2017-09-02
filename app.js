@@ -65,6 +65,10 @@ app.get('/sent_email', (req, res) => {
   res.sendFile(__dirname + '/frontend/sent_email.html')
 })
 
+app.get('/reset_password', (req, res) => {
+  res.sendFile(__dirname + '/frontend/reset_password.html')
+})
+
 // Require our other routes into the application.
 require('./server/routes')(app)
 app.get('*', (req, res) => res.status(200).send({
