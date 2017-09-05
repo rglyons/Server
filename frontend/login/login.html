@@ -12,17 +12,22 @@
   <head>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SlugSense Login</title>
     <link rel="stylesheet" href="static/css/materialize.min.css">
     <link rel="stylesheet" href="static/css/login.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="static/js/js.cookie.js"></script>
     <script type="text/javascript">
-      // redirect to app page if we have token
+      /* eslint-disable no-undef */
+      // redirect to app page if have token
       var token = Cookies.get('token')
       if (token) {
         console.log('User has login before')
         window.location.href = '/'
       }
+      const host = 'http://127.0.0.1:3030'
     </script>
   </head>
   <body>
@@ -58,8 +63,10 @@
         <form method="post" id="loginForm">
           <div class="col s12 l5 wrapper border">
             <div class="row rightBox">
-              <div class="col s1 m3 l2 border"></div>
-              <div class="col s10 m6 l8 white border z-depth-3" style="margin-top:28%;">
+              <div class="col hide-on-small-only m12" style="margin-top: 140px;"></div>
+              <div class="col show-on-small	s12" style="margin-top: 50px;"></div>
+              <div class="col hide-on-small-only m3 l2 border"></div>
+              <div class="col s12 m6 l8 white border z-depth-3">
                 <div class="row border loginBox">
                   <div class="input-field col s12" style="margin-top: 0px;">
                     <input id="username" type="text" class="validate">
@@ -69,85 +76,249 @@
                     <input id="password" type="password" class="validate">
                     <label for="password">Password</label>
                   </div>
+                  <!-- a div for error messages to display (jQuery displays errors here) -->
+                  <div id="errMess" style="color: gray; text-align: center;"></div>
                   <p style="padding-left: 10px;">
                     <input type="checkbox" id="remember"/>
                     <label for="remember">Remember me for 30 days</label>
                   </p>
-                  <!-- a div for error messages to display
-                                  (jQuery displays errors here) -->
-                  <div id="errMess" style="color: gray; text-align: center;"></div>
-                  <button class="btn waves-effect waves-light">Login</button>
-                  <div style=" font-size: 69%">
+                  <div class="row border" style="margin: 3px">
+                    <div class="col s12 right-align border">
+                      <a class="waves-effect waves-light modal-trigger border" style="font-size: 12px;" href="#sign-up">Sign Up</a>
+                      <br>
+                      <a class="waves-effect waves-light modal-trigger border" style="font-size: 12px;" href="#forgot-pwd">Forgot Password</a>
+                    </div>
+                  </div>
+                  <div class="row border">
+                    <div class="col s12 border">
+                      <button class="btn waves-effect waves-light">Login</button>
+                    </div>
+                  </div>
+                  <!-- <div style=" font-size: 69%">
                     <p>
                       <a href="#">Forget Username?</a>
                     </p>
                     <p>
                       <a href="#">Forget Password?</a>
                     </p>
-                  </div>
+                  </div> -->
+                  <!-- Modal Trigger -->
                   <p style="text-align: center;">
                     <!-- links to page that's about SlugSense staff! -->
                     <a href="../AboutUs/About.html"><img style="align: center; max-width: 100%; height: auto; width: auto;" src="static/images/logo2.png" alt="About Us"></a>
                   </p>
                 </div>
               </div>
-              <div class="col s1 m3 l2 border"></div>
+              <div class="col hide-on-small-only m3 l2 border"></div>
             </div>
           </div>
         </form>
       </div>
     </div>
-  </body>
-  <script src="static/js/jquery.js"></script>
-  <script src="static/js/crypto-js.min.js"></script>
-  <script src="static/js/materialize.min.js"></script>
-  <script src="static/js/index.js"></script>
-  <script type="text/javascript">
-    // jQuery convenience - if someone hits "enter"/submits the login form, this code runs; don't need to click login button manually
-    $('#loginForm').submit(function (e) {
-      e.preventDefault()
 
-      // need to make sure that fields aren't blank otherwise, spit notification to id="errMess"
-      var myUsername = $('#username').val()
-      var myPassword = $('#password').val()
-      if (!myUsername || !myPassword) {
-        $('#errMess').text('Fill out all fields')
-        return
+    <!-- Modal Structure -->
+    <div id="sign-up" class="modal modal-fixed-footer myModal" style="max-width: 500px; max-height: 600px;">
+      <div class="modal-content">
+        <h4>Create Account</h4>
+        <div class="row">
+          <form class="col s12" method="POST">
+            <div class="row" style="margin: 0px">
+              <div class="col s2 border">
+                <i class="small material-icons border" style="margin-top: 25px;">account_circle</i>
+              </div>
+              <div class="input-field col s10 border">
+                <input id="create_user_name" type="text" class="validate">
+                <label for="create_user_name">User Name</label>
+              </div>
+            </div>
+            <div class="row" style="margin: 0px">
+              <div class="col s2 border">
+                <i class="small material-icons border" style="margin-top: 25px;">email</i>
+              </div>
+              <div class="input-field col s10 border">
+                <input id="create_email" type="email" class="validate">
+                <label for="create_email">Email</label>
+              </div>
+            </div>
+            <div class="row" style="margin: 0px">
+              <div class="col s2 border">
+                <i class="small material-icons border" style="margin-top: 25px;">fingerprint</i>
+              </div>
+              <div class="input-field col s10 border">
+                <input id="create_password" type="password" class="validate">
+                <label for="create_password">Password</label>
+              </div>
+            </div>
+            <div id="signUpErrMess" style="color: gray; text-align: center;"></div>
+            <br>
+            <div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LeYAC4UAAAAAPKYTvape1wnQfo5fYxSGx9s5Rb1"></div>
+            <!-- <br/> -->
+            <!-- <input type="submit" value="Submit"> -->
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" id="create_account_btn" class="modal-action waves-effect waves-green btn-flat">Sign Up</a>
+      </div>
+    </div>
+    
+    <!-- Modal Structure -->
+    <div id="forgot-pwd" class="modal modal-fixed-footer myModal" style="max-width: 500px; max-height: 600px;">
+      <div class="modal-content">
+        <h4>Forgot Password</h4>
+        <p>Please enter your email. We'll send you a link to recover your password.</p>
+        <div class="row">
+          <form class="col s12" method="POST">
+            <div class="row" style="margin: 0px">
+              <div class="col s2 border">
+                <i class="small material-icons border" style="margin-top: 25px;">email</i>
+              </div>
+              <div class="input-field col s10 border">
+                <input id="forgot_pwd_email" type="email" class="validate">
+                <label for="forgot_pwd_email">Email</label>
+              </div>
+            </div>
+            <div id="forgotpwdErrMess" style="color: gray; text-align: center;"></div>
+            <!-- <br/> -->
+            <!-- <input type="submit" value="Submit"> -->
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" id="recover_pwd_btn" class="modal-action waves-effect waves-green btn-flat">Send Recovery Link</a>
+      </div>
+    </div>
+
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/crypto-js.min.js"></script>
+    <script src="static/js/materialize.min.js"></script>
+    <script src="static/js/index.js"></script>
+    <script type="text/javascript">
+      /* eslint-disable no-undef */
+      var login = function (data) {
+        var in10sec = 1 / (24 * 60 * 6)
+        if ($('#remember').prop('checked')) {
+          Cookies.set('token', data.api_token, {expires: 30})
+        } else {
+          Cookies.set('token', data.api_token, {expires: in10sec})
+        }
+        window.location.href = '/'
       }
 
-      // SHA-3/SHA-256 in the future?
-      var myUsername = $('#username').val()
-      var myPassword = CryptoJS.MD5($('#password').val()).toString()
+      var error = function (err) {
+        if (err.responseJSON) {
+          $('#errMess').text(err.responseJSON.message)
+        } else {
+          $('#errMess').text('Connection Error.')
+        }
+      }
+      
+      var signUpError = function (err) {
+        if (err.responseJSON) {
+          $('#signUpErrMess').text(err.responseJSON.message)
+        } else {
+          $('#signUpErrMess').text('Connection Error.')
+        }
+      }
+      
+      var forgotPwdError = function (err) {
+        if (err.responseJSON) {
+          $('#forgotpwdErrMess').text(err.responseJSON.message)
+        } else {
+          $('#forgotpwdErrMess').text('Connection Error.')
+        }
+      }
+      
+      var emailRedirect = function (data) {
+        window.location.href = '/sent_email'  // redirect to page notifying new user of verification email
+      }
 
-      // API takes POST requests for some reason Peter Alvaro might teach you that RESTful APIs don't use POST
-      $.ajax({
-        type: 'POST',
-        url: 'https://slugsense.herokuapp.com/api/users/login',
-        // url: 'http://127.0.0.1:3030/api/users/login',
-        data: {
-          username: myUsername,
-          password: myPassword
-        },
-        success: function (data) {
-          var in10sec = 1 / (24 * 60 * 6)
-          if ($('#remember').prop('checked')) {
-            Cookies.set('token', data.api_token, {expires: 30})
-          } else {
-            Cookies.set('token', data.api_token, {expires: in10sec})
-          }
-          window.location.href = '/'
-        },
-        error: function (err) {
-          if (err.responseJSON) {
-            $('#errMess').text(err.responseJSON.message)
-          } else {
-            $('#errMess').text('Connection Error.')
-          }
+      // Create User
+      $('#create_account_btn').on('click', function () {
+        
+        // if username, email, or password field empty, throw error or return
+        
+        if ($('#create_email').hasClass('invalid')) {
+          alert('Invalid Email')
+        //} else if (grecaptcha.getResponse() === '') { // UNCOMMENT WHEN DONE DEVELOPING
+        //  alert('Please verify that you are human')
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: host + '/api/users/email',   // store new user info, send verification email
+            data: {
+              username: $('#create_user_name').val(),
+              password: CryptoJS.MD5($('#create_password').val()).toString(),
+              email: $('#create_email').val(),
+              'g-recaptcha-response': grecaptcha.getResponse()
+            },
+            success: emailRedirect,
+            error: signUpError
+          })
         }
       })
-    })
-  </script>
-</html>
-or.') } }) })
-</script>
+      
+      // Recover Password
+      $('#recover_pwd_btn').on('click', function () {
+        
+        // if username, email, or password field empty, throw error or return
+        
+        if ($('#forgot_pwd_email').hasClass('invalid')) {
+          $('#forgotpwdErrMess').text('Invalid Email')
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: host + '/api/users/recover_pwd',
+            data: {
+              email: $('#forgot_pwd_email').val(),
+            },
+            success:  function() {
+                        $('#forgotpwdErrMess').text('Email Sent!')
+                      },
+            error: forgotPwdError
+          })
+        }
+      })
+
+      // Register Model
+      $('.modal').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal
+        opacity: 0.5, // Opacity of modal background
+        inDuration: 300, // Transition in duration
+        outDuration: 200, // Transition out duration
+        startingTop: '4%', // Starting top style attribute
+        endingTop: '10%', // Ending top style attribute
+        ready: function (modal, trigger) {}, // Callback for Modal open. Modal and trigger parameters available.
+        complete: function () {} // Callback for Modal close
+      })
+
+      // Register modal jQuery convenience - if someone hits "enter"/submits the login form, this code runs; don't need to click login button manually
+      $('#loginForm').submit(function (e) {
+        e.preventDefault()
+
+        // need to make sure that fields aren't blank otherwise, spit notification to id="errMess"
+        var username = $('#username').val()
+        var password = $('#password').val()
+        if (!username) {
+          $('#errMess').text('Empty Username')
+          return
+        } else if (!password) {
+          $('#errMess').text('Empty Password')
+          return
+        }
+
+        // API takes POST requests for some reason Peter Alvaro might teach you that RESTful APIs don't use POST
+        $.ajax({
+          type: 'POST',
+          url: host + '/api/users/login',
+          data: {
+            username: username,
+            password: CryptoJS.MD5(password).toString()
+          },
+          success: login,
+          error: error
+        })
+      })
+    </script>
+  </body>
 </html>

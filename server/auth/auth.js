@@ -8,8 +8,11 @@ module.exports = {
     return User
       .findOne({ where:
       {
-        username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        $or: [
+          { username: req.body.username },
+          { email: req.body.username }
+        ]
       },
         include:
         [{

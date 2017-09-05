@@ -19,7 +19,11 @@ module.exports = (app) => {
 
   // users
   app.post('/api/users/login', auth.login) // login user
-  app.post('/api/users', usersController.create) // create user
+  app.post('/api/users', usersController.create) // want to replace this route with the two routes below - init user obj, send and verify email -> create user
+  app.post('/api/users/email', usersController.initNewUser) // store user info for creating new user, send verification email
+  app.get('/api/verify?', usersController.verifyUserEmail)
+  app.post('/api/users/recover_pwd', usersController.recoverPassword)
+  app.get('/api/reset_pwd?', usersController.resetPassword)
   app.put('/api/users/update', auth.validate, usersController.update) // update user fields
   app.put('/api/users/token', auth.validate, usersController.generateApiToken) // generate new api token for existing user
   app.get('/api/users/getuser', auth.validate, usersController.getUser) // retrieve user + nodes

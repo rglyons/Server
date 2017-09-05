@@ -49,8 +49,16 @@ body{
     color: white;
 }
 
+a {
+    color: rgb(68, 164, 252);
+    transition: all 0.5s ease;
+}
+a:hover { color: rgb(12, 54, 93); }
+
 /*Formatting materialize button for our desired colors*/
 .btn.waves-effect.waves-light {
   background: rgb(76, 207, 224);
   width: 100%;
 }
+
+/*.border { border: dashed 1px gray; }*/
