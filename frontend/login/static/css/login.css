@@ -105,6 +105,17 @@ video#bgvid {
     background-size: cover;
 }
 
+#sign-in-btn {
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    position: fixed;
+    transition: all 0.5s ease;
+    top: 19px;
+    right: 70px;
+    z-index: 140;
+}
+
 #setting {
     position: fixed;
     top: 10px;

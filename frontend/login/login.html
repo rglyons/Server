@@ -42,10 +42,17 @@
   
   <div id="customNavbar" class="border">
     <div class="row border" style="margin: 0px">
-      <div class="col s11 border">
+      <div id="co-name" class="col s11 border">
         SLUGSENSE
       </div>
     </div>
+  </div>
+  <div id="sign-in-btn">
+    <a href="#sign-in" class="modal-trigger">
+      <div class="hoverable" style="color: white;">
+        Sign In
+      </div>
+    </a>
   </div>
   <div id="setting" class="animated-icon menu-cross-s">
     <div id="settingIcon" class="ani white"></div></div>
@@ -55,11 +62,13 @@
     <div class="action">
       <!-- <i id="close" class="material-icons small hoverable border">close</i> -->
     </div>
+<!--
     <a href="#sign-in" class="modal-trigger">
       <div class="mobileListItem hoverable border waves-effect waves-light">
         Sign In
       </div>
     </a>
+-->
     <!-- <div class="divider"></div> -->
     <a href="#sign-up" class="modal-trigger">
       <div class="mobileListItem hoverable border waves-effect waves-light">
@@ -67,7 +76,7 @@
       </div>
     </a>
     <!-- <div class="divider"></div> -->
-    <a href="../AboutUs/About.html" class="redirect">
+    <a href="/about" class="redirect">
       <div class="mobileListItem hoverable border waves-effect waves-light">
         About Us
       </div>
@@ -238,7 +247,7 @@
             </div>
           </div>
           <p style="text-align: center;">
-            <a href="../AboutUs/About.html" class="redirect"><img style="align: center; max-width: 100%; height: auto; width: auto;" src="static/images/logo2.png" alt="About Us"></a>
+            <img style="align: center; max-width: 100%; height: auto; width: auto;" src="static/images/logo2.png" alt="About Us">
           </p>
         </div>
       </form>
@@ -282,7 +291,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" id="recover_pwd_btn" class="modal-action waves-effect waves-green btn-flat">Send Recovery Link</a>
+      <a href="#!" id="recover_pwd_btn" class="modal-action waves-effect waves-green btn-flat">Send Reset Link</a>
     </div>
   </div>
 
@@ -310,10 +319,20 @@
         'padding': '50px 30px 40px 30px',
         'width': '200px'
       })
+      if ($(window).width() <= 450) {
+        // slide left and down
+        $('#sign-in-btn').css({ 'transform': 'translate(-150px, 40px)' })
+      } else {
+        // just slide left
+        $('#sign-in-btn').css({ 'transform': 'translate(-150px, 0px)' })
+      }
       $('#mask').fadeIn(800)
     }
     var close = function(e) {
       $('#mobileList').css({'width': '0px', 'padding': '0px'})
+      $('#sign-in-btn').css({
+        'transform': 'translate(0px, 0px)' 
+      })
       $('#mask').hide().fadeOut(800)
       // setTimeout(function(){$('#mobileList').css({'padding': '0px'})}, 200)
     }
