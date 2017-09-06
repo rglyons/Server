@@ -9,13 +9,25 @@
 	<!-- Stylesheets /-->
 	<link rel="stylesheet" type="text/css" href="css/style.css" /> <!-- Main stylesheet /-->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"> <!-- Grid framework /-->
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'> <!-- Open Sans /-->
-  <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700' rel='stylesheet' type='text/css'> <!-- PT Sans Narrow /-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'> <!-- Open Sans /-->
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700' rel='stylesheet' type='text/css'> <!-- PT Sans Narrow /-->
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> <!-- Font Awesome /-->
 	<link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" /> <!-- Favicon /-->
+	<style type="text/css">
+		#preloader {
+		    background: #FFF;
+		    bottom: 0;
+		    left: 0;
+		    position: fixed;
+		    right: 0;
+		    top: 0;
+		    z-index: 9999;
+		}
+	</style>
 </head>
 
 <body>
+	<div id="preloader"></div>
 	<!-- Return to Login button -->
 	<!-- <a href="/" class="buttonLogin">Back</a> -->
 	<a href="../login/login.html" class="buttonLogin">Back</a>
@@ -169,6 +181,14 @@
 
 	<!-- Load jQuery -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript">
+	    $(window).load(function() { $('#preloader').delay(200).fadeOut(400) })
+	    $('a').click(function(e){
+	      e.preventDefault()
+	      t = $(this).attr('href')
+	      $('#preloader').delay(200).fadeIn(400,function(){ window.location.href = t })
+	    })
+	</script>
 
 </body>
 </html>
