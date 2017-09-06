@@ -8,7 +8,7 @@
 ***********************************************************/
 
 /*Styling for the body; mainly handles just the background*/
-body{
+/*body{
     background-image: url("../images/forest-login/forest2.png");
     background-repeat:no-repeat;
     -webkit-background-size:cover;
@@ -16,11 +16,38 @@ body{
     -o-background-size:cover;
     background-size:cover;
     background-position:center;
+}*/
+
+html {
+    font-family: 'Quicksand', sans-serif;
 }
+
 /*Styling for the login box wrappers*/
 .rightBox{
-    opacity: 0.75;
+    opacity: 0.9;
 }
+
+#mask{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.3;
+    z-index: 75;
+}
+
+#preloader {
+    background: #FFF;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+}
+
 /*Formatting for the left blue background square*/
 .topLeftSquare{
     font-family: 'Roboto';
@@ -37,8 +64,8 @@ body{
 
 /*Styling for the right white background square*/
 .wrapper{
-    background-color: rgba(180, 200, 230, 0.4);
-    height: 100vh;
+    /*background-color: rgba(180, 200, 230, 0.4);*/
+    /*height: 100vh;*/
 }
 
 /*Formatting for the big text within the text box*/
@@ -60,5 +87,221 @@ a:hover { color: rgb(12, 54, 93); }
   background: rgb(76, 207, 224);
   width: 100%;
 }
+
+video#bgvid {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(polina.jpg) no-repeat;
+    background-size: cover;
+}
+
+#setting {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 150;
+}
+/*
+#dehaze:hover {
+    color: black;
+}*/
+
+#customNavbar {
+    width: 100vw;
+    height: 100px;
+    opacity: 0.8;
+    /*background: linear-gradient(#cfd8dc, transparent);*/
+    color: white;
+    font-size: 30px;
+    position: fixed;
+    padding: 8px;
+    top: 0px;
+    left: 0px;
+    font-family: 'Quicksand', sans-serif;
+    /*color: #cfd8dc;*/
+    z-index: 50;
+}
+
+#mobileList {
+    width: 0px;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    overflow: hidden;
+    transition: width 0.5s ease, padding 0.3s;
+    background-color: white;
+    z-index: 100;
+}
+
+#mobileList .mobileListItem {
+    font-size: 20px;
+    font-weight: 100;
+    width: 150px;
+    background-color: white;
+    padding: 3px 15px 3px 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    text-overflow: clip;
+}
+
+#mobileList .action {
+    position: absolute;
+    cursor: pointer;
+    right: 5px;
+    top: 10px;
+}
+
+
+/* Material Icon Animation */
+
+.animated-icon {
+   position: relative;
+   width: 38px;
+   height: 38px;
+   cursor: pointer;
+   -webkit-transition: .3s;
+       transition: .3s;
+   display: inline-block;
+}
+.animated-icon .ani {
+   top: 18.5px;
+   left: 5px;
+}
+.animated-icon .ani,
+.animated-icon .ani:before,
+.animated-icon .ani:after {
+   content: '';
+   position: absolute;
+   height: 3px;
+   width: 28px;
+   background: rgb(33, 33, 33);
+   -webkit-transition: .3s;
+       transition: .3s;
+}
+.animated-icon .ani:before,
+.animated-icon .ani:after {
+   background: inherit;
+}
+.animated-icon.menu-arrow-r.anim {
+   -webkit-transform: rotate(180deg);
+     -ms-transform: rotate(180deg);
+       transform: rotate(180deg);
+}
+.animated-icon.menu-arrow-r .ani:before {
+   top: -8px;
+   left: 0;
+}
+.animated-icon.menu-arrow-r .ani:after {
+   top: 8px;
+   left: 0;
+}
+.animated-icon.menu-arrow-r.anim .ani:before {
+   top: -5.5px;
+   width: 18px;
+   -webkit-transform: rotate(-45deg);
+     -ms-transform: rotate(-45deg);
+       transform: rotate(-45deg);
+   left: -3px;
+}
+.animated-icon.menu-arrow-r.anim .ani:after {
+   top: 5.5px;
+   width: 18px;
+   -webkit-transform: rotate(45deg);
+     -ms-transform: rotate(45deg);
+       transform: rotate(45deg);
+   left: -3px;
+}
+.animated-icon.menu-arrow-l.anim {
+   -webkit-transform: rotate(-180deg);
+     -ms-transform: rotate(-180deg);
+       transform: rotate(-180deg);
+}
+.animated-icon.menu-arrow-l .ani:before {
+   top: -8px;
+   right: 0;
+}
+.animated-icon.menu-arrow-l .ani:after {
+   top: 8px;
+   right: 0;
+}
+.animated-icon.menu-arrow-l.anim .ani {
+   width: 27px;
+}
+.animated-icon.menu-arrow-l.anim .ani:before {
+   top: -5.5px;
+   width: 18px;
+   -webkit-transform: rotate(45deg);
+     -ms-transform: rotate(45deg);
+       transform: rotate(45deg);
+   right: -4px;
+}
+.animated-icon.menu-arrow-l.anim .ani:after {
+   top: 5.5px;
+   width: 18px;
+   -webkit-transform: rotate(-45deg);
+     -ms-transform: rotate(-45deg);
+       transform: rotate(-45deg);
+   right: -4px;
+}
+.animated-icon.menu-cross .ani:before {
+   top: -8px;
+   right: 0;
+}
+.animated-icon.menu-cross .ani:after {
+   top: 8px;
+   right: 0;
+}
+.animated-icon.menu-cross.anim .ani {
+   -webkit-transform: rotate(-45deg);
+     -ms-transform: rotate(-45deg);
+       transform: rotate(-45deg);
+}
+.animated-icon.menu-cross.anim .ani:before {
+   top: 0;
+   -webkit-transform: rotate(90deg);
+     -ms-transform: rotate(90deg);
+       transform: rotate(90deg);
+}
+.animated-icon.menu-cross.anim .ani:after {
+   top: 0;
+   -webkit-transform: rotate(360deg);
+     -ms-transform: rotate(360deg);
+       transform: rotate(360deg);
+}
+.animated-icon.menu-cross-s .ani:before {
+   top: -8px;
+   left: 0;
+}
+.animated-icon.menu-cross-s .ani:after {
+   top: 8px;
+   left: 0;
+}
+.animated-icon.menu-cross-s.anim .ani {
+   width: 0;
+}
+.animated-icon.menu-cross-s.anim .ani:before {
+   top: 0;
+   -webkit-transform: rotate(45deg);
+     -ms-transform: rotate(45deg);
+       transform: rotate(45deg);
+}
+.animated-icon.menu-cross-s.anim .ani:after {
+   top: 0;
+   -webkit-transform: rotate(-45deg);
+     -ms-transform: rotate(-45deg);
+       transform: rotate(-45deg);
+}    
+/*.g-recaptcha div { margin-left: auto; margin-right: auto;}*/
 
 /*.border { border: dashed 1px gray; }*/
