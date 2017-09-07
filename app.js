@@ -9,6 +9,7 @@ const User = require('./server/models').User
 const auth = require('./server/auth').auth
 
 // Set up the express app
+process.title = "SlugSense";
 const app = express()
 const port = process.env.PORT
 global.appPath = __dirname
