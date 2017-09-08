@@ -55,7 +55,7 @@ module.exports = function(sequelize, DataTypes) {
               max: theNode.moistureMax
             },  
             {
-              sensor: 'sunlught',
+              sensor: 'sunlight',
               reading: reading.sunlight, 
               min: theNode.sunlightMin,
               max: theNode.sunlightMax
