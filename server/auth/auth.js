@@ -35,7 +35,8 @@ module.exports = {
           ],
           [
               {model: Notification, as: 'notifications'},
-            'id'
+            'id',
+            'DESC'  // put newest notifications at the beginning of the list
           ]
         ]
       })
