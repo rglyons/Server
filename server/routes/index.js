@@ -34,6 +34,7 @@ module.exports = (app) => {
   app.get('/api/notifications/all', auth.validate, notificationsController.getAllNotificationsForUser) // get all notifications for user
   app.get('/api/notifications/undismissed', auth.validate, notificationsController.getUndismissedNotificationsForUser) // get undismissed notifications for user
   app.put('/api/notifications/:nid', auth.validate, notificationsController.update) // update notification fields
+  app.put('/api/notifications?', auth.validate, notificationsController.updateMultipleNotifications) // update notification fields
   app.delete('/api/notifications/:nid', auth.validate, notificationsController.destroy) // create notification under user & node
 
   // other methods

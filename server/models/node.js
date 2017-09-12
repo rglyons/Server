@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   var Node = sequelize.define('Node', {
     ipaddress: {
       type: DataTypes.STRING,
-      allowNull: false,
+      defaultValue: null,
+      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,

@@ -77,6 +77,59 @@ module.exports = {
       })
       .catch((error) => res.status(400).send(error));
   },
+  
+  updateMultipleNotifications(req, res) {
+    if (!req.query.notifications) {
+      return res.status(400).send({
+        message: 'No notifications provided in request query!',
+      });
+    }
+    var query_elems = req.query.notifications.split(',')
+    var notifications = query_elems.map(Number)
+    var promises = []
+    // find all nodes in query
+    for (let i=0; i<notifications.length; i++) {
+      // check for bad input
+      if (isNaN(notifications[i])) {
+        return res.status(400).send({
+          message: query_elems[i] + ' is not an integer node ID',
+        });
+      }
+      let newPromise = Notification
+        .findOne({
+          where: {
+            userId: req.user.id,
+            id: notifications[i]
+          } 
+        })
+      promises.push(newPromise)
+    }
+    return Promise.all(promises)
+      .then(notifications => {
+        promises = []
+        // update all nodes in query
+        for (let i=0; i<notifications.length; i++) {
+          if (!notifications[i]) {
+            return res.status(404).send({
+              message: 'Notification Not Found. Aborting update procedure.',
+            });
+          }
+          newPromise = notifications[i]
+            .update({
+              dismissed: req.body.dismissed || notification.dismissed,
+            })
+          promises.push(newPromise)
+        }
+        return Promise.all(promises)
+      })
+      .then(updatedNotifications => {
+        res.status(200).send(updatedNotifications)
+      })
+      .catch(error => {
+        console.log(error)
+        res.status(400).send(error)
+      })
+  },
 
   destroy(req, res) {
     return Notification
