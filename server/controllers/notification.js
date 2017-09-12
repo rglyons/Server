@@ -30,7 +30,10 @@ module.exports = {
             message: 'No notifications found for user',
           });
         }
-        return res.status(200).send(notifications);
+        sortedNotifications = notifications.sort(function(reading1, reading2) {
+          return reading2["createdAt"]-reading1["createdAt"] // sort readings by decreasing createdAt timestamp
+        })
+        return res.status(200).send(sortedNotifications);
       })
       .catch(error => res.status(400).send(error));
   },
@@ -49,7 +52,10 @@ module.exports = {
             message: 'No undismissed notifications found for user',
           });
         }
-        return res.status(200).send(notifications);
+        sortedNotifications = notifications.sort(function(reading1, reading2) {
+          return reading2["createdAt"]-reading1["createdAt"] // sort readings by decreasing createdAt timestamp
+        })
+        return res.status(200).send(sortedNotifications);
       })
       .catch(error => res.status(400).send(error));
   },
