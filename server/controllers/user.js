@@ -4,7 +4,7 @@ const randomstring = require('randomstring')
 
 var newUsers = {}   // table of users that are creating/verifying accounts at any moment
                     // this will allow many users to create and verify their accounts simultaneously
-                    
+
 var pwdrcvUsers = {}  // table of users that are recovering their passwords at any moment
 
 function sendVerificationEmail (req, res, user) {
@@ -96,8 +96,8 @@ module.exports = {
     .catch(error => {
       if (error.message == 'User with email already exists') {
         res.status(400).send({
-          message: 'User already exists with email = ' + req.body.email + '.',
-        });
+          message: 'User already exists with email = ' + req.body.email + '.'
+        })
       } else {
         res.status(400).send(error)
       }
@@ -137,8 +137,8 @@ module.exports = {
         })
     }
   },
-  
-  recoverPassword(req, res) {
+
+  recoverPassword (req, res) {
     return User
       .findOne({ where: {
         email: req.body.email
@@ -154,15 +154,15 @@ module.exports = {
     .catch(error => {
       if (error.message == 'User with that email does not exist!') {
         res.status(400).send({
-          message: 'User with email ' + req.body.email + ' does not exist.',
-        });
+          message: 'User with email ' + req.body.email + ' does not exist.'
+        })
       } else {
         res.status(400).send(error)
       }
     })
   },
-  
-  resetPassword(req, res) {
+
+  resetPassword (req, res) {
     let user = pwdrcvUsers[req.query.id]   // find user that wants a password reset
     if (!user) {
       return res.status(400).send('Bad validation id! Cannot reset password through the requested URL.')
@@ -204,13 +204,13 @@ module.exports = {
             user.password = null
             res.status(201).send(user)
           })
-      }  
+      }
     })
     .catch(error => {
       if (error.message == 'User with email already exists') {
         res.status(400).send({
-          message: 'User already exists with email = ' + req.body.email + '.',
-        });
+          message: 'User already exists with email = ' + req.body.email + '.'
+        })
       } else {
         res.status(400).send(error)
       }
@@ -221,6 +221,8 @@ module.exports = {
     response = {}
     response['id'] = req.user.id
     response['username'] = req.user.username
+    response['firstname'] = req.user.firstname
+    response['lastname'] = req.user.lastname
     response['email'] = req.user.email
     response['nodeCount'] = req.user.nodeCount
     response['nodes'] = req.user.nodes
