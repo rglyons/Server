@@ -14,14 +14,15 @@ function sendVerificationEmail (req, res, user) {
   user.host = host
   newUsers[rand] = user   // so we can look up this user from the verification URL
   mailOptions = {
-    from: 'slugsense@gmail.com',
+    from: 'contact@sproutlabs.io',
     to: user.email,
-    subject: 'SlugSense Do Not Reply - Verify Your Email',
-    html: 'Hello from SlugSense!<br> Please click on this link to verify your email.<br><a href=' + link + '>verify email</a>'
+    subject: 'SproutLabs Do Not Reply - Verify Your Email',
+    html: 'Hello from SproutLabs!<br> Please click on this link to verify your email.<br><a href=' + link + '>verify email</a>'
   }
   smtpTransport.sendMail(mailOptions, function (err, info) {
     if (err) {
       console.log(err)
+      delete newUsers[rand]   // remove temp user to the temp table doesn't get cluttered
       return res.status(400).send(err)
     } else {
       result = {
@@ -43,10 +44,10 @@ function sendPasswordRecoveryEmail (req, res, user) {
   user.host = host
   pwdrcvUsers[rand] = user   // so we can look up this user from the reset password URL
   mailOptions = {
-    from: 'slugsense@gmail.com',
+    from: 'contact@sproutlabs.io',
     to: user.email,
-    subject: 'SlugSense Do Not Reply - Reset Your Password',
-    html: 'Hello from SlugSense!<br> Please click on this link to reset your password.<br><a href=' + link + '>reset password</a>'
+    subject: 'SproutLabs Do Not Reply - Reset Your Password',
+    html: 'Hello from SproutLabs!<br> Please click on this link to reset your password.<br><a href=' + link + '>reset password</a>'
   }
   smtpTransport.sendMail(mailOptions, function (err, info) {
     if (err) {
@@ -69,17 +70,22 @@ module.exports = {
   initNewUser (req, res) {
     return User
       .findOne({ where: {
+        email: req.body.email
+/*
         $or: [
           { username: req.body.username },
           { email: req.body.email }
         ]
+*/
       }})
     .then(user => {
       if (user) {
-        throw new Error('User with username / email already exists')
+        throw new Error('User with email already exists')
       } else {
         let user = {
-          username: req.body.username,
+          username: (req.body.username) ? req.body.username : null,
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
           password: req.body.password,
           email: req.body.email,
           nodeCount: 0
@@ -88,9 +94,9 @@ module.exports = {
       }
     })
     .catch(error => {
-      if (error.message == 'User with username / email already exists') {
+      if (error.message == 'User with email already exists') {
         res.status(400).send({
-          message: 'User  already exists with username = ' + req.body.username + ' OR email = ' + req.body.email + '.',
+          message: 'User already exists with email = ' + req.body.email + '.',
         });
       } else {
         res.status(400).send(error)
@@ -109,6 +115,8 @@ module.exports = {
       return User
         .create({
           username: user.username,
+          firstname: user.firstname,
+          lastname: user.lastname,
           password: user.password,
           email: user.email,
           nodeCount: 0
@@ -171,18 +179,23 @@ module.exports = {
   create (req, res) {
     return User
       .findOne({ where: {
+        email: req.body.email
+/*
         $or: [
           { username: req.body.username },
           { email: req.body.email }
         ]
+*/
       }})
     .then(user => {
       if (user) {
-        throw new Error('User with username / email already exists')
+        throw new Error('User with email already exists')
       } else {
         return User
           .create({
-            username: req.body.username,
+            username: (req.body.username) ? req.body.username : null,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
             password: req.body.password,
             email: req.body.email,
             nodeCount: 0
@@ -194,9 +207,9 @@ module.exports = {
       }  
     })
     .catch(error => {
-      if (error.message == 'User with username / email already exists') {
+      if (error.message == 'User with email already exists') {
         res.status(400).send({
-          message: 'User  already exists with username = ' + req.body.username + ' OR email = ' + req.body.email + '.',
+          message: 'User already exists with email = ' + req.body.email + '.',
         });
       } else {
         res.status(400).send(error)
