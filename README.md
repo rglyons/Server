@@ -2,13 +2,13 @@
 
 RESTful backend solution for Smart Irrigation to serve the web and mobile front-end applications - Postgres solution.
 
+## Environment Configuration
+
+When running this app locally the PORT variable and production and development database URLs will all need to be defined in a local .env file. You will need to either create the .env file (for sandbox purposes), or get the standard .env file for the SproutLabs project from one of the team members (for development purposes). This file contains some sensitive information about our services and data stores, so we want to keep it safe.
+
 ## App.js
 
 App.js defines the Express application. This is where all requirements are stated, routes are referenced, and port listening is defined. The app listens to the port defined by the PORT environment variable, which is pre-defined on Heroku. 
-
-## Environment Configuration
-
-When running this app locally the PORT variable and production and development database URLs will all need to be defined in a local .env file. You will need to either create the .env file (for sandbox purposes), or get the standard .env file for the SproutLabs project from one of the team members. This file contains some sensitive information about our services and data stores, so we want to keep it safe.
 
 ## Sequelize
 
