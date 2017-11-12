@@ -9,16 +9,20 @@ module.exports = {
       .findOne({ where:
       {
         password: req.body.password,
+        email: req.body.email
+/*
         $or: [
           { username: req.body.username },
-          { email: req.body.username }
+          { email: req.body.email }
         ]
+*/
       },
         include:
         [{
           model: Node,
           as: 'nodes'
         },
+/*
         {
           model: Notification,
           as: 'notifications',
@@ -26,18 +30,21 @@ module.exports = {
             dismissed: false
           },
           required: false // fix issue where above where clause caused
-        }                 // user to not be returned from findOne query
+        }    
+*/             // user to not be returned from findOne query
         ],
         order: [
           [
               {model: Node, as: 'nodes'},
             'id'
           ],
+/*
           [
               {model: Notification, as: 'notifications'},
             'id',
             'DESC'  // put newest notifications at the beginning of the list
           ]
+*/
         ]
       })
       .then(user => {

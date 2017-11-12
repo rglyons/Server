@@ -29,14 +29,13 @@ app.use(cookieParser())
   STMP is mail server which is responsible for sending and recieving email.
 */
 global.smtpTransport = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    service: "Gmail",
-    auth: {
-      user: "slugsense",
-      pass: "tylersucks!"
-    }
+  host: "smtp-mail.outlook.com",  
+  port: 587,
+  secure: false,
+  auth: {
+      user: 'contact@sproutlabs.io',
+      pass: process.env.EMAIL_PASSWORD
+  }
 });
 
 // app.post('/', (req, res) => {
