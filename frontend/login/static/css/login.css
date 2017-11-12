@@ -77,7 +77,8 @@ html {
 }
 
 a {
-    color: rgb(68, 164, 252);
+    //color: rgb(68, 164, 252);
+    color: black;
     transition: all 0.5s ease;
 }
 a:hover { color: rgb(12, 54, 93); }
@@ -118,7 +119,7 @@ video#bgvid {
 
 #setting {
     position: fixed;
-    top: 10px;
+    top: 20px;
     right: 10px;
     z-index: 150;
 }
@@ -312,7 +313,7 @@ video#bgvid {
    -webkit-transform: rotate(-45deg);
      -ms-transform: rotate(-45deg);
        transform: rotate(-45deg);
-}    
+}
 /*.g-recaptcha div { margin-left: auto; margin-right: auto;}*/
 
 /*.border { border: dashed 1px gray; }*/
