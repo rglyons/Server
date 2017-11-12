@@ -4,7 +4,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SlugSense Login</title>
+    <title>SproutLabs | Welcome</title>
     <link rel="stylesheet" href="static/css/materialize.min.css">
     <link rel="stylesheet" href="static/css/login.css">
     <link rel="stylesheet" href="static/css/css_helper.css">
@@ -15,24 +15,24 @@
     <script type="text/javascript">
       /* eslint-disable no-undef */
       // redirect to app page if have token
+      const host = location.protocol + '//' + location.host
       var token = Cookies.get('token')
-      if (token) window.location.href = '/'
-      //const host = 'http://127.0.0.1:3030'
-      const host = 'https://slugsense.herokuapp.com'
+      if (token) {
+        window.location.href = host
+      }
     </script>
   </style>
 </head>
 <body>
   <video playsinline autoplay muted loop id="bgvid">
-      <source src="static/video/welcome.mp4" type="video/mp4">
+    <source src="static/video/welcome.mp4" type="video/mp4">
   </video>
   <div id="mask" style="display:none"></div>
   <div id="preloader"></div>
-  
 
-<!--   <nav>
+  <!--   <nav>
     <div class="nav-wrapper blue-grey lighten-4">
-      <a href="#" class="brand-logo ml-15">Slugsense</a>
+      <a href="#" class="brand-logo ml-15">SproutLabs</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="">A</a></li>
         <li><a href="">B</a></li>
@@ -40,15 +40,15 @@
       </ul>
     </div>
   </nav> -->
-  
+
   <div id="customNavbar" class="border">
     <div class="row border" style="margin: 0px">
       <div id="co-name" class="col s11 border">
-        SLUGSENSE
+        <img style="align: center; width: 250px;" src="static/images/sproutlabsLogo_shadow.png" alt="SPROUTLABS">
       </div>
     </div>
   </div>
-<!--
+  <!--
   <div id="sign-in-btn">
     <a href="#sign-in" class="modal-trigger">
       <div class="hoverable" style="color: white;">
@@ -58,39 +58,40 @@
   </div>
 -->
   <div id="setting" class="animated-icon menu-cross-s">
-    <div id="settingIcon" class="ani white"></div></div>
+    <div id="settingIcon" class="ani white"></div>
   </div>
+</div>
 
-  <div id="mobileList" class="border">
-    <div class="action">
-      <!-- <i id="close" class="material-icons small hoverable border">close</i> -->
+<div id="mobileList" class="border">
+  <div class="action">
+    <!-- <i id="close" class="material-icons small hoverable border">close</i> -->
+  </div>
+  <a href="#sign-in" id="sign-in-side-btn" class="modal-trigger">
+    <div class="mobileListItem hoverable border waves-effect waves-light">
+      Sign In
     </div>
-    <a href="#sign-in" class="modal-trigger">
-      <div class="mobileListItem hoverable border waves-effect waves-light">
-        Sign In
-      </div>
-    </a>
-    <!-- <div class="divider"></div> -->
-    <a href="#sign-up" class="modal-trigger">
-      <div class="mobileListItem hoverable border waves-effect waves-light">
-        Sign Up
-      </div>
-    </a>
-    <!-- <div class="divider"></div> -->
-    <a href="/about" class="redirect">
-      <div class="mobileListItem hoverable border waves-effect waves-light">
-        About Us
-      </div>
-    </a>
-    <!-- <a href="../AboutUs/About.html" ><img style="align: center; max-width: 100%; height: auto; width: auto;" src="static/images/logo2.png" alt="About Us"></a> -->
-  </div>
+  </a>
+  <!-- <div class="divider"></div> -->
+  <a href="#sign-up" id="sign-up-side-btn" class="modal-trigger">
+    <div class="mobileListItem hoverable border waves-effect waves-light">
+      Sign Up
+    </div>
+  </a>
+  <!-- <div class="divider"></div> -->
+  <a href="/about" class="redirect">
+    <div class="mobileListItem hoverable border waves-effect waves-light">
+      About Us
+    </div>
+  </a>
+  <!-- <a href="../AboutUs/About.html" ><img style="align: center; max-width: 100%; height: auto; width: auto;" src="static/images/logo2.png" alt="About Us"></a> -->
+</div>
 
-  <!-- any stuff about columns and rows is magic from ewing -->
-  <div class="myContainer">
-    <div class="row" style="margin: 0px">
-      <!-- <div class="col s7 hide-on-med-and-down topLeftSquare border" style="color:white;">
+<!-- any stuff about columns and rows is magic from ewing -->
+<div class="myContainer">
+  <div class="row" style="margin: 0px">
+    <!-- <div class="col s7 hide-on-med-and-down topLeftSquare border" style="color:white;">
         <div style="margin: 10%;">
-          <h1 style="margin-left: 10%;">SlugSense</h1>
+          <h1 style="margin-left: 10%;">SproutLabs</h1>
           <img src="static/images/forest-login/checkmark.png" height="60px" width="60px" align="center">
           Automated environmental monitoring
           <br>
@@ -114,7 +115,7 @@
             </div>
         </div>
       </div> -->
-      <!-- <form method="post" id="loginForm">
+    <!-- <form method="post" id="loginForm">
         <div class="col s12 l5 offset-l7 wrapper border">
           <div class="row rightBox">
             <div class="col show-on-small	s12" style="margin-top: 80px;"></div>
@@ -122,8 +123,8 @@
             <div class="col s12 m6 l8 white border z-depth-3">
               <div class="row border loginBox">
                 <div class="input-field col s12" style="margin-top: 0px;">
-                  <input id="username" type="text" class="validate">
-                  <label for="username">Username</label>
+                  <input id="email" type="text" class="validate">
+                  <label for="email">Username</label>
                 </div>
                 <div class="input-field col s12" style="margin-top: 0px;">
                   <input id="password" type="password" class="validate">
@@ -153,356 +154,382 @@
           </div>
         </div>
       </form> -->
-    </div>
   </div>
+</div>
 
-  <!-- Sign Up Modal Structure -->
-  <div id="sign-up" class="modal modal-fixed-footer" style="max-width: 500px; max-height: 480px;">
-    <div class="modal-content" style="padding-bottom: 0px;">
-      <h4>Create Account</h4>
-      <div class="row">
-        <form class="col s12" id="sign-up-form">
-          <div class="row" style="margin: 0px">
-            <div class="col s2 border">
-              <i class="small material-icons border" style="margin-top: 25px;">account_circle</i>
-            </div>
-            <div class="input-field col s10 border">
-              <input id="create_user_name" type="text" class="validate">
-              <label for="create_user_name">User Name</label>
-            </div>
+<!-- Sign Up Modal Structure -->
+<div id="sign-up" class="modal modal-fixed-footer" style="max-width: 500px; max-height: 480px;">
+  <div class="modal-content" style="padding-bottom: 0px;">
+    <h4>Create Account</h4>
+    <div class="row">
+      <form class="col s12" id="sign-up-form">
+        <div class="row" style="margin: 0px">
+          <div class="col s2 border">
+            <i class="small material-icons border" style="margin-top: 25px;">email</i>
           </div>
-          <div class="row" style="margin: 0px">
-            <div class="col s2 border">
-              <i class="small material-icons border" style="margin-top: 25px;">email</i>
-            </div>
-            <div class="input-field col s10 border">
-              <input id="create_email" type="email" class="validate">
-              <label for="create_email">Email</label>
-            </div>
+          <div class="input-field col s10 border">
+            <input id="create_email" type="email" class="validate">
+            <label for="create_email">Email</label>
           </div>
-          <div class="row" style="margin: 0px">
-            <div class="col s2 border">
-              <i class="small material-icons border" style="margin-top: 25px;">fingerprint</i>
-            </div>
-            <div class="input-field col s10 border">
-              <input id="create_password" type="password" class="validate">
-              <label for="create_password">Password</label>
-            </div>
+        </div>
+        <div class="row" style="margin: 0px">
+          <div class="col s2 border">
+            <i class="small material-icons border" style="margin-top: 25px;">account_circle</i>
           </div>
-          <div id="signUpErrMess" style="color: gray; text-align: center;">
-            <span id="signUpErrMessLoading" class="hide">
-              <div class="preloader-wrapper small active">
-                <div class="spinner-layer spinner-green-only">
-                  <div class="circle-clipper left">
-                    <div class="circle"></div>
-                  </div><div class="gap-patch">
-                    <div class="circle"></div>
-                  </div><div class="circle-clipper right">
-                    <div class="circle"></div>
-                  </div>
+          <div class="input-field col s5 border">
+            <input id="create_first_name" type="text" class="validate">
+            <label for="create_first_name">First Name</label>
+          </div>
+          <!-- </div> -->
+          <!-- <div class="row" style="margin: 0px">
+          <div class="col s2 border">
+            <i class="small material-icons border" style="margin-top: 25px;">account_circle</i>
+          </div> -->
+          <div class="input-field col s5 border">
+            <input id="create_last_name" type="text" class="validate">
+            <label for="create_last_name">Last Name</label>
+          </div>
+        </div>
+        <div class="row" style="margin: 0px">
+          <div class="col s2 border">
+            <i class="small material-icons border" style="margin-top: 25px;">fingerprint</i>
+          </div>
+          <div class="input-field col s10 border">
+            <input id="create_password" type="password" class="validate">
+            <label for="create_password">Password</label>
+          </div>
+        </div>
+        <div style="color: gray; text-align: center;">
+          <span id="signUpErrMess"></span>
+          <span id="signUpLoading" class="hide">
+            <div class="preloader-wrapper small active">
+              <div class="spinner-layer spinner-green-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
                 </div>
               </div>
-            </span>
-          </div>
-          <div class="row" style="margin: 0px">
-            <div class="col s12 center-align">
-              <div id="g-recaptcha" style="transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0;" class="g-recaptcha" data-size="normal" data-sitekey="6LeYAC4UAAAAAPKYTvape1wnQfo5fYxSGx9s5Rb1"></div>
             </div>
+          </span>
+        </div>
+        <div class="row" style="margin: 0px">
+          <div class="col s12 center-align">
+            <div id="g-recaptcha" style="transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0;" class="g-recaptcha" data-size="normal" data-sitekey="6LeYAC4UAAAAAPKYTvape1wnQfo5fYxSGx9s5Rb1"></div>
           </div>
-        </form>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" id="create_account_btn" class="modal-action waves-effect waves-green btn-flat">Sign Up</a>
-    </div>
-  </div>
-
-  <!-- Sign In Modal Structure -->
-  <div id="sign-in" class="modal" style="max-width: 400px; max-height: 480px;">
-    <div class="modal-content">
-      <form method="post" id="loginForm" class="modal-content" style="padding: 0px;">
-        <div class="row border loginBox">
-          <div class="input-field col s12" style="margin-top: 0px;">
-            <input id="username" type="text" class="validate">
-            <label for="username">Username</label>
-          </div>
-          <div class="input-field col s12" style="margin-top: 0px;">
-            <input id="password" type="password" class="validate">
-            <label for="password">Password</label>
-          </div>
-          <div id="errMess" style="color: gray; text-align: center;"></div>
-          <p style="padding-left: 10px;">
-            <input type="checkbox" id="remember"/>
-            <label for="remember">Remember me for 30 days</label>
-          </p>
-          <div class="row border" style="margin: 3px">
-            <div class="col s12 right-align border">
-              <a class="waves-effect waves-light modal-trigger border" style="font-size: 12px;" href="#sign-up">Sign Up</a>
-              <br>
-              <a class="waves-effect waves-light modal-trigger border" style="font-size: 12px;" href="#forgot-pwd">Forgot Password</a>
-            </div>
-          </div>
-          <div class="row border">
-            <div class="col s12 border">
-              <button class="btn waves-effect waves-light">Login</button>
-            </div>
-          </div>
-          <p style="text-align: center;">
-            <img style="align: center; max-width: 100%; height: auto; width: auto;" src="static/images/logo2.png" alt="About Us">
-          </p>
         </div>
       </form>
     </div>
   </div>
+  <div class="modal-footer">
+    <a href="#!" id="create_account_btn" class="modal-action waves-effect waves-green btn-flat">Sign Up</a>
+  </div>
+</div>
 
-  <div id="forgot-pwd" class="modal modal-fixed-footer myModal" style="max-width: 500px; max-height: 600px;">
-    <div class="modal-content">
-      <h4>Forgot Password</h4>
-      <p>Please enter your email. We'll send you a link to recover your password.</p>
-      <div class="row">
-        <form class="col s12" id="forget-pwd-form">
-          <div class="row" style="margin: 0px">
-            <div class="col s2 border">
-              <i class="small material-icons border" style="margin-top: 25px;">email</i>
-            </div>
-            <div class="input-field col s10 border">
-              <input id="forgot_pwd_email" type="email" class="validate">
-              <label for="forgot_pwd_email">Email</label>
-            </div>
+<!-- Sign In Modal Structure -->
+<div id="sign-in" class="modal" style="max-width: 400px; max-height: 480px;">
+  <div class="progress" id="login-loading" style="display:none">
+    <div class="indeterminate"></div>
+  </div>
+  <div class="modal-content">
+    <form method="post" id="loginForm" class="modal-content" style="padding: 0px;">
+      <div class="row border loginBox">
+        <div class="input-field col s12" style="margin-top: 0px;">
+          <input id="email" type="text" class="validate">
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field col s12" style="margin-top: 0px;">
+          <input id="password" type="password" class="validate">
+          <label for="password">Password</label>
+        </div>
+        <div id="errMess" style="color: gray; text-align: center;"></div>
+        <p style="padding-left: 10px;">
+          <input type="checkbox" id="remember"/>
+          <label for="remember">Remember me for 30 days</label>
+        </p>
+        <div class="row border" style="margin: 3px">
+          <div class="col s12 right-align border">
+            <a class="waves-effect waves-light modal-trigger border" style="font-size: 12px;" href="#sign-up">Sign Up</a>
+            <br>
+            <a class="waves-effect waves-light modal-trigger border" style="font-size: 12px;" href="#forgot-pwd">Forgot Password</a>
           </div>
-          <div id="forgotpwdErrMess" style="color: gray; text-align: center;">
-            <span id="forgotpwdErrMessLoading" class="hide">
-              <div class="preloader-wrapper small active">
-                <div class="spinner-layer spinner-green-only">
-                  <div class="circle-clipper left">
-                    <div class="circle"></div>
-                  </div><div class="gap-patch">
-                    <div class="circle"></div>
-                  </div><div class="circle-clipper right">
-                    <div class="circle"></div>
-                  </div>
+        </div>
+        <div class="row border">
+          <div class="col s12 border">
+            <button class="btn waves-effect waves-light">Login</button>
+          </div>
+        </div>
+        <p style="text-align: center;">
+          <img style="align: center; max-width: 100%; height: auto; width: auto;" src="static/images/sproutlabsLogo_shadow.png" alt="About Us">
+        </p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="forgot-pwd" class="modal modal-fixed-footer myModal" style="max-width: 500px; max-height: 600px;">
+  <div class="modal-content">
+    <h4>Forgot Password</h4>
+    <p>Please enter your email. We'll send you a link to recover your password.</p>
+    <div class="row">
+      <form class="col s12" id="forget-pwd-form">
+        <div class="row" style="margin: 0px">
+          <div class="col s2 border">
+            <i class="small material-icons border" style="margin-top: 25px;">email</i>
+          </div>
+          <div class="input-field col s10 border">
+            <input id="forgot_pwd_email" type="email" class="validate">
+            <label for="forgot_pwd_email">Email</label>
+          </div>
+        </div>
+        <div style="color: gray; text-align: center;">
+          <span id="forgotpwdErrMess"></span>
+          <span id="forgotpwdErrMessLoading" class="hide">
+            <div class="preloader-wrapper small active">
+              <div class="spinner-layer spinner-green-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
                 </div>
               </div>
-            </span>
-          </div>
-        
-          <!-- <br/> -->
-          <!-- <input type="submit" value="Submit"> -->
-        </form>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" id="recover_pwd_btn" class="modal-action waves-effect waves-green btn-flat">Send Reset Link</a>
+            </div>
+          </span>
+        </div>
+
+        <!-- <br/> -->
+        <!-- <input type="submit" value="Submit"> -->
+      </form>
     </div>
   </div>
+  <div class="modal-footer">
+    <a href="#!" id="recover_pwd_btn" class="modal-action waves-effect waves-green btn-flat">Send Reset Link</a>
+  </div>
+</div>
 
+<script src="static/js/jquery.js"></script>
+<script src="static/js/crypto-js.min.js"></script>
+<script src="static/js/materialize.min.js"></script>
+<script src="static/js/index.js"></script>
+<script type="text/javascript">
+  /* eslint-disable no-undef */
 
-  <script src="static/js/jquery.js"></script>
-  <script src="static/js/crypto-js.min.js"></script>
-  <script src="static/js/materialize.min.js"></script>
-  <script src="static/js/index.js"></script>
-  <script type="text/javascript">
-    /* eslint-disable no-undef */
+  $(window).load(function () {
+    $('#preloader').delay(200).fadeOut(400)
+  })
 
-    $(window).load(function() { $('#preloader').delay(200).fadeOut(400) })
+  $('a.redirect').click(function (e) {
+    e.preventDefault()
+    t = $(this).attr('href')
+    close()
 
-    $('a.redirect').click(function(e){
-      e.preventDefault()
-      t = $(this).attr('href')
+    $('#preloader').delay(200).fadeIn(400, function () {
+      window.location.href = t
+    })
+  })
+
+  // UI
+  var open = function (e) {
+    $('#mobileList').css({'padding': '50px 30px 40px 30px', 'width': '200px'})
+    if ($(window).width() <= 450) {
+      // slide left and down
+      $('#sign-in-btn').css({'transform': 'translate(-150px, 40px)'})
+    } else {
+      // just slide left
+      $('#sign-in-btn').css({'transform': 'translate(-150px, 0px)'})
+    }
+    $('#mask').fadeIn(800)
+  }
+  var close = function (e) {
+    $('#mobileList').css({'width': '0px', 'padding': '0px'})
+    $('#sign-in-btn').css({'transform': 'translate(0px, 0px)'})
+    $('#mask').hide().fadeOut(800)
+    // setTimeout(function(){$('#mobileList').css({'padding': '0px'})}, 200)
+  }
+
+  var showSetting = false
+  $('#mask').on('click', function (e) {
+    $('.animated-icon').toggleClass('anim')
+    $('#settingIcon').toggleClass('white')
+    if (!showSetting) {
+      open()
+    } else {
       close()
-
-      $('#preloader').delay(200).fadeIn(400,function(){ window.location.href = t })
-    })
-
-    // UI
-    var open = function(e) {
-      $('#mobileList').css({
-        'padding': '50px 30px 40px 30px',
-        'width': '200px'
-      })
-      if ($(window).width() <= 450) {
-        // slide left and down
-        $('#sign-in-btn').css({ 'transform': 'translate(-150px, 40px)' })
-      } else {
-        // just slide left
-        $('#sign-in-btn').css({ 'transform': 'translate(-150px, 0px)' })
-      }
-      $('#mask').fadeIn(800)
     }
-    var close = function(e) {
-      $('#mobileList').css({'width': '0px', 'padding': '0px'})
-      $('#sign-in-btn').css({
-        'transform': 'translate(0px, 0px)' 
-      })
-      $('#mask').hide().fadeOut(800)
-      // setTimeout(function(){$('#mobileList').css({'padding': '0px'})}, 200)
+    showSetting = !showSetting
+  })
+
+  $('.animated-icon').click(function (e) {
+    $(this).toggleClass('anim')
+    $('#settingIcon').toggleClass('white')
+    if (!showSetting) {
+      open()
+    } else {
+      close()
     }
+    showSetting = !showSetting
+  })
 
-    var showSetting = false
-    $('#mask').on('click', function(e) { 
-      $('.animated-icon').toggleClass('anim')
-      $('#settingIcon').toggleClass('white')
-      if (!showSetting) open()
-      else close()
-      showSetting = !showSetting
-    })
-
-    $('.animated-icon').click(function (e) {
-      $(this).toggleClass('anim')
-      $('#settingIcon').toggleClass('white')
-      if (!showSetting) open()
-      else close()
-      showSetting = !showSetting
-    })
-
-    // function play () {
-    //   $('.animated-icon').click()
-    //   t = setInterval(function () {$('.animated-icon').click()},2500)
-    //   $('.left-side').on('mousemove',function () {
-    //     clearInterval(t)
-    //     $('.animated-icon').removeClass('anim')
-    //     $(this).off('mousemove')
-    //   })
-    // }
-
-    // Login
-    var login = function (data) {
-      var in10sec = 1 / (24 * 60 * 6)
-      if ($('#remember').prop('checked')) {
-        Cookies.set('token', data.api_token, {expires: 30})
-      } else {
-        Cookies.set('token', data.api_token, {expires: in10sec})
-      }
-      window.location.href = '/'
+  // function play () {   $('.animated-icon').click()   t = setInterval(function () {$('.animated-icon').click()},2500)   $('.left-side').on('mousemove',function () {     clearInterval(t)     $('.animated-icon').removeClass('anim')
+  // $(this).off('mousemove')   }) } Login
+  var login = function (data) {
+    $('#login-loading').hide()
+    var inHour = 1 / (24)
+    if ($('#remember').prop('checked')) {
+      Cookies.set('token', data.api_token, {expires: 30})
+    } else {
+      Cookies.set('token', data.api_token, {expires: inHour})
     }
+    window.location.href = '/'
+  }
 
-    var error = function (err) {
-      if (err.responseJSON) {
-        $('#errMess').text(err.responseJSON.message)
-      } else {
-        $('#errMess').text('Connection Error.')
-      }
+  var error = function (err) {
+    $('#login-loading').hide()
+    if (err.responseJSON) {
+      $('#errMess').text(err.responseJSON.message)
+    } else {
+      $('#errMess').text('Connection Error.')
     }
+  }
 
-    var signUpError = function (err) {
-      if (err.responseJSON) {
-        $('#signUpErrMess').text(err.responseJSON.message)
-      } else {
-        $('#signUpErrMess').text('Connection Error.')
-      }
+  var signUpError = function (err) {
+    if (err.responseJSON) {
+      $('#signUpErrMess').text(err.responseJSON.message)
+    } else {
+      $('#signUpErrMess').text('Connection Error.')
     }
-    
-    var forgotPwdError = function (err) {
-      if (err.responseJSON) {
-        $('#forgotpwdErrMess').text(err.responseJSON.message)
-      } else {
-        $('#forgotpwdErrMess').text('Connection Error.')
-      }
+  }
+
+  var forgotPwdError = function (err) {
+    if (err.responseJSON) {
+      $('#forgotpwdErrMess').text(err.responseJSON.message)
+    } else {
+      $('#forgotpwdErrMess').text('Connection Error.')
     }
-    
-    // var emailRedirect = function (data) {
-    //   window.location.href = '/sent_email'  // redirect to page notifying new user of verification email
-    // }
+  }
 
-    // Create User
-    var createUser = function () {
-      if ($('#create_email').hasClass('invalid')) {
-        $('#signUpErrMess').text('Invalid Email')
-      } else if (grecaptcha.getResponse() === '') {
-        $('#signUpErrMess').text('Please verify to be human')
-      } else {
-        $('#signUpErrMessLoading').toggleClass('hide')
-        $.ajax({
-          type: 'POST',
-          url: host + '/api/users/email',
-          data: {
-            username: $('#create_user_name').val(),
-            password: CryptoJS.MD5($('#create_password').val()).toString(),
-            email: $('#create_email').val(),
-            'g-recaptcha-response': grecaptcha.getResponse()
-          },
-          success: function () {
-            $('#signUpErrMessLoading').toggleClass('hide')
-            $('#signUpErrMess').text('Verification Email has been sent to ' + $('#create_email').val() + '. Please verify your account.')
-            // emailRedirect()
-          }, // Change to popup
-          error: signUpError
-        })
-      }
-    }
-    $('#create_account_btn').on('click', createUser)
-    $('#sign-up-form').submit( function(e) {
-      e.preventDefault()
-      createUser()
-    })
-
-    // Recover Password
-    var recoverPassword = function () {
-      $('#forgotpwdErrMessLoading').toggleClass('hide')
-      // if username, email, or password field empty, throw error or return
-      if ($('#forgot_pwd_email').hasClass('invalid')) {
-        $('#forgotpwdErrMess').text('Invalid Email')
-      } else {
-        $.ajax({
-          type: 'POST',
-          url: host + '/api/users/recover_pwd',
-          data: {
-            email: $('#forgot_pwd_email').val(),
-          },
-          success:  function() {
-            $('#forgotpwdErrMess').text('Email Sent!')
-            $('#forgotpwdErrMessLoading').toggleClass('hide')
-          },
-          error: forgotPwdError
-        })
-      }
-    }
-
-    $('#recover_pwd_btn').on('click', recoverPassword)
-    $('#forget-pwd-form').submit( function(e) {
-      e.preventDefault()
-      recoverPassword()
-    })
-
-    // Register Model
-    $('.modal').modal({
-      dismissible: true, // Modal can be dismissed by clicking outside of the modal
-      opacity: 0.5, // Opacity of modal background
-      inDuration: 300, // Transition in duration
-      outDuration: 200, // Transition out duration
-      startingTop: '4%', // Starting top style attribute
-      endingTop: '10%', // Ending top style attribute
-      ready: function (modal, trigger) {}, // Callback for Modal open. Modal and trigger parameters available.
-      complete: function () {} // Callback for Modal close
-    })
-
-    // Register modal jQuery convenience - if someone hits "enter"/submits the login form, this code runs; don't need to click login button manually
-    $('#loginForm').submit(function (e) {
-      e.preventDefault()
-
-      // need to make sure that fields aren't blank otherwise, spit notification to id="errMess"
-      var username = $('#username').val()
-      var password = $('#password').val()
-      if (!username) {
-        $('#errMess').text('Empty Username')
-        return
-      } else if (!password) {
-        $('#errMess').text('Empty Password')
-        return
-      }
-
-      // API takes POST requests for some reason Peter Alvaro might teach you that RESTful APIs don't use POST
+  // var emailRedirect = function (data) {   window.location.href = '/sent_email'  // redirect to page notifying new user of verification email } Create User
+  var createUser = function () {
+    $('#signUpErrMess').text('')
+    if ($('#create_email').hasClass('invalid') || !$('#create_email').val()) {
+      $('#signUpErrMess').text('Invalid Email')
+    } else if (grecaptcha.getResponse() === '') {
+      $('#signUpErrMess').text('Please verify you are human')
+    } else if (!$('#create_first_name').val()) {
+      $('#signUpErrMess').text('Empty First Name')
+    } else if (!$('#create_last_name').val()) {
+      $('#signUpErrMess').text('Empty Last Name')
+    } else if (!$('#create_password').val()) {
+      $('#signUpErrMess').text('Empty Password')
+    } else {
+      $('#signUpLoading').toggleClass('hide')
       $.ajax({
         type: 'POST',
-        url: host + '/api/users/login',
+        url: host + '/api/users/email',
         data: {
-          username: username,
-          password: CryptoJS.MD5(password).toString()
+          email: $('#create_email').val(),
+          username: $('#create_email').val().split('@')[0],
+          firstname: $('#create_first_name').val(),
+          lastname: $('#create_last_name').val(),
+          password: CryptoJS.MD5($('#create_password').val()).toString(),
+          'g-recaptcha-response': grecaptcha.getResponse()
         },
-        success: login,
-        error: error
+        success: function () {
+          $('#signUpLoading').toggleClass('hide')
+          $('#signUpErrMess').text('Verification Email has been sent to ' + $('#create_email').val() + '. Please verify your account.')
+          // emailRedirect()
+        }, // Change to popup
+        error: signUpError
       })
+    }
+  }
+  $('#create_account_btn').on('click', createUser)
+  $('#sign-up-form').submit(function (e) {
+    e.preventDefault()
+    createUser()
+  })
+
+  // Recover Password
+  var recoverPassword = function () {
+    $('#forgotpwdErrMessLoading').toggleClass('hide')
+    // if email, email, or password field empty, throw error or return
+    if ($('#forgot_pwd_email').hasClass('invalid')) {
+      $('#forgotpwdErrMess').text('Invalid Email')
+    } else {
+      $.ajax({
+        type: 'POST',
+        url: host + '/api/users/recover_pwd',
+        data: {
+          email: $('#forgot_pwd_email').val()
+        },
+        success: function () {
+          $('#forgotpwdErrMess').text('Confirmation Email Sent!')
+          $('#forgotpwdErrMessLoading').toggleClass('hide')
+        },
+        error: forgotPwdError
+      })
+    }
+  }
+
+  $('#recover_pwd_btn').on('click', recoverPassword)
+  $('#forget-pwd-form').submit(function (e) {
+    e.preventDefault()
+    recoverPassword()
+  })
+
+  // Register Model
+  $('.modal').modal({
+    dismissible: true, // Modal can be dismissed by clicking outside of the modal
+    opacity: 0.5, // Opacity of modal background
+    inDuration: 300, // Transition in duration
+    outDuration: 200, // Transition out duration
+    startingTop: '4%', // Starting top style attribute
+    endingTop: '10%', // Ending top style attribute
+    ready: function (modal, trigger) {
+      $('#email').focus()
+    }, // Callback for Modal open. Modal and trigger parameters available.
+    complete: function () {} // Callback for Modal close
+  })
+
+  // Register modal jQuery convenience - if someone hits "enter"/submits the login form, this code runs; don't need to click login button manually
+  $('#loginForm').submit(function (e) {
+    e.preventDefault()
+
+    // clear any old error messages
+    $('#errMess').text('')
+
+    // need to make sure that fields aren't blank otherwise, spit notification to id="errMess"
+    var email = $('#email').val()
+    var password = $('#password').val()
+    if (!email) {
+      $('#errMess').text('Empty Email')
+      return
+    } else if (!password) {
+      $('#errMess').text('Empty Password')
+      return
+    }
+    $('#login-loading').show()
+
+    // login API takes POST requests
+    $.ajax({
+      type: 'POST',
+      url: host + '/api/users/login',
+      data: {
+        email: email,
+        password: CryptoJS.MD5(password).toString()
+      },
+      success: login,
+      error: error
     })
-  </script>
+  })
+</script>
 </body>
 </html>
