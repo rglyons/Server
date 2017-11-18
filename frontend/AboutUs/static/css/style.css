@@ -27,11 +27,12 @@ body {
 	position: fixed;
 	top: 8px;
 	left: 10px;
-	background-color: #fff;
-	color: #4593e3;
+	/*background-color: #fff;*/
+	color: black;
+	font-weight: 900;
 	text-decoration: none;
 	text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
-	border-radius: 4em;
+	/*border-radius: 4em;*/
 	padding: 12px 12px;
 	margin: .3em 0 1em 0;
 	font-size: 18px;
@@ -41,7 +42,7 @@ body {
 	text-align: center;
 	letter-spacing: 1px;
 	border: 2px;
-	border-bottom: 4px solid #3160B6;
+	/*border-bottom: 4px solid #3160B6;*/
 	cursor: pointer;
 }
 
@@ -130,6 +131,12 @@ body {
 #team li a {color: rgba(0,0,0, 0.3); transition: all 0.1s ease-in;}
 #team li a:hover {color: rgba(0,0,0, 0.7);}
 
-#contact { text-align: center; }
+#contact {
+	text-align: center;
+	color: black;
+}
 
-#contact p { text-align: center; }
+#contact .line {
+	text-align: center;
+	font-size: 20px;
+}
