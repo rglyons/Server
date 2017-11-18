@@ -218,8 +218,8 @@
           </span>
         </div>
         <div class="row" style="margin: 0px">
-          <div class="col s12 center-align">
-            <div id="g-recaptcha" style="transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0;" class="g-recaptcha" data-size="normal" data-sitekey="6Lem9DgUAAAAAFaKSPmShCuHntvdcnAdMXDT4Px-"></div>
+          <div class="col s12 m9 offset-m3 center-align">
+            <div id="g-recaptcha" style="transform:scale(0.65);-webkit-transform:scale(0.65);transform-origin:0 0;-webkit-transform-origin:0 0; margin: 0 auto;" class="g-recaptcha" data-size="normal" data-sitekey="6Lem9DgUAAAAAFaKSPmShCuHntvdcnAdMXDT4Px-"></div>
           </div>
         </div>
       </form>
@@ -444,7 +444,7 @@
         },
         success: function () {
           $('#signUpLoading').toggleClass('hide')
-          $('#signUpErrMess').text('Verification Email has been sent to ' + $('#create_email').val() + '. Please verify your account.')
+          $('#signUpErrMess').html('Verification Email has been sent to ' + $('#create_email').val() + '. <br>Please verify your account.')
           // emailRedirect()
         }, // Change to popup
         error: signUpError

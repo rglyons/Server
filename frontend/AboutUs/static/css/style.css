@@ -20,25 +20,28 @@ body {
 	font-family: 'PT Sans Narrow', sans-serif;
 	font-size: 13px;
 	font-weight: 300;
+	background: #4593e3;
 }
 
 .button {
 	position: fixed;
-	top: 5px;
-	right: 10px;
+	top: 8px;
+	left: 10px;
 	background-color: #fff;
 	color: #4593e3;
 	text-decoration: none;
 	text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+	border-radius: 4em;
 	padding: 12px 12px;
 	margin: .3em 0 1em 0;
 	font-size: 18px;
-	line-height: 20px;
+	line-height: 13px;
 	-webkit-font-smoothing: antialiased;
+	height: 40px;
 	text-align: center;
 	letter-spacing: 1px;
 	border: 2px;
-	border-bottom: 2px solid #3160B6;
+	border-bottom: 4px solid #3160B6;
 	cursor: pointer;
 }
 
@@ -64,7 +67,6 @@ body {
 
 #team {
 	padding: 60px 0;
-	background: #4593e3;
 	text-align: center;
 	height: 100vh;
 	width: 100vw;
@@ -107,7 +109,7 @@ body {
 	max-width: 240px;
 	border-radius: 50%;
 	border: 15px solid transparent;
-	box-shadow: 2px 2px 0px rgba(0,0,0, 0.18);
+	box-shadow: 1px 3px 5px rgba(0,0,0, 0.4);
 	transition: all 0.1s ease-in;
 }
 
@@ -127,3 +129,7 @@ body {
 #team li {display: inline-block; padding: 0 6px; font-size: 18px;}
 #team li a {color: rgba(0,0,0, 0.3); transition: all 0.1s ease-in;}
 #team li a:hover {color: rgba(0,0,0, 0.7);}
+
+#contact { text-align: center; }
+
+#contact p { text-align: center; }
