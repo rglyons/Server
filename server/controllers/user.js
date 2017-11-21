@@ -17,47 +17,47 @@ function sendVerificationEmail (req, res, user) {
     from: 'contact@sproutlabs.io',
     to: user.email,
     subject: 'SproutLabs Do Not Reply - Verify Your Email',
-    html: '<div style="word-wrap:break-word">\
-        <div style="font-family:Helvetica,Arial;font-size:13px;color:rgba(0,0,0,1.0);margin:0px;line-height:auto">\
-            <br>\
-        </div>\
-        <div>\
-            <div>\
-                <div style="text-align:center;background-color:#b3dfdb;border-radius:5px">\
-                    <img src="http://sproutlabs.herokuapp.com/static/images/sproutlabsLogo_v2.png" width="300px">\
-                </div>\
+    html: '<div style="word-wrap:break-word; width: 350px">\
+            <div style="font-family:Helvetica,Arial;font-size:13px;color:rgba(0,0,0,1.0);margin:0px;line-height:auto">\
                 <br>\
-                <div style="text-align:center">\
-                    <div style="font-size:24px">\
-                        <font face="Open Sans">Hi ' + user.firstname + '!</font>\
-                    </div>\
-                    <font face="Open Sans">\
-                        <br>\
-                    </font>\
-                    <div style="font-size:16px">\
-                        <font face="Open Sans">Thank you for signing up with SproutLabs.</font>\
+            </div>\
+            <div>\
+                <div>\
+                    <div style="text-align:center;background-color:#b3dfdb;border-radius:5px">\
+                        <img src="http://sproutlabs.herokuapp.com/static/images/sproutlabsLogo_v2.png" width="300px">\
                     </div>\
                     <br>\
-                    <div style="font-size:16px">\
-                        <font face="Open Sans">Please verify your account with the following link.</font>\
-                    </div>\
-                    <font face="Open Sans">\
-                        <br>\
-                    </font>\
-                    <br>\
-                    <div>\
+                    <div style="padding:10px">\
+                        <div style="font-size:24px">\
+                            <font face="Open Sans">Hi ' + user.firstname + '!</font>\
+                        </div>\
                         <font face="Open Sans">\
-                            <a href="' + link + '"\
-                             style="border:1px solid rgb(29,161,242);border-top-left-radius:20px;border-top-right-radius:20px;\
-                             border-bottom-right-radius:20px;border-bottom-left-radius:20px;color:rgb(29,161,242);display:inline-block;\
-                             font-family:&#39;Open Sans&#39;,Verdana,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;\
-                             line-height:30px;text-decoration:none;width:120px" target="_blank">Verify</a>\
+                            <br>\
                         </font>\
+                        <div style="font-size:16px">\
+                            <font face="Open Sans">Thank you for signing up with SproutLabs.</font>\
+                        </div>\
+                        <br>\
+                        <div style="font-size:16px">\
+                            <font face="Open Sans">Please verify your account with the following link.</font>\
+                        </div>\
+                        <font face="Open Sans">\
+                            <br>\
+                        </font>\
+                        <br>\
+                        <div>\
+                            <font face="Open Sans">\
+                                <a href="' + link + '"\
+                                 style="text-align:center;border:1px solid rgb(29,161,242);border-top-left-radius:20px;border-top-right-radius:20px;\
+                                 border-bottom-right-radius:20px;border-bottom-left-radius:20px;color:rgb(29,161,242);display:inline-block;\
+                                 font-family:&#39;Open Sans&#39;,Verdana,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;\
+                                 line-height:30px;text-decoration:none;width:120px" target="_blank">Verify</a>\
+                            </font>\
+                        </div>\
                     </div>\
                 </div>\
             </div>\
-        </div>\
-    </div>'
+        </div>'
     //html: 'Hello from SproutLabs!<br> Please click on this link to verify your email.<br><a href=' + link + '>verify email</a>'
   }
   smtpTransport.sendMail(mailOptions, function (err, info) {
