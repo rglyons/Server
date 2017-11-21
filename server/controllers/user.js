@@ -58,7 +58,6 @@ function sendVerificationEmail (req, res, user) {
                 </div>\
             </div>\
         </div>'
-    //html: 'Hello from SproutLabs!<br> Please click on this link to verify your email.<br><a href=' + link + '>verify email</a>'
   }
   smtpTransport.sendMail(mailOptions, function (err, info) {
     if (err) {
