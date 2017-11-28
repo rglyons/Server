@@ -459,7 +459,6 @@ module.exports = {
             message: 'Node Not Found. Aborting status report procedure.',
           });
         }
-        nodesObj[nodes[i].id] = nodes[i]
         newPromise = Reading
           .findAll({
             limit: 1,
@@ -470,22 +469,27 @@ module.exports = {
           })
         promises.push(newPromise)
       }
-      promises.push(nodesObj)
+      promises.push(nodes)
       return Promise.all(promises)
     })
     .then(readings => {
       statuses = {}
-      nodes = readings.pop() // get the nodes object we created earlier
+      nodes = readings.pop() // get the nodes list
       for (let i=0; i<readings.length; i++) {
-        if (readings[i][0].dataValues.createdAt < oneHourAgo) {
+        if (readings[i].length == 0) {  // no readings for this node
+          statuses[nodes[i].id] = {
+            status: 'inactive',
+            latest: null
+          }
+        } else if (readings[i][0].dataValues.createdAt < oneHourAgo) {
           // node status is inactive
-          statuses[readings[i][0].dataValues.nodeId] = {
+          statuses[nodes[i].id] = {
             status: 'inactive',
             latest: readings[i][0]
           }
         } else {
           // node is active, check if healthy or unhealthy
-          let thisNode = nodes[readings[i][0].dataValues.nodeId]
+          let thisNode = nodes[i]
           // this code is ugly. Find a better way?
           let metrics = [
             {reading: readings[i][0].dataValues.humidity, min: thisNode.humidityMin, max: thisNode.humidityMax},
