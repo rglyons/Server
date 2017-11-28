@@ -78,9 +78,6 @@ app.get('/reset_password', (req, res) => {
 
 // Require our other routes into the application.
 require('./server/routes')(app)
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the beginning of nothingness.'
-}))
 
 app.listen(port)
 console.log('Listening to port: ' + port)

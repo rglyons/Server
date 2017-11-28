@@ -10,6 +10,7 @@ module.exports = {
         moisture: req.body.moisture,
         battery: req.body.battery,
         nodeId: req.params.nid,
+        createdAt: req.body.postTime
       })
       .then(reading => res.status(201).send(reading))
       .catch(error => {

@@ -166,7 +166,7 @@ module.exports = {
       // check for bad input
       if (isNaN(notifications[i])) {
         return res.status(400).send({
-          message: query_elems[i] + ' is not an integer node ID',
+          message: query_elems[i] + ' is not an integer notification ID',
         });
       }
       let newPromise = Notification
@@ -226,4 +226,51 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
+  
+  destroyMultipleNotifications(req, res) {
+    if (!req.query.notifications) {
+      return res.status(400).send({
+        message: 'No notifications provided in request query!',
+      });
+    }
+    var query_elems = req.query.notifications.split(',')
+    var notifications = query_elems.map(Number)
+    var promises = []
+    console.log(notifications)
+    // find all nodes in query
+    for (let i=0; i<notifications.length; i++) {
+      // check for bad input
+      if (isNaN(notifications[i])) {
+        return res.status(400).send({
+          message: query_elems[i] + ' is not an integer notification ID',
+        });
+      }
+      let newPromise = Notification
+        .findOne({
+          where: {
+            userId: req.user.id,
+            id: notifications[i]
+          } 
+        })
+      promises.push(newPromise)
+    }
+    return Promise.all(promises)
+      .then(notifications => {
+        promises = []
+        // update all nodes in query
+        for (let i=0; i<notifications.length; i++) {
+          if (!notifications[i]) {
+            return res.status(404).send({
+              message: 'Notification Not Found. Aborting delete procedure.',
+            });
+          }
+          newPromise = notifications[i].destroy()
+          promises.push(newPromise)
+        }
+        return Promise.all(promises)
+      })
+      .then(() => res.status(204).send())
+      .catch(error => res.status(400).send(error));
+  },
+
 };

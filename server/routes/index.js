@@ -12,6 +12,7 @@ module.exports = (app) => {
   // nodes & readings
   app.post('/api/nodes', auth.validate, nodesController.create) // create node under user
   app.get('/api/nodes/all', nodesController.list) // list all nodes
+  app.get('/api/nodes/status?', auth.validate, nodesController.getNodeStatus) // list the status of all nodes
   app.get('/api/nodes/:nid', nodesController.getNodeById) // retrieve node + readings
   app.post('/api/nodes/:nid/new_reading', readingsController.create) // create reading for node
   app.put('/api/nodes/update?', auth.validate, nodesController.updateMultipleNodes) // update fields of one or more nodes
@@ -35,7 +36,8 @@ module.exports = (app) => {
   app.get('/api/notifications/undismissed', auth.validate, notificationsController.getUndismissedNotificationsForUser) // get undismissed notifications for user
   app.put('/api/notifications/:nid', auth.validate, notificationsController.update) // update notification fields
   app.put('/api/notifications?', auth.validate, notificationsController.updateMultipleNotifications) // update notification fields
-  app.delete('/api/notifications/:nid', auth.validate, notificationsController.destroy) // create notification under user & node
+  app.delete('/api/notifications/:nid/delete', auth.validate, notificationsController.destroy) // delete a notification
+  app.delete('/api/notifications/delete_many?', auth.validate, notificationsController.destroyMultipleNotifications) // delete many notifications
 
   // other methods
   app.get('/api/nodes/:nid/latest_reading',

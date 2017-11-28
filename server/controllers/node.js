@@ -419,6 +419,105 @@ module.exports = {
         res.status(400).send(error)
       })
   },
+  
+  getNodeStatus(req, res) {
+    var now = new Date()
+    var oneHourAgo = new Date()
+    oneHourAgo.setHours(now.getHours()-1)
+    if (!req.query.nodes) {
+      return res.status(400).send({
+        message: 'No nodes provided in request query!',
+      });
+    }
+    var query_elems = req.query.nodes.split(',')
+    var nodes = query_elems.map(Number)
+    var promises = []
+    // find all nodes in query
+    for (let i=0; i<nodes.length; i++) {
+      // check for bad input
+      if (isNaN(nodes[i])) {
+        return res.status(400).send({
+          message: query_elems[i] + ' is not an integer node ID',
+        });
+      }
+      let newPromise = Node
+        .findOne({
+          where: {
+            userId: req.user.id,
+            id: nodes[i]
+          } 
+        })
+      promises.push(newPromise)
+    }
+    return Promise.all(promises)
+    .then(nodes => {
+      nodesObj = {}
+      promises = []
+      for (let i=0; i<nodes.length; i++) {
+        if (!nodes[i]) {
+          return res.status(404).send({
+            message: 'Node Not Found. Aborting status report procedure.',
+          });
+        }
+        nodesObj[nodes[i].id] = nodes[i]
+        newPromise = Reading
+          .findAll({
+            limit: 1,
+            where: {
+              nodeId: nodes[i].id
+            },
+            order: [[ 'createdAt', 'DESC' ]]
+          })
+        promises.push(newPromise)
+      }
+      promises.push(nodesObj)
+      return Promise.all(promises)
+    })
+    .then(readings => {
+      statuses = {}
+      nodes = readings.pop() // get the nodes object we created earlier
+      for (let i=0; i<readings.length; i++) {
+        if (readings[i][0].dataValues.createdAt < oneHourAgo) {
+          // node status is inactive
+          statuses[readings[i][0].dataValues.nodeId] = {
+            status: 'inactive',
+            latest: readings[i][0]
+          }
+        } else {
+          // node is active, check if healthy or unhealthy
+          let thisNode = nodes[readings[i][0].dataValues.nodeId]
+          // this code is ugly. Find a better way?
+          let metrics = [
+            {reading: readings[i][0].dataValues.humidity, min: thisNode.humidityMin, max: thisNode.humidityMax},
+            {reading: readings[i][0].dataValues.moisture, min: thisNode.moistureMin, max: thisNode.moistureMax},
+            {reading: readings[i][0].dataValues.temperature, min: thisNode.tempMin, max: thisNode.tempMax},
+            {reading: readings[i][0].dataValues.sunlight, min: thisNode.sunlightMin, max: thisNode.sunlightMax},
+          ]
+          let status = 'good'   // start with good status
+          for (let j of metrics) {
+            console.log(j)
+            if (j.reading <= j.max && j.reading >= j.min) {
+              if (status == 'good') status = 'good'   // can't go to good status from warning or bad status
+            } else if (j.reading > j.max) {
+              status = (j.reading - j.max > 5) ? 'bad' : 'warning'
+            } else if (j.reading < j.min) {
+              status = (j.min - j.reading > 5) ? 'bad' : 'warning'
+            }
+            statuses[thisNode.id] = {
+              status: status,
+              latest: readings[i][0]
+            }
+            if (status == 'bad') break  // no sense checking the rest if one metric has a bad status
+          }
+        }
+      }
+      return res.status(200).send(statuses)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(400).send(error)
+    })
+  },
 
   destroy(req, res) {
     return Node

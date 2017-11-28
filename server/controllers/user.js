@@ -258,15 +258,8 @@ module.exports = {
   },
 
   getUser (req, res) {
-    response = {}
-    response['id'] = req.user.id
-    response['username'] = req.user.username
-    response['firstname'] = req.user.firstname
-    response['lastname'] = req.user.lastname
-    response['email'] = req.user.email
-    response['nodeCount'] = req.user.nodeCount
-    response['nodes'] = req.user.nodes
-    return res.status(200).send(response)
+    req.user.password = null // don't send password back to client
+    res.status(200).send(req.user)
   },
 
   generateApiToken (req, res) {
