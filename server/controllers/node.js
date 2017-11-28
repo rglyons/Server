@@ -495,7 +495,6 @@ module.exports = {
           ]
           let status = 'good'   // start with good status
           for (let j of metrics) {
-            console.log(j)
             if (j.reading <= j.max && j.reading >= j.min) {
               if (status == 'good') status = 'good'   // can't go to good status from warning or bad status
             } else if (j.reading > j.max) {
