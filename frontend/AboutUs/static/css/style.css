@@ -1,13 +1,3 @@
-/*
-Tutorial Name: Meet the Team
-Description: A simple concept for members section.
-Author: Stanislav Kostadinov
-Author URI: http://stanislav.it
-Usage: You can use this code for free in personal and commercial projects if you build upon it. You are not allowed to republish, redistribute or sell "as-is".
-*/
-
-/* 01. GENERAL SETTINGS ============================================ */
-
 * {margin: 0; padding: 0;}
 
 p {line-height: 160%;}
@@ -16,11 +6,11 @@ a {text-decoration: none; color: #fff; transition: all 0.1s ease-in;}
 img {border: 0;}
 
 body {
-	color: #fff;
+	color: black;
 	font-family: 'PT Sans Narrow', sans-serif;
 	font-size: 13px;
 	font-weight: 300;
-	background: #4593e3;
+	background: #5885ce;
 }
 
 .button {
@@ -50,7 +40,7 @@ body {
 .separator {
 	margin: 0 auto;
 	background: rgba(0, 0, 0, 0.2);
-	width: 30px;
+	width: 100px;
 	height: 5px;
 }
 
@@ -120,7 +110,7 @@ body {
 	top: -64px;
 	left: -42px;
 	display: inline-block;
-	background: #4593e3;
+	background: #5885ce;
 	border-radius: 0 16px 16px 0;
 	font-size: 16px;
 }
