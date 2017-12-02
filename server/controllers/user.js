@@ -17,33 +17,25 @@ function sendVerificationEmail (req, res, user) {
     from: 'contact@sproutlabs.io',
     to: user.email,
     subject: 'SproutLabs Do Not Reply - Verify Your Email',
-    html: '<div style="word-wrap:break-word; width: 350px">\
-            <div style="font-family:Helvetica,Arial;font-size:13px;color:rgba(0,0,0,1.0);margin:0px;line-height:auto">\
-                <br>\
-            </div>\
+    html: '<div style="word-wrap:break-word; font-family:Helvetica,Arial; width: 400px; border: 0.5px solid gray; padding: 8px; border-radius: 5px;">\
             <div>\
                 <div>\
-                    <div style="text-align:center;background-color:#b3dfdb;border-radius:5px">\
+                    <div style="text-align:left;border-radius:5px">\
                         <img src="http://sproutlabs.herokuapp.com/static/images/sproutlabsLogo_v2.png" width="300px">\
                     </div>\
                     <br>\
-                    <div style="padding:10px">\
+                    <div style="padding:0px 10px 10px 10px">\
                         <div style="font-size:24px">\
-                            <font face="Open Sans">Hi ' + user.firstname + '!</font>\
-                        </div>\
-                        <font face="Open Sans">\
-                            <br>\
-                        </font>\
-                        <div style="font-size:16px">\
-                            <font face="Open Sans">Thank you for signing up with SproutLabs.</font>\
+                            Hi ' + user.firstname + '!\
                         </div>\
                         <br>\
                         <div style="font-size:16px">\
-                            <font face="Open Sans">Please verify your account with the following link.</font>\
+                            Thank you for signing up with SproutLabs.\
                         </div>\
-                        <font face="Open Sans">\
-                            <br>\
-                        </font>\
+                        <div style="font-size:16px">\
+                            Please verify your account with the following link.\
+                        </div>\
+                        <br>\
                         <br>\
                         <div>\
                             <font face="Open Sans">\
