@@ -55,6 +55,16 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       defaultValue: 100,
       allowNull: false,
+    },
+    sensors: {
+      type: DataTypes.STRING,
+      defaultValue: 'temperature,humidity,sunlight,moisture',
+      allowNull: false,
+    },
+    interval: {
+      type: DataTypes.INTEGER,
+      defaultValue: 60,
+      allowNull: false,
     }
   }, {
     hooks: {

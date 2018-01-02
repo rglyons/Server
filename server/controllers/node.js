@@ -8,7 +8,9 @@ module.exports = {
       .create({
         id: req.body.id,
         ipaddress: req.body.ipaddress,
-        userId: req.user.id
+        userId: req.user.id,
+        sensors: req.body.sensors,
+        interval: req.body.interval,
       })
       .then(node => {
         res.status(201).send(node)
@@ -350,6 +352,8 @@ module.exports = {
             moistureMax: req.body.moistureMax || node.moistureMax,
             sunlightMin: req.body.sunlightMin || node.sunlightMin,
             sunlightMax: req.body.sunlightMax || node.sunlightMax,
+            sensors: req.body.sensors || node.sensors,
+            interval: req.body.interval || node.interval,
           })
           .then(() => res.status(200).send(node))  // Send back the updated node.
           .catch((error) => res.status(400).send(error));
@@ -406,6 +410,8 @@ module.exports = {
               moistureMax: req.body.moistureMax || nodes[i].moistureMax,
               sunlightMin: req.body.sunlightMin || nodes[i].sunlightMin,
               sunlightMax: req.body.sunlightMax || nodes[i].sunlightMax,
+              sensors: req.body.sensors || nodes[i].sensors,
+              interval: req.body.interval || nodes[i].interval,
             })
           promises.push(newPromise)
         }
@@ -422,8 +428,6 @@ module.exports = {
   
   getNodeStatus(req, res) {
     var now = new Date()
-    var oneHourAgo = new Date()
-    oneHourAgo.setHours(now.getHours()-1)
     if (!req.query.nodes) {
       return res.status(400).send({
         message: 'No nodes provided in request query!',
@@ -476,12 +480,14 @@ module.exports = {
       statuses = {}
       nodes = readings.pop() // get the nodes list
       for (let i=0; i<readings.length; i++) {
+        var intTime = new Date(now)
+        intTime.setMinutes(now.getMinutes() - nodes[i].interval)
         if (readings[i].length == 0) {  // no readings for this node
           statuses[nodes[i].id] = {
             status: 'inactive',
             latest: null
           }
-        } else if (readings[i][0].dataValues.createdAt < oneHourAgo) {
+        } else if (readings[i][0].dataValues.createdAt < intTime) {
           // node status is inactive
           statuses[nodes[i].id] = {
             status: 'inactive',
@@ -499,9 +505,7 @@ module.exports = {
           ]
           let status = 'good'   // start with good status
           for (let j of metrics) {
-            if (j.reading <= j.max && j.reading >= j.min) {
-              if (status == 'good') status = 'good'   // can't go to good status from warning or bad status
-            } else if (j.reading > j.max) {
+            if (j.reading > j.max) {
               status = (j.reading - j.max > 5) ? 'bad' : 'warning'
             } else if (j.reading < j.min) {
               status = (j.min - j.reading > 5) ? 'bad' : 'warning'

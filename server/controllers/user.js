@@ -271,6 +271,8 @@ module.exports = {
       .update({
         password: req.body.password || req.user.password,
         username: req.body.username || req.user.username,
+        firstname: req.body.firstname || req.user.firstname,
+        lastname: req.body.lastname || req.user.lastname,
         email: req.body.email || req.user.email
       })
       .then(user => {
