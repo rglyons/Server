@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> About Us </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+    <style>
+    .fa {
+      padding: 20px;
+      font-size: 30px;
+      width: 30px;
+      text-align: center;
+      text-decoration: none;
+      margin: 5px 2px;
+      border-radius: 50%;
+    }
+
+    .fa:hover {
+        opacity: 0.7;
+    }
+
+    .fa-facebook {
+      background: #3B5998;
+      color: white;
+    }
+
+    .fa-twitter {
+      background: #55ACEE;
+      color: white;
+    }
+
+    .fa-linkedin {
+      background: #007bb5;
+      color: white;
+    }
+
+    .fa-youtube {
+      background: #bb0000;
+      color: white;
+    }
+
+    .fa-instagram {
+      background: #125688;
+      color: white;
+    }
+
+    .fa-snapchat-ghost {
+      background: #fffc00;
+      color: white;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    }
+
+    .fa-reddit {
+      background: #ff5700;
+      color: white;
+    }
+
+    #video {
+      width: 650;
+      height:375;
+      object-fit:fill; /* for those who do support it */
+    }
+    #video-background  {
+      /* background-image: url("static/img/backgroud.png"); */
+      background-color: grey;
+    }
+
+    #topleft {
+      width: 100px;
+      height: 100px;
+    }
+    </style>
+  <body>
+
+    <!-- Backgroud Video -->
+  <div id="video-background" align="center">
+    <video id="video" autoplay muted loop width="650" height="375">
+      <source src="static/video/aboutus_loop.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!--
+  <div id="topleft">
+      <img src="static/img/device.png">
+  </div>
+  -->
+
+  <!--
+  <div id="topright">
+      <img src="static/img/webapp_macbook_display.png">
+  </div>
+  -->
+
+    <!-- Team Container -->
+    <div class="w3-container w3-padding-50 w3-center" id="team">
+      <h2><b>MEET THE TEAM</b></h2>
+      <div class="w3-row"><br>
+        <div class="w3-third">
+          <img src="static/img/babandeep.png" alt="Boss" style="width:50%" class="w3-circle w3-hover-opacity">
+          <h3><b>Babandeep Singh</b></h3>
+          <h4>Lead Hardware Engineer</h4>
+        </div>
+
+        <div class="w3-third">
+          <img src="static/img/yu.png" alt="Boss" style="width:50%" class="w3-circle w3-hover-opacity">
+          <h3><b>Yu-An Lin</b></h3>
+          <h4>Lead Frontend Engineer</h4>
+        </div>
+
+        <div class="w3-third">
+          <img src="static/img/robert.png" alt="Boss" style="width:50%" class="w3-circle w3-hover-opacity">
+          <h3><b>Robert Lyons</b></h3>
+          <h4>Lead Backend Engineer</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="w3-row-padding w3-center w3-padding-64" id="pricing">
+        <div class="w3-third w3-margin-bottom">
+          <ul class="w3-ul w3-border w3-hover-shadow">
+            <li class="w3-theme">
+              <p class="w3-xlarge"> REQUEST DEMO </p>
+            </li>
+            <li class="w3-padding-16"><b>What's better than reading about something? Watching it work in person. We would love to you show a demo of our devices and software. Demo includes hands on interaction with our devices and software to help you understand how everything works and show the benefits rather than just talking about our products.</b></li>
+            <li class="w3-theme-l5 w3-padding-24">
+              <button class="w3-button w3-teal w3-padding-large"><i class="fa fa-check"></i> Request Demo </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="w3-third w3-margin-bottom">
+          <ul class="w3-ul w3-border w3-hover-shadow">
+            <li class="w3-theme-l2">
+              <p class="w3-xlarge"> PRE-ORDER </p>
+            </li>
+            <li class="w3-padding-16"><b> We are currently taking pre-orders for first production batch. Our devices are currently confiured with Soil Moisture, Relative Air Humidity, Temperature, and Sunlight sensors to help you better understadn the needs of your plants.</b><br><br></li>
+            </li>
+            <li class="w3-theme-l5 w3-padding-24">
+              <button class="w3-button w3-teal w3-padding-large"><i class="fa fa-check"></i> Pre-Order </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="w3-third w3-margin-bottom">
+          <ul class="w3-ul w3-border w3-hover-shadow">
+            <li class="w3-theme">
+              <p class="w3-xlarge"> LET'S TALK </p>
+            </li>
+            <li class="w3-padding-16"><b> Just want to know more about us? We'd love to hear what you have to say. Drop us a line and we'll get back to you.</b><br></br></br><br><br></li>
+            </li>
+            <li class="w3-theme-l5 w3-padding-24">
+              <button class="w3-button w3-teal w3-padding-large"><i class="fa fa-check"></i> Let's Talk </button>
+            </li>
+          </ul>
+        </div>
+    </div>
+
+  <!-- Google Maps -->
+  <div id="googleMap" style="width:100%;height:420px;"></div>
+  <script>
+  function myMap(){
+    myCenter=new google.maps.LatLng(36.974117, -122.030796);
+    var mapOptions= {
+      center:myCenter,
+      zoom:12, scrollwheel: false, draggable: false,
+      mapTypeId:google.maps.MapTypeId.ROADMAP
+    };
+    var map=new google.maps.Map(document.getElementById("googleMap"),mapOptions);
+
+    var marker = new google.maps.Marker({
+      position: myCenter,
+    });
+    marker.setMap(map);
+  }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-gR9JMl-Bao2BIfnLh0GlbrIXRU6BTGM&callback=myMap"></script>
+
+  <!--
+  To use this code on your website, get a free API key from Google.
+  Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
+  -->
+
+  <!--
+  <a class="fa fa-instagram" href="https://www.instagram.com/sproutlabs.io/" title="Instagram"><i class="fa fa-instagram"></i><br></a>
+  <a class="w3-button w3-large w3-teal" href="javascript:void(0)" title="Facebook"><i class="fa fa-facebook"></i><br></a>
+  <a class="w3-button w3-large w3-teal" href="https://twitter.com/sproutlabs_llc" title="Twitter"><i class="fa fa-twitter"></i><br></a>
+  <a class="w3-button w3-large w3-teal w3-hide-small" href="javascript:void(0)" title="Linkedin"><i class="fa fa-linkedin"></i><br></a>
+  -->
+  <footer>
+    <h2>Follow Us</h2>
+    <a href="#" class="fa fa-facebook"></a>
+    <a href="https://twitter.com/sproutlabs_llc" class="fa fa-twitter"></a>
+    <a href="#" class="fa fa-linkedin"></a>
+    <a href="#" class="fa fa-youtube"></a>
+    <a href="https://www.instagram.com/sproutlabs.io/" class="fa fa-instagram"></a>
+    <a href="#" class="fa fa-snapchat-ghost"></a>
+    <a href="#" class="fa fa-reddit"></a>
+  </footer>
+  </body>
+</html>
