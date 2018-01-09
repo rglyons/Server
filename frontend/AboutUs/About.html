@@ -1,118 +1,364 @@
 <!DOCTYPE html>
-<html lang="en-US">
-	<head>
-		<!-- Meta tags & title /-->
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<title>
-			Meet The Team
-		</title>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>
+      Meet The Team
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <style media="screen">
+      .center {
+        /* For html5 video spacing */
+        display: block;
+        margin: 0 auto;
+      }
+      #back-button {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        /*background-color: #fff;*/
+        color: black;
+        font-weight: 900;
+        text-decoration: none;
+        text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+        /*border-radius: 4em;*/
+        padding: 12px;
+        margin: 0.3em 0 1em;
+        font-size: 18px;
+        line-height: 13px;
+        -webkit-font-smoothing: antialiased;
+        height: 40px;
+        text-align: center;
+        letter-spacing: 1px;
+        border: 2px;
+        /*border-bottom: 4px solid #3160B6;*/
+        cursor: pointer;
+        z-index: 999;
+      }
 
-		<!-- Main stylesheet /-->
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
-		<!-- Stylesheets /-->
-		<link rel="stylesheet" type="text/css" href="static/css/style.css"/>
-		<!-- Grid framework /-->
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-		<!-- Open Sans /-->
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700' rel='stylesheet' type='text/css'>
-		<!-- PT Sans Narrow /-->
-		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-		<!-- Font Awesome /-->
-		<link rel="shortcut icon" href="static/img/favicon.png" type="static/image/x-icon"/>
-		<!-- Favicon /-->
-	</head>
+    </style>
+  </head>
+  <body>
+    <a href="/login" id="back-button">
+      <img src="static/img/back_button.png" alt="">
+    </a>
+    <div id="app">
+      <v-app light>
+        <!-- <v-toolbar class="white">
+          <v-toolbar-title v-text="title"></v-toolbar-title>
+        </v-toolbar> -->
+        <main>
+          <v-content>
+            <section>
+              <!-- <v-parallax src="static/img/ucsc_sunset.jpg" :height="$vuetify.breakpoint.smAndDown ? 1600 : 500"> -->
+              <v-layout :row="!$vuetify.breakpoint.smAndDown" :column="$vuetify.breakpoint.smAndDown" wrap class="text--white text-xs-center grey lighten-2">
+                <v-flex xs12 md4 style="max-height: 460px;" class="pa-0 ma-0">
+                  <v-card class="transparent elevation-0 black--text">
+                    <v-card-title primary-title class="justify-center text-xs-center">
+                      <img src="static/img/banner_left.png" alt="banner_left" style="width: 260px; height: auto; display: block;
+          margin: 0 auto;">
+                      <div>
+                        <h3 class="headline mb-0">
+                          <b>Always Connected</b>
+                        </h3>
+                        <div class="subheading" style="font-weight: 500;">
+                          SproutLabs Devices continuously monitor the health of your garden through embedded sensors.
+                        </div>
+                      </div>
+                    </v-card-title>
+                  </v-card>
+                </v-flex>
+                <v-flex xs12 md4 style="max-height: 460px;" class="pa-0 ma-0">
+                  <v-card class="transparent elevation-0 black--text">
+                    <v-card-title primary-title class="justify-center text-xs-center">
+                      <img src="static/img/banner_middle.png" alt="banner_left" style="width: 260px; height: auto; display: block;
+          margin: 0 auto;">
+                      <div>
+                        <h3 class="headline mb-0">
+                          <b>Monitor Anywhere
+                          </b>
+                        </h3>
+                        <div class="subheading" style="font-weight: 500;">
+                          Our Devices are connected to your WiFi network so you can feel at home, even when away from home.
+                        </div>
+                      </div>
+                    </v-card-title>
+                  </v-card>
+                </v-flex>
+                <v-flex xs12 md4 style="max-height: 460px;" class="pa-0 ma-0">
+                  <v-card class="transparent elevation-0 black--text">
+                    <v-card-title primary-title class="justify-center text-xs-center">
+                      <img src="static/img/banner_right.png" alt="banner_left" style="width: 260px; height: auto; display: block;
+          margin: 0 auto;">
+                      <div>
+                        <h3 class="headline mb-0">
+                          <b>Data Driven Decisions
+                          </b>
+                        </h3>
+                        <div class="subheading" style="font-weight: 500;">
+                          Our Apps provide valuable insights based on real data, allowing you to make data driven plant care decisions.
+                        </div>
+                      </div>
+                    </v-card-title>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+              <!-- </v-parallax> -->
+            </section>
 
-	<body>
-		<div id="preloader"></div>
-		<!-- Return to Login button -->
-		<!-- <a href="/" class="buttonLogin">Back</a> -->
-		<a href="/login" class="button">
-			<img src="static/img/back_btn.png" alt="">
-		</a>
-		<!-- team SECTION -->
-		<section id="team">
-			<!-- Section Title -->
-			<h3>Meet the Team</h3>
-			<!-- <div class="separator"></div> -->
-			<div class="container">
-				<div class="col-xs-8 col-xs-offset-2">
-					<!-- Mission Statement -->
-					<h2>Mission Statement:</h2>
-					<h2>
-						We believe in optimizing plant health and increasing yield through the input of data driven resources.
-						We build, deploy, and maintain Hardware & Software with enviornmetal monitoring sensors. Our platform allows you to make data driven resource input decisons, optimizing plant health & reducing waste.
-						<br><br><br>
-						<!--Our simple to use Hardware & Software helps you obtain optimal results from their plants using data driven analysis and resource control.-->
-					</h2>
-					<br><br>
-				</div>
+            <section>
+              <v-layout row wrap class="mb-2 mt-2" align-center>
+                <!-- <v-flex xs12 class="my-1 text-xs-center" justify-center>
+                  <b>
+                    <span class="display-1">MEET THE TEAM</span>
+                  </b>
+                </v-flex> -->
 
-				<div class="row">
-					<!-- Babandeep Singh  -->
-					<div class="col-sm-4">
-						<div><img src="static/img/babandeep_test.png" alt=""/></div>
-						<span>Lead Hardware Engineer</span>
-						<h4>
-							<span>Babandeep</span>Singh
-						</h4>
-					</div>
+                <v-flex xs12 justify-space-around>
+                  <v-container grid-list-xl>
+                    <v-layout row wrap>
+                      <v-flex xs12 md4>
+                        <v-card class="elevation-0 transparent" justify-center>
+                          <v-card-title primary-title class="justify-center text-xs-center">
+                            <div>
+                              <v-avatar size="200px" class="grey lighten-4">
+                                <img src="static/img/babandeep.png" alt="avatar">
+                              </v-avatar>
+                              <div class="headline mb-1">Babandeep Singh</div>
+                              <div class="">Lead Hardware Engineer</div>
+                            </div>
+                          </v-card-title>
+                        </v-card>
+                      </v-flex>
+                      <v-flex xs12 md4>
+                        <v-card class="elevation-0 transparent" justify-center>
+                          <v-card-title primary-title class="justify-center text-xs-center">
+                            <div>
+                              <v-avatar size="200px" class="grey lighten-4">
+                                <img src="static/img/yu.png" alt="avatar">
+                              </v-avatar>
+                              <div class="headline mb-1">Yu-An Lin</div>
+                              <div class="">Lead Frontend Engineer</div>
+                            </div>
+                          </v-card-title>
+                        </v-card>
+                      </v-flex>
+                      <v-flex xs12 md4>
+                        <v-card class="elevation-0 transparent" justify-center>
+                          <v-card-title primary-title class="justify-center text-xs-center">
+                            <div>
+                              <v-avatar size="200px" class="grey lighten-4">
+                                <img src="static/img/robert.png" alt="avatar">
+                              </v-avatar>
+                              <div class="headline mb-1">Robert Lyons</div>
+                              <div class="">Lead Backend Engineer</div>
+                            </div>
+                          </v-card-title>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-flex>
 
-					<!-- Yu Lin -->
-					<div class="col-sm-4">
-						<div><img src="static/img/yu.png" alt=""/></div>
-						<span>Lead Frontend Engineer</span>
-						<h4>
-							<span>Yu-An</span>Lin
-						</h4>
-					</div>
+                <v-flex xs12>
+                  <v-container grid-list-xl>
+                    <v-layout row wrap align-center>
+                      <v-flex xs12 md4>
+                        <v-card class="elevation-5" style="max-height: 400px; min-height: 300px;">
+                          <v-card-text class="text-xs-center ma-0 pb-0">
+                            <v-icon x-large class="blue--text text--lighten-2">fa-users</v-icon>
+                          </v-card-text>
+                          <v-card-title primary-title class="justify-center text-xs-center">
+                            <div class="headline mb-1">Request Demo</div>
+                            <span class="grey--text">What's better than reading about something? Watching it work in person. We would love to you show a demo of our devices and software. Demo includes hands on interaction with our devices and software to help you understand how
+                              everything works and show the benefits rather than just talking about our products.</span>
+                          </v-card-title>
+                        </v-card>
+                      </v-flex>
+                      <v-flex xs12 md4>
+                        <v-card class="elevation-5" style="max-height: 400px; min-height: 300px;">
+                          <v-card-text class="text-xs-center ma-0 pb-0">
+                            <v-icon x-large class="blue--text text--lighten-2">fa-shopping-cart</v-icon>
+                          </v-card-text>
+                          <v-card-title primary-title class="justify-center text-xs-center">
+                            <div class="headline mb-1">Pre-Order</div>
+                            <span class="grey--text">
+                              We are currently taking pre-orders for first production batch. Our devices are currently confiured with Soil Moisture, Relative Air Humidity, Temperature, and Sunlight sensors to help you better understadn the needs of your plants.
+                            </span>
+                          </v-card-title>
+                        </v-card>
+                      </v-flex>
+                      <v-flex xs12 md4>
+                        <v-card class="elevation-5" style="max-height: 400px; min-height: 300px;">
+                          <v-card-text class="text-xs-center ma-0 pb-0">
+                            <v-icon x-large class="blue--text text--lighten-2">chat</v-icon>
+                          </v-card-text>
+                          <v-card-title primary-title class="justify-center text-xs-center">
+                            <div class="headline mb-1">Let's Talk</div>
+                            <span class="grey--text">
+                              Just want to know more about us? We'd love to hear what you have to say. Drop us a line and we'll get back to you as soon as possible.
+                            </span>
+                          </v-card-title>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-flex>
+              </v-layout>
+            </section>
 
-					<!-- Bobby Lyons -->
-					<div class="col-sm-4">
-						<div><img src="static/img/bobby_test.png" alt=""/></div>
-						<span>Lead Backend Engineer</span>
-						<h4>
-							<span>Bobby</span>Lyons
-						</h4>
-					</div>
-				</div>
-				<br>
-				<!-- <div class="separator"></div>
-				<br> -->
-				<div class="" id="contact">
-					<h1 class="title">Contact Us</h1>
-					<div class="line">
-						<i class="fa fa-map-marker" style="font-size: 20px" aria-hidden="true"></i>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Santa Cruz, CA. US &nbsp;&nbsp;&nbsp;
-					</div>
-					<div class="line">
-						&nbsp;&nbsp;
-						<i class="fa fa-envelope" aria-hidden="true"></i>
-						&nbsp;&nbsp;
-						<i>
-							<a href="mailto:contact@sproutlabs.io" style="color: black;">contact@sproutlabs.io</a>
-						</i>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- //team SECTION -->
+            <section>
+              <div id="googleMap" style="width:100%;height:420px;"></div>
+            </section>
 
-		<!-- Load jQuery -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript">
-			$(window).load(function () {
-				$('#preloader').delay(200).fadeOut(400)
-			})
-			$('a').click(function (e) {
-				e.preventDefault()
-				t = $(this).attr('href')
-				$('#preloader').delay(200).fadeIn(400, function () {
-					window.location.href = t
-				})
-			})
-		</script>
+            <section>
+              <v-container grid-list-xl>
+                <v-layout row wrap justify-center class="my-5">
+                  <v-flex xs12 sm4>
+                    <v-card class="elevation-0 transparent">
+                      <v-card-title primary-title class="layout justify-center">
+                        <div class="headline">Follow Us</div>
+                      </v-card-title>
+                      <v-card-text>
+                        <!-- Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
+                        <v-btn fab dark small color="white">
+                          <v-icon class="blue--text text--lighten-2">fa-facebook</v-icon>
+                        </v-btn> -->
+                        <v-container fluid grid-list-sm>
+                          <v-layout row wrap>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="red">
+                                <v-icon class="white--text text--lighten-2">fa-google</v-icon>
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="blue darken-4">
+                                <v-icon class="white--text text--lighten-2">fa-facebook</v-icon>
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="blue lighten-3">
+                                <v-icon class="white--text text--lighten-2">fa-twitter</v-icon>
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="blue">
+                                <v-icon class="white--text">fa-linkedin</v-icon>
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="red darken-2">
+                                <v-icon class="white--text text--lighten-2">fa-youtube</v-icon>
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="blue darken-4">
+                                <v-icon class="white--text text--darken-2">fa-instagram</v-icon>
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="red lighten-2">
+                                <v-icon class="white--text text--lighten-2">fa-reddit-alien</v-icon>
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="yellow">
+                                <v-icon>fa-snapchat-ghost</v-icon>
+                              </v-btn>
+                            </v-flex>
+                            <v-flex xs4>
+                              <v-btn fab dark small color="red">
+                                <v-icon class="white--text text--lighten-2">fa-pinterest</v-icon>
+                              </v-btn>
+                            </v-flex>
+                          </v-layout>
+                        </v-container>
+                      </v-card-text>
+                    </v-card>
+                  </v-flex>
+                  <v-flex xs12 sm4 offset-sm1>
+                    <v-card class="elevation-0 transparent">
+                      <v-card-title primary-title class="layout justify-center">
+                        <div class="headline">Contact us</div>
+                      </v-card-title>
+                      <v-card-text>
+                        We'd love to hear from you and make SproutLabs better. Drop us a line and we'll get back to you as soon as possible.
+                      </v-card-text>
+                      <v-list class="transparent">
+                        <!-- <v-list-tile>
+                          <v-list-tile-action>
+                            <v-icon class="blue--text text--lighten-2">phone</v-icon>
+                          </v-list-tile-action>
+                          <v-list-tile-content>
+                            <v-list-tile-title>xxx-xxx-xxxx</v-list-tile-title>
+                          </v-list-tile-content>
+                        </v-list-tile> -->
+                        <v-list-tile>
+                          <v-list-tile-action>
+                            <v-icon class="blue--text text--lighten-2">place</v-icon>
+                          </v-list-tile-action>
+                          <v-list-tile-content>
+                            <v-list-tile-title>Santa Cruz, CA</v-list-tile-title>
+                          </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile>
+                          <v-list-tile-action>
+                            <v-icon class="blue--text text--lighten-2">email</v-icon>
+                          </v-list-tile-action>
+                          <v-list-tile-content>
+                            <v-list-tile-title>
+                              <b>
+                                <a href="mailto:contact@sproutlabs.io" class="blue-text" style="text-decoration: none;">contact@sproutlabs.io</a>
+                              </b>
+                            </v-list-tile-title>
+                          </v-list-tile-content>
+                        </v-list-tile>
+                      </v-list>
+                    </v-card>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </section>
 
-	</body>
-</html>
+            <v-footer class="pa-3 teal lighten-2 white--text">
+              <v-spacer></v-spacer>
+              <div>SproutLabs LLC. ©
+                {{ new Date().getFullYear() }}</div>
+            </v-footer>
+          </v-content>
+        </main>
+      </v-app>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+    <!-- <script src="https://unpkg.com/vuetify@0.17.6/dist/vuetify.js"></script> -->
+    <script>
+      function myMap() {
+        var myCenter = new google.maps.LatLng(36.974117, -122.030796)
+        var mapOptions = {
+          center: myCenter,
+          zoom: 12,
+          scrollwheel: false,
+          draggable: false,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(document.getElementById('googleMap'), mapOptions)
+
+        var marker = new google.maps.Marker({position: myCenter})
+        marker.setMap(map)
+      }
+      new Vue({
+        el: '#app',
+        data() {
+          return {title: 'Your Logo'}
+        }
+      })
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-gR9JMl-Bao2BIfnLh0GlbrIXRU6BTGM&callback=myMap"></script>
+  </body>
 </html>
