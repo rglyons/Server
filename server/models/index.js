@@ -9,23 +9,13 @@ var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
 if (config.use_env_variable) {
-  console.log("RIGHT SEQUELIZE");
-  if (env == 'test') {
-    var sequelize = new Sequelize(process.env[config.use_env_variable], {
+  var sequelize = new Sequelize(process.env[config.use_env_variable], {
       dialect: 'postgres',
-      logging: false,
+      logging: env == 'test',
       dialectOptions: {
-        ssl: true
+        ssl: env == 'migrations'
       },
     });
-  } else {
-    var sequelize = new Sequelize(process.env[config.use_env_variable], {
-      dialect: 'postgres',
-      dialectOptions: {
-        ssl: true
-      },
-    });
-  }
 } else {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
 }

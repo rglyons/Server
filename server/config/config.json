@@ -2,20 +2,28 @@
   "development": {
     "use_env_variable": "DEV_DATABASE_URL",
     "dialect":"postgres",
-    "ssl":true,
+    "ssl":false,
     "dialectOptions":{
-      "ssl": true
+      "ssl": false
     }
   },
   "production": {
     "use_env_variable": "DATABASE_URL",
     "dialect":"postgres",
-    "ssl":true,
+    "ssl":false,
     "dialectOptions":{
-      "ssl": true
+      "ssl": false
     }
   },
   "test": {
+    "use_env_variable": "DEV_DATABASE_URL",
+    "dialect":"postgres",
+    "ssl":false,
+    "dialectOptions":{
+      "ssl": false
+    }
+  },
+  "migrations": {
     "use_env_variable": "DEV_DATABASE_URL",
     "dialect":"postgres",
     "ssl":true,
